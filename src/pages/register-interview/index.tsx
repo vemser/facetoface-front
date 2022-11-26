@@ -6,9 +6,9 @@ import {
   InputAdornment,
   TextField,
   Typography,
+  useTheme,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { Header } from "../../shared/components";
 import { useForm } from "react-hook-form";
 import { IInterview } from "../../shared/interfaces";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -21,11 +21,8 @@ export const RegisterInterview: React.FC = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<IInterview>({ resolver: yupResolver(schemaInterview) });
-  const matches = useMediaQuery(`(min-width:600px)`);
-
-  const styleResponsivo = {
-    alignItems: "center",
-  };
+  const theme = useTheme();
+  const mdDown = useMediaQuery(theme.breakpoints.down("md"));
 
   const handleSubmitInterview = (data: IInterview) => {
     console.log(data);
@@ -33,34 +30,33 @@ export const RegisterInterview: React.FC = () => {
 
   return (
     <Box
-      width="100%"
-      height="100%"
+      minHeight="100%"
       display="flex"
       alignItems="center"
       justifyContent="center"
     >
       <form
-        onSubmit={handleSubmit(handleSubmitInterview)}
         style={{
-          maxWidth: "650px",
           display: "flex",
           flexWrap: "wrap",
+          maxWidth: "70%",
           justifyContent: "center",
-          marginTop: "80px",
-          gap: "1rem",
         }}
+        onSubmit={handleSubmit(handleSubmitInterview)}
       >
+        {/* first */}
         <Box
           display="flex"
           flexDirection="column"
-          width="300px"
-          alignItems="center"
-          gap="1.5rem"
+          width={mdDown ? "80%" : "40%"}
+          gap="1rem"
+          m="auto"
+          mt={mdDown ? "2rem" : "0"}
         >
-          <Box width="100%">
+          <Box>
             <TextField
-              label="Candidato"
               sx={{ width: "100%" }}
+              label="Candidato"
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -76,12 +72,11 @@ export const RegisterInterview: React.FC = () => {
               {errors.candidate?.message}
             </Typography>
           </Box>
-          <Box width="100%">
+          <Box>
             <TextField
-              id="date"
+              sx={{ width: "100%" }}
               label="Data da entrevista"
               type="date"
-              sx={{ width: "100%" }}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -91,10 +86,10 @@ export const RegisterInterview: React.FC = () => {
               {errors.dateInterview?.message}
             </Typography>
           </Box>
-          <Box width="100%">
+          <Box>
             <TextField
-              label="Cidade"
               sx={{ width: "100%" }}
+              label="Cidade"
               {...register("city")}
             />
             <Typography variant="subtitle1" color="red" sx={{ mr: "auto" }}>
@@ -102,12 +97,14 @@ export const RegisterInterview: React.FC = () => {
             </Typography>
           </Box>
         </Box>
+        {/* second */}
         <Box
           display="flex"
           flexDirection="column"
-          width="300px"
-          alignItems="center"
-          gap="1.5rem"
+          width={mdDown ? "80%" : "40%"}
+          gap="1rem"
+          m="auto"
+          mt={mdDown ? "1rem" : "0"}
         >
           <Box display="flex" flexDirection="column" width="100%">
             <TextField
@@ -140,22 +137,22 @@ export const RegisterInterview: React.FC = () => {
               sx={{ width: "100%" }}
               {...register("state")}
             />
-            <Typography variant="subtitle1" color="red" width="1%">
+            <Typography variant="subtitle1" color="red" width="90%">
               {errors.state?.message}
             </Typography>
           </Box>
         </Box>
+        {/* textArea */}
         <Box
           display="flex"
           flexDirection="column"
-          width="625px"
+          width={mdDown ? "90%" : "100%"}
           alignItems="center"
         >
           <TextField
-            fullWidth={matches && true}
             multiline
             label="Observações / Lembretes"
-            sx={{ mt: 4 }}
+            sx={{ mt: 3, width: "90%" }}
             minRows={3}
             placeholder="Digite alguma observação..."
             InputLabelProps={{
@@ -168,11 +165,13 @@ export const RegisterInterview: React.FC = () => {
           </Typography>
         </Box>
         <Box
+          width="100%"
           display="flex"
           flexDirection="column"
           alignItems="center"
           gap="1rem"
           mt="1rem"
+          mb={mdDown ? "2rem" : "0"}
         >
           <Typography width="70%" textAlign="center">
             Após a finalização do cadastro, o candidato receberá um e-mail para
@@ -181,7 +180,7 @@ export const RegisterInterview: React.FC = () => {
           <Button
             type="submit"
             variant="contained"
-            sx={{ width: "25%", borderRadius: 100 }}
+            sx={{ width: "200px", height: 40, borderRadius: 100 }}
           >
             Enviar
           </Button>

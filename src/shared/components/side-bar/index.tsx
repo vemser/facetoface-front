@@ -1,7 +1,9 @@
+import React from "react";
 import {
   Avatar,
   Divider,
   Drawer,
+  IconButton,
   List,
   ListItemButton,
   ListItemIcon,
@@ -10,13 +12,15 @@ import {
   useTheme,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useSideBar } from "../../contexts";
 
 // icons
 import VideoCameraFrontIcon from "@mui/icons-material/VideoCameraFront";
 import HomeIcon from "@mui/icons-material/Home";
 import PeopleIcon from "@mui/icons-material/People";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import MenuIcon from "@mui/icons-material/Menu";
 
 interface IProps {
   children: React.ReactNode;
@@ -24,10 +28,22 @@ interface IProps {
 
 export const SideBar: React.FC<IProps> = ({ children }) => {
   const theme = useTheme();
+  const mdDown = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const { isOpen, toggleOpen } = useSideBar();
 
   return (
     <>
-      <Drawer variant="permanent">
+      {mdDown && (
+        <IconButton onClick={toggleOpen} sx={{ position: "fixed" }}>
+          <MenuIcon color="action" fontSize="large" />
+        </IconButton>
+      )}
+      <Drawer
+        open={isOpen}
+        onClose={toggleOpen}
+        variant={mdDown ? "temporary" : "permanent"}
+      >
         <Box
           width={theme.spacing(30)}
           height="100%"
@@ -93,11 +109,7 @@ export const SideBar: React.FC<IProps> = ({ children }) => {
           </Box>
         </Box>
       </Drawer>
-      <Box
-        height="100vh"
-        width={"calc(200% - theme.spacing(30))"}
-        marginLeft={theme.spacing(30)}
-      >
+      <Box height="100vh" marginLeft={mdDown ? 0 : theme.spacing(30)}>
         {children}
       </Box>
     </>
