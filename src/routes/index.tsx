@@ -13,13 +13,13 @@ import {
 export const AppRoutes: React.FC = () => {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<SignIn />} />
+      <Route path="/home" element={<Home />} />
       <Route path="/recover-password" element={<RecoverPassword />} />
       <Route path="/register-candidate" element={<RegisterCandidate />} />
       <Route path="/register-interview" element={<RegisterInterview />} />
       <Route path="/register-user" element={<RegisterUser />} />
       <Route path="/schedule" element={<Schedule />} />
-      <Route path="/sign-in" element={<SignIn />} />
 
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
