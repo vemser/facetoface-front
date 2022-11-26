@@ -38,7 +38,7 @@ export const Header: React.FC = () => {
           <Button variant="text">Cadastro de entrevistas</Button>
           <Button variant="text">Agenda de entrevistas</Button>
         </Box>
-        <Box display="flex" gap="1rem">
+        <Box display="flex" gap="1rem" alignItems="center">
           <Button variant="outlined" startIcon={<ExitToAppIcon />}>
             Sair
           </Button>

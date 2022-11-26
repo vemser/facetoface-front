@@ -67,7 +67,6 @@ export const SignIn: React.FC = () => {
         alt="logo vem ser"
         style={{ width: "200px", marginBottom: "1rem" }}
       />
-
       <Box
         id="form-inputs-sign-in"
         display="flex"
