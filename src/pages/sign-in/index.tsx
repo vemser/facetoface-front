@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Divider,
   IconButton,
   InputAdornment,
   TextField,
@@ -58,105 +59,85 @@ export const SignIn: React.FC = () => {
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-      gap="3rem"
     >
       <img
         id="logo-vem-ser-blue-sign-in"
         src={require("../../shared/assets/logo/vem-ser-blue.png")}
         alt="logo vem ser"
-        style={{ width: "200px" }}
+        style={{ width: "200px", marginBottom: "1rem" }}
       />
-      <Typography id="title-sign-in" variant="h5">
-        Login
-      </Typography>
+
       <Box
         id="form-inputs-sign-in"
         display="flex"
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
-        gap="1.5rem"
+        gap="1rem"
       >
+        <Divider sx={{ width: "100%", mb: 1 }} />
+        <Box id="field2-input-user-sign-in" display="flex" alignItems="center">
+          <PersonIcon
+            id="icon-input-user-sign-in"
+            sx={{ fontSize: 35, mr: 2 }}
+            color={userWatcher ? "primary" : "secondary"}
+          />
+          <TextField
+            id="input-user-sign-in"
+            sx={{ width: 250 }}
+            label="Usuário"
+            variant="outlined"
+            type="text"
+            {...register("user")}
+            error={errors.user && true}
+          />
+        </Box>
+        <Typography
+          id="error-input-user-sign-in"
+          variant="subtitle1"
+          color="red"
+          sx={{ ml: "auto" }}
+        >
+          {errors.user?.message}
+        </Typography>
         <Box
-          id="field-input-user-sign-in"
+          id="field2-input-password-sign-in"
           display="flex"
           alignItems="center"
-          flexDirection="column"
         >
-          <Box
-            id="field2-input-user-sign-in"
-            display="flex"
-            alignItems="center"
-          >
-            <PersonIcon
-              id="icon-input-user-sign-in"
-              sx={{ fontSize: 35, mr: 2 }}
-              color={userWatcher ? "primary" : "secondary"}
-            />
-            <TextField
-              id="input-user-sign-in"
-              sx={{ width: 250 }}
-              label="Usuário"
-              variant="outlined"
-              type="text"
-              {...register("user")}
-              error={errors.user && true}
-            />
-          </Box>
-          <Typography
-            id="error-input-user-sign-in"
-            variant="subtitle1"
-            color="red"
-            sx={{ ml: "auto" }}
-          >
-            {errors.user?.message}
-          </Typography>
+          <LockIcon
+            id="icon-input-password-sign-in"
+            sx={{ fontSize: 35, mr: 2 }}
+            color={passwordWatcher ? "primary" : "secondary"}
+          />
+          <TextField
+            id="input-password-sign-in"
+            sx={{ width: 250 }}
+            label="Usuário"
+            variant="outlined"
+            color="primary"
+            type={showPassword ? "text" : "password"}
+            {...register("password")}
+            error={errors.password && true}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleClickShowPassword}>
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
         </Box>
-        <Box
-          id="field-input-password-sign-in"
-          display="flex"
-          alignItems="center"
-          flexDirection="column"
+        <Typography
+          id="error-input-password-sign-in"
+          variant="subtitle1"
+          color="red"
+          sx={{ ml: "auto" }}
         >
-          <Box
-            id="field2-input-password-sign-in"
-            display="flex"
-            alignItems="center"
-          >
-            <LockIcon
-              id="icon-input-password-sign-in"
-              sx={{ fontSize: 35, mr: 2 }}
-              color={passwordWatcher ? "primary" : "secondary"}
-            />
-            <TextField
-              id="input-password-sign-in"
-              sx={{ width: 250 }}
-              label="Usuário"
-              variant="outlined"
-              color="primary"
-              type={showPassword ? "text" : "password"}
-              {...register("password")}
-              error={errors.password && true}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={handleClickShowPassword}>
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Box>
-          <Typography
-            id="error-input-password-sign-in"
-            variant="subtitle1"
-            color="red"
-            sx={{ ml: "auto" }}
-          >
-            {errors.password?.message}
-          </Typography>
-        </Box>
+          {errors.password?.message}
+        </Typography>
         <Button
           id="button-sign-in"
           variant="contained"
@@ -166,6 +147,7 @@ export const SignIn: React.FC = () => {
         >
           Entrar
         </Button>
+        <Divider sx={{ width: "100%" }} />
         <Link
           id="link-to-recover-password-sign-in"
           to="/recover-password"
