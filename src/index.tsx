@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "@mui/material";
 import { LightTheme } from "./shared/themes";
 import { Box } from "@mui/system";
+import "./global.css";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
