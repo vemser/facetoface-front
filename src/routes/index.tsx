@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import {
   Home,
@@ -9,19 +9,32 @@ import {
   Schedule,
   SignIn,
 } from "../pages";
+import { SideBar } from "../shared/components";
 
 export const AppRoutes: React.FC = () => {
-  return (
-    <Routes>
-      <Route path="/" element={<SignIn />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/recover-password" element={<RecoverPassword />} />
-      <Route path="/register-candidate" element={<RegisterCandidate />} />
-      <Route path="/register-interview" element={<RegisterInterview />} />
-      <Route path="/register-user" element={<RegisterUser />} />
-      <Route path="/schedule" element={<Schedule />} />
+  const [signIn, setSignIn] = useState<boolean>(true);
 
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
-  );
+  if (!signIn)
+    return (
+      <Routes>
+        <Route path="/" element={<SignIn />} />
+      </Routes>
+    );
+  else {
+    return (
+      <>
+        <SideBar>
+          <Routes>
+            <Route path="/home" element={<Home />} />
+            <Route path="/recover-password" element={<RecoverPassword />} />
+            <Route path="/register-candidate" element={<RegisterCandidate />} />
+            <Route path="/register-interview" element={<RegisterInterview />} />
+            <Route path="/register-user" element={<RegisterUser />} />
+            <Route path="/schedule" element={<Schedule />} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </SideBar>
+      </>
+    );
+  }
 };
