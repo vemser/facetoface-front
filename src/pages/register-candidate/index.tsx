@@ -1,58 +1,27 @@
 import {
 	Box,
+	Button,
 	Checkbox,
 	FormControl,
 	FormControlLabel,
-	FormGroup,
-	FormHelperText,
-	Grid,
-	Input,
-	InputLabel,
-	MenuItem,
+	FormLabel,
+	Radio,
+	RadioGroup,
 	TextField,
 } from "@mui/material";
-import React, { useState } from "react";
-import {useForm} from "react-hook-form"
+import { useForm } from "react-hook-form";
 
 export const RegisterCandidate: React.FC = () => {
-	const trilha = [
-		{
-			value: "front-End",
-			label: "Front-End",
-		},
-		{
-			value: "back-End",
-			label: "Banck-End",
-		},
-		{
-			value: "qa",
-			label: "QA",
-		},
-	];
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
 
-  const [genero, setGenero] = React.useState({
-    feminino: false,
-    masculino: false
-  });
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setGenero({
-      ...genero,
-      [event.target.name]: event.target.checked,
-    });
-  };
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const handleSubmitCandidate = (data : any) => {
-    console.log(data);
-  } 
+	const handleSubmitCandidate = (data: any) => {
+		console.log(data);
+	};
 	return (
-
 		<Box
 			display="flex"
 			width="100%"
@@ -61,34 +30,52 @@ export const RegisterCandidate: React.FC = () => {
 			alignItems="center"
 			justifyContent="center"
 		>
+      <form onSubmit={handleSubmit(handleSubmitCandidate)}
+      style={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems:"center",
+        flexWrap: "wrap",
+      }}>
 			<Box display="flex" width="50%" alignItems="flex-start" gap="4rem">
 				<TextField
 					id="nome-register-candidate"
 					label="Nome completo"
 					sx={{ width: "90%" }}
-				/>
-        <Box>
-        <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
 
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Checkbox checked={feminino} onChange={handleChange} name="feminino" />
-            }
-            label="Feminino"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox checked={masculino} onChange={handleChange} name="masculino" />
-            }
-            label="Masculino"
-          />
-          </FormGroup>
-          </FormControl>
-        </Box>
-				
-          
+          {...register("nomeCompleto")}
+				/>
+        
+				<Box sx={{ width: "90%" }}>
+					<FormControl>
+						<FormLabel id="demo-row-radio-buttons-group-label">
+							Gênero
+						</FormLabel>
+						<RadioGroup
+							row
+							aria-labelledby="demo-row-radio-buttons-group-label"
+							name="row-radio-buttons-group"
+						>
+							<FormControlLabel
+              id="nome-register-genero-feminino"
+								value="feminino"
+								control={<Radio />}
+								label="Feminino"
+                {...register("feminino")}
+							/>
+							<FormControlLabel
+                id="nome-register-genero-masculino"
+								value="masculino"
+								control={<Radio />}
+								label="Masculino"
+                {...register("masculino")}
+							/>
+						</RadioGroup>
+					</FormControl>
+				</Box>
 			</Box>
+
 			<Box
 				display="flex"
 				width="50%"
@@ -100,11 +87,13 @@ export const RegisterCandidate: React.FC = () => {
 					id="cidade-register-candidate"
 					label="Cidade"
 					sx={{ width: "90%" }}
+          {...register("cidade")}
 				/>
 				<TextField
 					id="estado-register-candidate"
 					label="Estado"
 					sx={{ width: "90%" }}
+          {...register("estado")}
 				/>
 			</Box>
 			<Box
@@ -119,38 +108,87 @@ export const RegisterCandidate: React.FC = () => {
 					type="email"
 					label="Linguagens de programação que você conhece"
 					sx={{ width: "90%" }}
+          {...register("email")}
 				/>
-        <Box
-          display="flex"
-          width="50%"
-          alignItems="flex-start"
-          gap="4rem"
-          mt={4}>
-        <FormControlLabel
-						id=""
-						value="frontend"
-						control={<Checkbox />}
-						label="Front-end"
-						labelPlacement="start"
-					/>
-					<FormControlLabel
-						id=" "
-						value="backend"
-						control={<Checkbox  />}
-						label="Back-end"
-						labelPlacement="start"
-					/>
 
-            <FormControlLabel
-						id=" "
-						value="qa"
-						control={<Checkbox/>}
-						label="QA"
-						labelPlacement="start"
-					/>
-        </Box>
-				
+				<Box sx={{ width: "90%" }}>
+					<FormControl>
+						<FormLabel id="demo-row-radio-buttons-group-label">
+							Turma escolhida
+						</FormLabel>
+						<RadioGroup
+							row
+							aria-labelledby="demo-row-radio-buttons-group-label"
+							name="row-radio-buttons-group"
+						>
+							<FormControlLabel
+								value="frontend"
+								control={<Radio />}
+								label="Front-end"
+                {...register("frontend")}
+							/>
+							<FormControlLabel
+								value="backend"
+								control={<Radio />}
+								label="Back-end"
+                {...register("backend")}
+							/>
+
+							<FormControlLabel
+								value="qa"
+								control={<Radio />}
+								label="QA"
+                {...register("qa")}
+							/>
+						</RadioGroup>
+					</FormControl>
+				</Box>
 			</Box>
+      <Box
+				display="flex"
+				width="50%"
+				alignItems="flex-start"
+				gap="4rem"
+				mt={4}
+			>
+        <TextField
+					id="nome-register-edicao"
+					type="email"
+					label="Edição vem ser"
+          
+					sx={{ width: "50%" }}
+          {...register("email")}
+				/>
+     
+      </Box>
+      
+			<Box
+				display="flex"
+				width="50%"
+				alignItems="flex-start"
+				gap="4rem"
+				mt={4}
+			>
+           <TextField
+          multiline
+          sx={{ width: "90%" }}
+          label="Observações / Lembretes"
+          minRows={3}
+          placeholder="Digite alguma observação..."
+          InputLabelProps={{
+            shrink: true,
+          }}
+          {...register("observation")}
+        />
+				<Button
+					type="submit"
+					variant="contained"
+					sx={{ width: "25%", borderRadius: 100, ml: "auto", mt: 5 }}
+				>
+					Enviar
+				</Button>
+			</Box>
+      </form>
 		</Box>
 	);
 };
