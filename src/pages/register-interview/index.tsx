@@ -5,124 +5,186 @@ import {
   IconButton,
   InputAdornment,
   TextField,
+  Typography,
+  useTheme,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { Header } from "../../shared/components";
 import { useForm } from "react-hook-form";
+import { IInterview } from "../../shared/interfaces";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { schemaInterview } from "../../shared/schemas";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 export const RegisterInterview: React.FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<IInterview>({ resolver: yupResolver(schemaInterview) });
+  const theme = useTheme();
+  const mdDown = useMediaQuery(theme.breakpoints.down("md"));
 
-  const handleSubmitInterview = (data: any) => {
+  const handleSubmitInterview = (data: IInterview) => {
     console.log(data);
   };
 
   return (
     <Box
-      width="100%"
-      height="100%"
+      minHeight="100%"
       display="flex"
       alignItems="center"
       justifyContent="center"
     >
-      <Header />
       <form
-        onSubmit={handleSubmit(handleSubmitInterview)}
         style={{
-          width: "600px",
           display: "flex",
           flexWrap: "wrap",
-          justifyContent: "space-between",
-          marginTop: "80px",
+          maxWidth: "70%",
+          justifyContent: "center",
         }}
+        onSubmit={handleSubmit(handleSubmitInterview)}
       >
+        {/* first */}
         <Box
           display="flex"
           flexDirection="column"
-          width="50%"
-          alignItems="flex-start"
-          gap="1.5rem"
+          width={mdDown ? "80%" : "40%"}
+          gap="1rem"
+          m="auto"
+          mt={mdDown ? "2rem" : "0"}
         >
-          <TextField
-            label="Candidato"
-            sx={{ width: "90%" }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton>
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            {...register("candidate")}
-          />
-          <TextField
-            id="date"
-            label="Data da entrevista"
-            type="date"
-            sx={{ width: "90%" }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            {...register("date-interview")}
-          />
-          <TextField
-            label="Cidade"
-            sx={{ width: "90%" }}
-            {...register("city")}
-          />
+          <Box>
+            <TextField
+              sx={{ width: "100%" }}
+              label="Candidato"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton>
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              {...register("candidate")}
+            />
+            <Typography variant="subtitle1" color="red" sx={{ mr: "auto" }}>
+              {errors.candidate?.message}
+            </Typography>
+          </Box>
+          <Box>
+            <TextField
+              sx={{ width: "100%" }}
+              label="Data da entrevista"
+              type="date"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              {...register("dateInterview")}
+            />
+            <Typography variant="subtitle1" color="red" sx={{ mr: "auto" }}>
+              {errors.dateInterview?.message}
+            </Typography>
+          </Box>
+          <Box>
+            <TextField
+              sx={{ width: "100%" }}
+              label="Cidade"
+              {...register("city")}
+            />
+            <Typography variant="subtitle1" color="red" sx={{ mr: "auto" }}>
+              {errors.city?.message}
+            </Typography>
+          </Box>
         </Box>
+        {/* second */}
         <Box
           display="flex"
           flexDirection="column"
-          width="50%"
-          alignItems="flex-end"
-          gap="1.5rem"
+          width={mdDown ? "80%" : "40%"}
+          gap="1rem"
+          m="auto"
+          mt={mdDown ? "1rem" : "0"}
+        >
+          <Box display="flex" flexDirection="column" width="100%">
+            <TextField
+              label="E-mail do candidato"
+              sx={{ width: "100%" }}
+              {...register("email")}
+            />
+            <Typography variant="subtitle1" color="red" width="90%">
+              {errors.email?.message}
+            </Typography>
+          </Box>
+          <Box display="flex" flexDirection="column" width="100%">
+            <TextField
+              id="time"
+              label="Horário da entrevista"
+              type="time"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              sx={{ width: "100%" }}
+              {...register("scheduleInterview")}
+            />
+            <Typography variant="subtitle1" color="red" width="90%">
+              {errors.scheduleInterview?.message}
+            </Typography>
+          </Box>
+          <Box display="flex" flexDirection="column" width="100%">
+            <TextField
+              label="Estado"
+              sx={{ width: "100%" }}
+              {...register("state")}
+            />
+            <Typography variant="subtitle1" color="red" width="90%">
+              {errors.state?.message}
+            </Typography>
+          </Box>
+        </Box>
+        {/* textArea */}
+        <Box
+          display="flex"
+          flexDirection="column"
+          width={mdDown ? "90%" : "100%"}
+          alignItems="center"
         >
           <TextField
-            label="E-mail do candidato"
-            sx={{ width: "90%" }}
-            {...register("email")}
-          />
-          <TextField
-            id="time"
-            label="Horário da entrevista"
-            type="time"
+            multiline
+            label="Observações / Lembretes"
+            sx={{ mt: 3, width: "90%" }}
+            minRows={3}
+            placeholder="Digite alguma observação..."
             InputLabelProps={{
               shrink: true,
             }}
-            inputProps={{
-              step: 300, // 5 min
-            }}
-            sx={{ width: "90%" }}
-            {...register("schedule-interview")}
+            {...register("observation")}
           />
-          <TextField label="Estado" sx={{ width: "90%" }} />
+          <Typography variant="subtitle1" color="red" sx={{ mr: "auto" }}>
+            {errors.observation?.message}
+          </Typography>
         </Box>
-        <TextField
-          fullWidth
-          multiline
-          label="Observações / Lembretes"
-          sx={{ mt: 4 }}
-          minRows={3}
-          placeholder="Digite alguma observação..."
-          InputLabelProps={{
-            shrink: true,
-          }}
-          {...register("observation")}
-        />
-        <Button
-          type="submit"
-          variant="contained"
-          sx={{ width: "25%", borderRadius: 100, ml: "auto", mt: 5 }}
+        <Box
+          width="100%"
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          gap="1rem"
+          mt="1rem"
+          mb={mdDown ? "2rem" : "0"}
         >
-          Enviar
-        </Button>
+          <Typography width="70%" textAlign="center">
+            Após a finalização do cadastro, o candidato receberá um e-mail para
+            confirmar a entrevista.
+          </Typography>
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ width: "200px", height: 40, borderRadius: 100 }}
+          >
+            Enviar
+          </Button>
+        </Box>
       </form>
     </Box>
   );

@@ -2,21 +2,17 @@ import React from "react";
 import { Avatar, Button } from "@mui/material";
 import { Box } from "@mui/system";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import useMediaQuery from "@mui/material/useMediaQuery";
 
 export const Header: React.FC = () => {
-  const matches = useMediaQuery(`(min-width:1200px)`);
-
   return (
     <Box
       width="100%"
       height="100px"
       display="flex"
       justifyContent="center"
-      boxShadow={2}
-      position="fixed"
+      boxShadow={3}
+      position="absolute"
       top="0"
-      zIndex="999"
     >
       <Box
         display="flex"
