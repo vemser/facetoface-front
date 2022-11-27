@@ -25,7 +25,7 @@ export const AppRoutes: React.FC = () => {
       <>
         <SideBar>
           <Routes>
-            <Route path="/home" element={<Home />} />
+            <Route path="/" element={<Home />} />
             <Route path="/recover-password" element={<RecoverPassword />} />
             <Route path="/register-candidate" element={<RegisterCandidate />} />
             <Route path="/register-interview" element={<RegisterInterview />} />

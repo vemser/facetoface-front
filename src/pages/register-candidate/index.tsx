@@ -2,6 +2,7 @@ import {
 	Avatar,
 	Box,
 	Button,
+	Container,
 	FormControl,
 	FormControlLabel,
 	FormLabel,
@@ -12,6 +13,7 @@ import {
 	RadioGroup,
 	Select,
 	TextField,
+	Typography,
 } from "@mui/material";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -41,27 +43,24 @@ export const RegisterCandidate: React.FC = () => {
 	function handleChange(event: any) {
 		setEdicao(event.target.value);
 	}
-
 	return (
 		<Box
 			display="flex"
 			width="100%"
-			height="100%"
 			flexDirection="column"
 			alignItems="center"
-			justifyContent="center"
 		>
 			<form
 				onSubmit={handleSubmit(handleSubmitCandidate)}
 				style={{
-					width: "100%",
+					width: "70%",
 					display: "flex",
 					flexDirection: "column",
 					alignItems: "center",
 					flexWrap: "wrap",
 				}}
 			>
-				<Box display="flex" width="50%" alignItems="flex-start" mb={3}>
+				<Box display="flex" width="100%" alignItems="flex-start">
 					<Avatar
 						id="foto-register-candidate"
 						alt="Remy Sharp"
@@ -69,7 +68,7 @@ export const RegisterCandidate: React.FC = () => {
 						sx={{ width: 60, height: 60 }}
 					/>
 					<TextField
-						id="file-register-candidate"
+						id="up-foto-register-candidate"
 						type="file"
 						label="Foto"
 						sx={{
@@ -83,7 +82,7 @@ export const RegisterCandidate: React.FC = () => {
 				</Box>
 				<Box
 					display="flex"
-					width="50%"
+					width="100%"
 					alignItems="flex-start"
 					gap="4rem"
 				>
@@ -96,7 +95,7 @@ export const RegisterCandidate: React.FC = () => {
 
 					<Box sx={{ width: "90%" }}>
 						<FormControl>
-							<FormLabel id="demo-row-radio-buttons-group-label">
+							<FormLabel id="label-genero-register-candidate">
 								Gênero
 							</FormLabel>
 							<RadioGroup
@@ -105,14 +104,14 @@ export const RegisterCandidate: React.FC = () => {
 								name="row-radio-buttons-group"
 							>
 								<FormControlLabel
-									id="nome-register-genero-feminino"
+									id="genero-feminino-register-candidato"
 									value="feminino"
 									control={<Radio />}
 									label="Feminino"
 									{...register("feminino")}
 								/>
 								<FormControlLabel
-									id="nome-register-genero-masculino"
+									id="genero-masculino-register-candidato"
 									value="masculino"
 									control={<Radio />}
 									label="Masculino"
@@ -125,7 +124,7 @@ export const RegisterCandidate: React.FC = () => {
 
 				<Box
 					display="flex"
-					width="50%"
+					width="100%"
 					alignItems="flex-start"
 					gap="4rem"
 					mt={4}
@@ -145,16 +144,16 @@ export const RegisterCandidate: React.FC = () => {
 				</Box>
 				<Box
 					display="flex"
-					width="50%"
+					width="100%"
 					alignItems="flex-start"
 					gap="4rem"
 					mt={4}
 				>
 					<TextField
-						id="nome-register-candidate"
+						id="linguagens-register-candidate"
 						type="text"
 						label="Linguagens de programação que você conhece"
-						sx={{ width: "90%" }}
+						sx={{ width: "100%" }}
 						{...register("email")}
 						value={language}
 						onChange={(e) => setLanguage(e.target.value)}
@@ -171,7 +170,6 @@ export const RegisterCandidate: React.FC = () => {
 							),
 						}}
 					/>
-
 					<Box sx={{ width: "90%" }}>
 						<FormControl>
 							<FormLabel id="demo-row-radio-buttons-group-label">
@@ -183,12 +181,14 @@ export const RegisterCandidate: React.FC = () => {
 								name="row-radio-buttons-group"
 							>
 								<FormControlLabel
+									id="frontend-register-candidate"
 									value="frontend"
 									control={<Radio />}
 									label="Front-end"
 									{...register("frontend")}
 								/>
 								<FormControlLabel
+									id="backend-register-candidate"
 									value="backend"
 									control={<Radio />}
 									label="Back-end"
@@ -196,6 +196,7 @@ export const RegisterCandidate: React.FC = () => {
 								/>
 
 								<FormControlLabel
+									id="qa-register-candidate"
 									value="qa"
 									control={<Radio />}
 									label="QA"
@@ -207,7 +208,7 @@ export const RegisterCandidate: React.FC = () => {
 				</Box>
 				<Box
 					display="flex"
-					width="50%"
+					width="100%"
 					alignItems="flex-start"
 					gap="4rem"
 					mt={4}
@@ -216,28 +217,36 @@ export const RegisterCandidate: React.FC = () => {
 					<Box sx={{ width: "90%" }}>
 						<Select
 							labelId="demo-simple-select-label"
-							id="demo-simple-select"
+							id="select-edicao"
 							value={edicao}
 							label="Edição vem ser"
 							onChange={handleChange}
 							sx={{ width: "100%" }}
 						>
-							<MenuItem value={9}>9ª edição</MenuItem>
-							<MenuItem value={10}>10ª edição</MenuItem>
-							<MenuItem value={11}>11ª edição</MenuItem>
-							<MenuItem value={12}>12ª edição</MenuItem>
+							<MenuItem id="edicao-9" value={9}>
+								9ª edição
+							</MenuItem>
+							<MenuItem id="edicao-10" value={10}>
+								10ª edição
+							</MenuItem>
+							<MenuItem id="edicao-11" value={11}>
+								11ª edição
+							</MenuItem>
+							<MenuItem id="edicao-12" value={12}>
+								12ª edição
+							</MenuItem>
 						</Select>
 					</Box>
 				</Box>
 				<Box
 					display="flex"
-					width="50%"
+					width="100%"
 					alignItems="flex-start"
 					gap="4rem"
 					mt={4}
 				>
 					<TextField
-						id="estado-register-candidate"
+						id="up-cv-register-candidate"
 						type="file"
 						label="CV"
 						sx={{ width: "100%" }}
@@ -248,12 +257,13 @@ export const RegisterCandidate: React.FC = () => {
 				</Box>
 				<Box
 					display="flex"
-					width="50%"
+					width="100%"
 					alignItems="flex-start"
 					gap="4rem"
 					mt={4}
 				>
 					<TextField
+						id="observation-register-candidate"
 						multiline
 						sx={{ width: "90%" }}
 						label="Observações / Lembretes"
@@ -265,6 +275,7 @@ export const RegisterCandidate: React.FC = () => {
 						{...register("observation")}
 					/>
 					<Button
+						id="button-submit-register-candidate"
 						type="submit"
 						variant="contained"
 						sx={{
