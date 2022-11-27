@@ -21,6 +21,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import PeopleIcon from "@mui/icons-material/People";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import MenuIcon from "@mui/icons-material/Menu";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 interface IProps {
   children: React.ReactNode;
@@ -105,11 +106,18 @@ export const SideBar: React.FC<IProps> = ({ children }) => {
                 </ListItemIcon>
                 <ListItemText primary="Agenda" />
               </ListItemButton>
+              {/* item */}
+              <ListItemButton>
+                <ListItemIcon>
+                  <LogoutIcon />
+                </ListItemIcon>
+                <ListItemText primary="Sair" />
+              </ListItemButton>
             </List>
           </Box>
         </Box>
       </Drawer>
-      <Box height="100vh" marginLeft={mdDown ? 0 : theme.spacing(30)}>
+      <Box minHeight="100vh" marginLeft={mdDown ? 0 : theme.spacing(30)}>
         {children}
       </Box>
     </>

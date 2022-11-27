@@ -15,11 +15,7 @@ root.render(
   <React.StrictMode>
     <ThemeProvider theme={LightTheme}>
       <SideBarProvider>
-        <Box
-          width="100vw"
-          height="100vh"
-          bgcolor={LightTheme.palette.background.default}
-        >
+        <Box minHeight="100vh" bgcolor={LightTheme.palette.background.default}>
           <BrowserRouter>
             <AppRoutes />
           </BrowserRouter>

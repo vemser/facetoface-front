@@ -7,5 +7,5 @@ export const schemaInterview = object({
   email: string().email("E-mail inválido!").required("Campo obrigatório!"),
   scheduleInterview: string().required("Campo obrigatório!"),
   state: string().required("Campo obrigatório!"),
-  observation: string().required("Campo obrigatório!"),
+  observation: string(),
 });
