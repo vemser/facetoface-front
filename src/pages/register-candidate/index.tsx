@@ -33,9 +33,16 @@ export const RegisterCandidate: React.FC = () => {
   const [arrLanguages, setArrLanguages] = useState<string[]>([]);
   const [language, setLanguage] = useState<string>("");
 
+  // lógica de adicionar languages
   const handleAddLanguages = () => {
     setArrLanguages([...arrLanguages, language]);
     setLanguage("");
+  };
+
+  // lógica de remover languages
+  const removeLanguage = (language: string) => {
+    let arrAux = arrLanguages.filter((item) => item !== language);
+    setArrLanguages(arrAux);
   };
 
   const [edicao, setEdicao] = useState("");
