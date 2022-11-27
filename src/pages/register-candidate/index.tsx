@@ -47,7 +47,9 @@ export const RegisterCandidate: React.FC = () => {
 		<Box
 			display="flex"
 			width="100%"
-			flexDirection="column"
+			height="100%"
+			paddingTop={4}
+			justifyContent="center"
 			alignItems="center"
 		>
 			<form
@@ -60,7 +62,14 @@ export const RegisterCandidate: React.FC = () => {
 					flexWrap: "wrap",
 				}}
 			>
-				<Box display="flex" width="100%" alignItems="flex-start">
+
+			{/* ---------------- Linha 1 ---------------*/}
+				<Box 
+					display="flex" 
+					width="100%" 
+					alignItems="flex-start"
+					mb={3}
+				>
 					<Avatar
 						id="foto-register-candidate"
 						alt="Remy Sharp"
@@ -80,6 +89,9 @@ export const RegisterCandidate: React.FC = () => {
 						}}
 					/>
 				</Box>
+
+				{/* ---------------- Linha 2 ---------------*/}
+
 				<Box
 					display="flex"
 					width="100%"
@@ -121,6 +133,8 @@ export const RegisterCandidate: React.FC = () => {
 						</FormControl>
 					</Box>
 				</Box>
+				
+				{/* ---------------- Linha 3 ---------------*/}
 
 				<Box
 					display="flex"
@@ -154,7 +168,7 @@ export const RegisterCandidate: React.FC = () => {
 						type="text"
 						label="Linguagens de programação que você conhece"
 						sx={{ width: "100%" }}
-						{...register("email")}
+						{...register("linguagens")}
 						value={language}
 						onChange={(e) => setLanguage(e.target.value)}
 						InputLabelProps={{
@@ -206,6 +220,8 @@ export const RegisterCandidate: React.FC = () => {
 						</FormControl>
 					</Box>
 				</Box>
+
+				{/* ---------------- Linha 4 ---------------*/}
 				<Box
 					display="flex"
 					width="100%"
@@ -213,7 +229,12 @@ export const RegisterCandidate: React.FC = () => {
 					gap="4rem"
 					mt={4}
 				>
-					<Box sx={{ width: "90%" }}></Box>
+					<TextField
+						id="email-register-candidate"
+						label="Email"
+						sx={{ width: "90%" }}
+						{...register("email")}
+					/>
 					<Box sx={{ width: "90%" }}>
 						<Select
 							labelId="demo-simple-select-label"
@@ -238,6 +259,8 @@ export const RegisterCandidate: React.FC = () => {
 						</Select>
 					</Box>
 				</Box>
+
+				{/* ---------------- Linha 5 ---------------*/}
 				<Box
 					display="flex"
 					width="100%"
@@ -255,6 +278,8 @@ export const RegisterCandidate: React.FC = () => {
 						}}
 					/>
 				</Box>
+
+				{/* ---------------- Linha 6 ---------------*/}
 				<Box
 					display="flex"
 					width="100%"
