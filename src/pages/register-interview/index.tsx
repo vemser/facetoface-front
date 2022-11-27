@@ -128,7 +128,7 @@ export const RegisterInterview: React.FC = () => {
           <Box display="flex" flexDirection="column" width="100%">
             <TextField
               id="input-email-register-interview"
-              label="E-mail do candidato"
+              label="E-mail do usuário"
               sx={{ width: "100%" }}
               {...register("email")}
             />

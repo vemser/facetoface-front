@@ -14,13 +14,18 @@ export const TagLanguages: React.FC<IProps> = ({ language, onClick }) => {
       gap="1rem"
       sx={{
         borderRadius: "100px",
-        padding: "0.5rem 1rem",
         alignItems: "center",
         border: "1px solid #222",
+        padding: "2px 15px",
+        fontSize: "14px",
       }}
     >
       {language}
-      <HighlightOffIcon onClick={onClick} />
+      <HighlightOffIcon
+        onClick={onClick}
+        sx={{ width: "18px" }}
+        cursor="pointer"
+      />
     </Box>
   );
 };

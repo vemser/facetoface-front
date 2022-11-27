@@ -2,12 +2,12 @@ import {
   Avatar,
   Box,
   Button,
-  Container,
   FormControl,
   FormControlLabel,
   FormLabel,
   IconButton,
   InputAdornment,
+  InputLabel,
   MenuItem,
   Radio,
   RadioGroup,
@@ -18,13 +18,20 @@ import {
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { TagLanguages } from "../../shared/components";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { schemaCandidate } from "../../shared/schemas/register-candidate.schema";
+import { ICandidate } from "../../shared/interfaces";
 
 export const RegisterCandidate: React.FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+    watch,
+  } = useForm<ICandidate>();
+
+  const edition = watch("edition");
 
   const handleSubmitCandidate = (data: any) => {
     console.log(data);
@@ -56,7 +63,6 @@ export const RegisterCandidate: React.FC = () => {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      pt="5rem"
     >
       <form
         onSubmit={handleSubmit(handleSubmitCandidate)}
@@ -99,41 +105,38 @@ export const RegisterCandidate: React.FC = () => {
           alignItems="center"
           flexDirection="column"
         >
-          <TextField
-            id="nome-register-candidate"
-            label="Nome completo"
-            sx={{ width: "100%", mt: "1rem" }}
-            {...register("nomeCompleto")}
-          />
+          <Box sx={{ width: "100%", mt: "1rem" }}>
+            <TextField
+              id="nome-register-candidate"
+              label="Nome completo"
+              sx={{ width: "100%" }}
+              {...register("name")}
+            />
+          </Box>
           <FormControl sx={{ width: "100%", mt: "1rem" }}>
             <FormLabel id="label-genero-register-candidate">Gênero</FormLabel>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-            >
+            <RadioGroup row>
               <FormControlLabel
                 id="genero-feminino-register-candidato"
                 value="feminino"
                 control={<Radio />}
                 label="Feminino"
-                {...register("feminino")}
+                {...register("genre")}
               />
               <FormControlLabel
                 id="genero-masculino-register-candidato"
                 value="masculino"
                 control={<Radio />}
                 label="Masculino"
-                {...register("masculino")}
+                {...register("genre")}
               />
             </RadioGroup>
           </FormControl>
-
           <TextField
             id="cidade-register-candidate"
             label="Cidade"
             sx={{ width: "100%", mt: "1rem" }}
-            {...register("cidade")}
+            {...register("city")}
           />
           <TextField
             id="up-cv-register-candidate"
@@ -143,6 +146,12 @@ export const RegisterCandidate: React.FC = () => {
             InputLabelProps={{
               shrink: true,
             }}
+          />
+          <TextField
+            id="input-email-register-interview"
+            label="E-mail do usuário"
+            sx={{ width: "100%", mt: "1rem" }}
+            {...register("email")}
           />
           <TextField
             id="observation-register-candidate"
@@ -168,61 +177,65 @@ export const RegisterCandidate: React.FC = () => {
             id="estado-register-candidate"
             label="Estado"
             sx={{ width: "100%", mt: "1rem" }}
-            {...register("estado")}
+            {...register("state")}
           />
           <FormControl sx={{ mt: "1rem", width: "100%" }}>
             <FormLabel id="demo-row-radio-buttons-group-label">
               Turma escolhida
             </FormLabel>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-            >
+            <RadioGroup row>
               <FormControlLabel
                 id="frontend-register-candidate"
                 value="frontend"
                 control={<Radio />}
                 label="Front"
-                {...register("frontend")}
+                {...register("class")}
               />
               <FormControlLabel
                 id="backend-register-candidate"
                 value="backend"
                 control={<Radio />}
                 label="Back"
-                {...register("backend")}
+                {...register("class")}
               />
-
               <FormControlLabel
                 id="qa-register-candidate"
                 value="qa"
                 control={<Radio />}
                 label="QA"
-                {...register("qa")}
+                {...register("class")}
               />
             </RadioGroup>
           </FormControl>
-          <Select
-            id="select-edicao"
-            value={edicao}
-            label="Edição vem ser"
-            onChange={handleChange}
-            sx={{ width: "100%", mt: "1rem" }}
-          >
-            <MenuItem id="edicao-9" value={9}>
-              9ª edição
-            </MenuItem>
-            <MenuItem id="edicao-10" value={10}>
-              10ª edição
-            </MenuItem>
-            <MenuItem id="edicao-11" value={11}>
-              11ª edição
-            </MenuItem>
-            <MenuItem id="edicao-12" value={12}>
-              12ª edição
-            </MenuItem>
-          </Select>
+          <FormControl sx={{ mt: "1rem", width: "100%" }}>
+            <InputLabel id="demo-simple-select-label">
+              Edição vem ser
+            </InputLabel>
+            <Select
+              id="select-edicao"
+              sx={{ width: "100%" }}
+              label="Edição vem ser"
+              value={edition ? edition : ""}
+              //onChange={handleChange}
+              {...register("edition")}
+            >
+              <MenuItem id="selected" value={""} selected>
+                Selecione uma edição
+              </MenuItem>
+              <MenuItem id="edicao-9" value="edicao9">
+                9ª edição
+              </MenuItem>
+              <MenuItem id="edicao-10" value="edicao10">
+                10ª edição
+              </MenuItem>
+              <MenuItem id="edicao-11" value="edicao11">
+                11ª edição
+              </MenuItem>
+              <MenuItem id="edicao-12" value="edicao12">
+                12ª edição
+              </MenuItem>
+            </Select>
+          </FormControl>
           <TextField
             id="linguagens-register-candidate"
             type="text"
@@ -246,35 +259,47 @@ export const RegisterCandidate: React.FC = () => {
           />
           <Box
             sx={{
+              display: "flex",
               width: "100%",
-              height: "100%",
+              maxHeight: "102px",
+              minHeight: "102px",
               mt: "1rem",
-              border: "1px solid #BDBDBD",
+              border: "1px dotted #BDBDBD",
               borderRadius: "4px",
-            }}
-          ></Box>
-        </Box>
-
-        <Box
-          display="flex"
-          width="100%"
-          alignItems="flex-start"
-          gap="4rem"
-          mt={4}
-        >
-          <Button
-            id="button-submit-register-candidate"
-            type="submit"
-            variant="contained"
-            sx={{
-              width: "25%",
-              borderRadius: 100,
-              ml: "auto",
-              mt: 5,
+              alignItems: "flex-start",
+              flexWrap: "wrap",
+              overflow: "auto",
             }}
           >
-            Enviar
-          </Button>
+            {arrLanguages.map((item) => {
+              return (
+                <TagLanguages
+                  key={item}
+                  language={item}
+                  onClick={() => removeLanguage(item)}
+                />
+              );
+            })}
+          </Box>
+          <Box
+            display="flex"
+            width="100%"
+            alignItems="center"
+            justifyContent="center"
+            mt="1rem"
+          >
+            <Button
+              id="button-submit-register-candidate"
+              type="submit"
+              variant="contained"
+              sx={{
+                width: "200px",
+                borderRadius: 100,
+              }}
+            >
+              Enviar
+            </Button>
+          </Box>
         </Box>
       </form>
     </Box>
