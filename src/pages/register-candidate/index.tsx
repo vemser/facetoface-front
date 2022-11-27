@@ -44,104 +44,183 @@ export const RegisterCandidate: React.FC = () => {
     setEdicao(event.target.value);
   }
   return (
-    <Box display="flex" width="100%" flexDirection="column" alignItems="center">
+    <Box
+      minHeight="100%"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      pt="5rem"
+    >
       <form
         onSubmit={handleSubmit(handleSubmitCandidate)}
         style={{
-          width: "70%",
           display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
           flexWrap: "wrap",
+          maxWidth: "70%",
+          justifyContent: "space-between",
         }}
       >
-        <Box display="flex" width="100%" alignItems="flex-start">
+        {/* input avatar */}
+        <Box
+          display="flex"
+          width="100%"
+          alignItems="center"
+          justifyContent="space-between"
+        >
           <Avatar
             id="foto-register-candidate"
             alt="Remy Sharp"
-            src=""
-            sx={{ width: 60, height: 60 }}
+            src="Foto perfil"
+            sx={{ width: 100, height: 100 }}
           />
           <TextField
             id="up-foto-register-candidate"
             type="file"
             label="Foto"
             sx={{
-              width: "90%",
-              marginLeft: 3,
+              width: "80%",
             }}
             InputLabelProps={{
               shrink: true,
             }}
           />
         </Box>
-        <Box display="flex" width="100%" alignItems="flex-start" gap="4rem">
+        {/* first column */}
+        <Box
+          display="flex"
+          width="45%"
+          alignItems="center"
+          flexDirection="column"
+        >
           <TextField
             id="nome-register-candidate"
             label="Nome completo"
-            sx={{ width: "90%" }}
+            sx={{ width: "100%", mt: "1rem" }}
             {...register("nomeCompleto")}
           />
+          <FormControl sx={{ width: "100%", mt: "1rem" }}>
+            <FormLabel id="label-genero-register-candidate">Gênero</FormLabel>
+            <RadioGroup
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="row-radio-buttons-group"
+            >
+              <FormControlLabel
+                id="genero-feminino-register-candidato"
+                value="feminino"
+                control={<Radio />}
+                label="Feminino"
+                {...register("feminino")}
+              />
+              <FormControlLabel
+                id="genero-masculino-register-candidato"
+                value="masculino"
+                control={<Radio />}
+                label="Masculino"
+                {...register("masculino")}
+              />
+            </RadioGroup>
+          </FormControl>
 
-          <Box sx={{ width: "90%" }}>
-            <FormControl>
-              <FormLabel id="label-genero-register-candidate">Gênero</FormLabel>
-              <RadioGroup
-                row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
-              >
-                <FormControlLabel
-                  id="genero-feminino-register-candidato"
-                  value="feminino"
-                  control={<Radio />}
-                  label="Feminino"
-                  {...register("feminino")}
-                />
-                <FormControlLabel
-                  id="genero-masculino-register-candidato"
-                  value="masculino"
-                  control={<Radio />}
-                  label="Masculino"
-                  {...register("masculino")}
-                />
-              </RadioGroup>
-            </FormControl>
-          </Box>
-        </Box>
-
-        <Box
-          display="flex"
-          width="100%"
-          alignItems="flex-start"
-          gap="4rem"
-          mt={4}
-        >
           <TextField
             id="cidade-register-candidate"
             label="Cidade"
-            sx={{ width: "90%" }}
+            sx={{ width: "100%", mt: "1rem" }}
             {...register("cidade")}
           />
           <TextField
-            id="estado-register-candidate"
-            label="Estado"
-            sx={{ width: "90%" }}
-            {...register("estado")}
+            id="up-cv-register-candidate"
+            type="file"
+            label="CV"
+            sx={{ width: "100%", mt: "1rem" }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          <TextField
+            id="observation-register-candidate"
+            multiline
+            sx={{ width: "100%", mt: "1rem" }}
+            label="Observações / Lembretes"
+            minRows={3}
+            placeholder="Digite alguma observação..."
+            InputLabelProps={{
+              shrink: true,
+            }}
+            {...register("observation")}
           />
         </Box>
+        {/* second column */}
         <Box
           display="flex"
-          width="100%"
-          alignItems="flex-start"
-          gap="4rem"
-          mt={4}
+          width="45%"
+          alignItems="center"
+          flexDirection="column"
         >
+          <TextField
+            id="estado-register-candidate"
+            label="Estado"
+            sx={{ width: "100%", mt: "1rem" }}
+            {...register("estado")}
+          />
+          <FormControl sx={{ mt: "1rem", width: "100%" }}>
+            <FormLabel id="demo-row-radio-buttons-group-label">
+              Turma escolhida
+            </FormLabel>
+            <RadioGroup
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="row-radio-buttons-group"
+            >
+              <FormControlLabel
+                id="frontend-register-candidate"
+                value="frontend"
+                control={<Radio />}
+                label="Front"
+                {...register("frontend")}
+              />
+              <FormControlLabel
+                id="backend-register-candidate"
+                value="backend"
+                control={<Radio />}
+                label="Back"
+                {...register("backend")}
+              />
+
+              <FormControlLabel
+                id="qa-register-candidate"
+                value="qa"
+                control={<Radio />}
+                label="QA"
+                {...register("qa")}
+              />
+            </RadioGroup>
+          </FormControl>
+          <Select
+            id="select-edicao"
+            value={edicao}
+            label="Edição vem ser"
+            onChange={handleChange}
+            sx={{ width: "100%", mt: "1rem" }}
+          >
+            <MenuItem id="edicao-9" value={9}>
+              9ª edição
+            </MenuItem>
+            <MenuItem id="edicao-10" value={10}>
+              10ª edição
+            </MenuItem>
+            <MenuItem id="edicao-11" value={11}>
+              11ª edição
+            </MenuItem>
+            <MenuItem id="edicao-12" value={12}>
+              12ª edição
+            </MenuItem>
+          </Select>
           <TextField
             id="linguagens-register-candidate"
             type="text"
             label="Linguagens de programação que você conhece"
-            sx={{ width: "100%" }}
+            sx={{ width: "100%", mt: "1rem" }}
             {...register("email")}
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
@@ -158,42 +237,17 @@ export const RegisterCandidate: React.FC = () => {
               ),
             }}
           />
-          <Box sx={{ width: "90%" }}>
-            <FormControl>
-              <FormLabel id="demo-row-radio-buttons-group-label">
-                Turma escolhida
-              </FormLabel>
-              <RadioGroup
-                row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
-              >
-                <FormControlLabel
-                  id="frontend-register-candidate"
-                  value="frontend"
-                  control={<Radio />}
-                  label="Front-end"
-                  {...register("frontend")}
-                />
-                <FormControlLabel
-                  id="backend-register-candidate"
-                  value="backend"
-                  control={<Radio />}
-                  label="Back-end"
-                  {...register("backend")}
-                />
+          <Box
+            sx={{
+              width: "100%",
+              height: "100%",
+              mt: "1rem",
+              border: "1px solid #BDBDBD",
+              borderRadius: "4px",
+            }}
+          ></Box>
+        </Box>
 
-                <FormControlLabel
-                  id="qa-register-candidate"
-                  value="qa"
-                  control={<Radio />}
-                  label="QA"
-                  {...register("qa")}
-                />
-              </RadioGroup>
-            </FormControl>
-          </Box>
-        </Box>
         <Box
           display="flex"
           width="100%"
@@ -201,67 +255,6 @@ export const RegisterCandidate: React.FC = () => {
           gap="4rem"
           mt={4}
         >
-          <Box sx={{ width: "90%" }}></Box>
-          <Box sx={{ width: "90%" }}>
-            <Select
-              labelId="demo-simple-select-label"
-              id="select-edicao"
-              value={edicao}
-              label="Edição vem ser"
-              onChange={handleChange}
-              sx={{ width: "100%" }}
-            >
-              <MenuItem id="edicao-9" value={9}>
-                9ª edição
-              </MenuItem>
-              <MenuItem id="edicao-10" value={10}>
-                10ª edição
-              </MenuItem>
-              <MenuItem id="edicao-11" value={11}>
-                11ª edição
-              </MenuItem>
-              <MenuItem id="edicao-12" value={12}>
-                12ª edição
-              </MenuItem>
-            </Select>
-          </Box>
-        </Box>
-        <Box
-          display="flex"
-          width="100%"
-          alignItems="flex-start"
-          gap="4rem"
-          mt={4}
-        >
-          <TextField
-            id="up-cv-register-candidate"
-            type="file"
-            label="CV"
-            sx={{ width: "100%" }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </Box>
-        <Box
-          display="flex"
-          width="100%"
-          alignItems="flex-start"
-          gap="4rem"
-          mt={4}
-        >
-          <TextField
-            id="observation-register-candidate"
-            multiline
-            sx={{ width: "90%" }}
-            label="Observações / Lembretes"
-            minRows={3}
-            placeholder="Digite alguma observação..."
-            InputLabelProps={{
-              shrink: true,
-            }}
-            {...register("observation")}
-          />
           <Button
             id="button-submit-register-candidate"
             type="submit"
