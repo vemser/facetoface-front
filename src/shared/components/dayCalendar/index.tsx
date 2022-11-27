@@ -5,6 +5,7 @@ import { Box } from "@mui/system";
 interface IProps {
   days: number;
   date: Date;
+  dayWeek: number;
 }
 
 interface IDays {
@@ -12,16 +13,18 @@ interface IDays {
   thisMonth: boolean;
 }
 
-export const DayCalendar: React.FC<IProps> = ({ days, date }) => {
+export const DayCalendar: React.FC<IProps> = ({ days, date, dayWeek }) => {
   const theme = useTheme();
   const [arrDays, setArrDays] = useState<IDays[]>([]);
 
   const renderDays = () => {
     let arr = [];
     for (let i = 1; i <= 35; i++) {
-      if (i > days) {
-        arr.push({ days: i - days, thisMonth: false });
-      } else arr.push({ days: i, thisMonth: true });
+      if (i > dayWeek) {
+        if (i > days) {
+          arr.push({ days: i - days, thisMonth: false });
+        } else arr.push({ days: i - dayWeek, thisMonth: true });
+      } else arr.push({ days: i - days, thisMonth: false });
     }
 
     setArrDays(arr);
@@ -29,7 +32,7 @@ export const DayCalendar: React.FC<IProps> = ({ days, date }) => {
 
   useEffect(() => {
     renderDays();
-  }, [days]);
+  }, [days, dayWeek]);
 
   return (
     <Box
@@ -65,15 +68,15 @@ export const DayCalendar: React.FC<IProps> = ({ days, date }) => {
           width="90%"
           sx={{ flexWrap: "wrap", justifyContent: "space-between" }}
         >
-          {arrDays.map((item) => {
+          {arrDays.map((item, index) => {
             return (
-              <Box minWidth="13%">
+              <Box key={index} minWidth="13%">
                 <Box
-                  bgcolor={item.thisMonth ? "blue" : "gray"}
+                  display={item.thisMonth ? "flex" : "none"}
+                  bgcolor="white"
                   sx={{
                     border: "1px solid black",
                     mb: "1rem",
-                    borderRadius: "10px",
                     paddingBottom: "50%",
                   }}
                 >

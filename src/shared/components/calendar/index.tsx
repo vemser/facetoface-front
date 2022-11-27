@@ -1,6 +1,6 @@
 import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { getDaysInMonth } from "date-fns";
+import { getDaysInMonth, startOfMonth } from "date-fns";
 import React, { useState } from "react";
 import { DayCalendar } from "../dayCalendar";
 
@@ -9,12 +9,16 @@ export const Calendar: React.FC = () => {
   const [days, setDays] = useState<number>(
     getDaysInMonth(new Date(dateNow.toISOString()))
   );
+  const [dayWeek, setDayWeek] = useState<number>(
+    startOfMonth(new Date(dateNow.toISOString())).getDay()
+  );
 
   const toggleMonth = (action: number) => {
     let aux = new Date(dateNow.toISOString());
     aux.setMonth(aux.getMonth() + action);
     setDateNow(new Date(aux.toISOString()));
-    setDays(getDaysInMonth(new Date(dateNow.toISOString())));
+    setDays(getDaysInMonth(new Date(aux.toISOString())));
+    setDayWeek(startOfMonth(new Date(aux.toISOString())).getDay());
   };
 
   return (
@@ -37,11 +41,11 @@ export const Calendar: React.FC = () => {
       >
         <Typography variant="h5">Agenda de Entrevistas</Typography>
         <Typography variant="h5" color="primary">
-          {dateNow.getMonth()} - {dateNow.getFullYear()}
+          {dateNow.getMonth() + 1} - {dateNow.getFullYear()}
         </Typography>
       </Box>
       <Box width="100%" display="flex" pt="2rem">
-        <DayCalendar days={days} date={dateNow} />
+        <DayCalendar days={days} date={dateNow} dayWeek={dayWeek} />
       </Box>
       <Box width="100%" display="flex" justifyContent="center">
         <Button onClick={() => toggleMonth(1)}>Avançar</Button>
