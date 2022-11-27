@@ -29,12 +29,16 @@ export const RegisterCandidate: React.FC = () => {
     handleSubmit,
     formState: { errors },
     watch,
+    reset,
   } = useForm<ICandidate>();
 
   const edition = watch("edition");
 
-  const handleSubmitCandidate = (data: any) => {
+  const handleSubmitCandidate = (data: ICandidate) => {
+    data.languages = arrLanguages;
     console.log(data);
+    setArrLanguages([]);
+    reset();
   };
 
   const [arrLanguages, setArrLanguages] = useState<string[]>([]);
@@ -52,11 +56,6 @@ export const RegisterCandidate: React.FC = () => {
     setArrLanguages(arrAux);
   };
 
-  const [edicao, setEdicao] = useState("");
-
-  function handleChange(event: any) {
-    setEdicao(event.target.value);
-  }
   return (
     <Box
       minHeight="100%"
@@ -148,13 +147,11 @@ export const RegisterCandidate: React.FC = () => {
             }}
           />
           <TextField
-            id="input-email-register-interview"
-            label="E-mail do usuário"
+            label="E-mail do candidato"
             sx={{ width: "100%", mt: "1rem" }}
             {...register("email")}
           />
           <TextField
-            id="observation-register-candidate"
             multiline
             sx={{ width: "100%", mt: "1rem" }}
             label="Observações / Lembretes"
@@ -241,7 +238,6 @@ export const RegisterCandidate: React.FC = () => {
             type="text"
             label="Linguagens de programação que você conhece"
             sx={{ width: "100%", mt: "1rem" }}
-            {...register("email")}
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
             InputLabelProps={{
