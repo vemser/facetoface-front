@@ -36,6 +36,7 @@ export const RegisterInterview: React.FC = () => {
       justifyContent="center"
     >
       <form
+        id="form-register-interview"
         style={{
           display: "flex",
           flexWrap: "wrap",
@@ -55,6 +56,7 @@ export const RegisterInterview: React.FC = () => {
         >
           <Box>
             <TextField
+              id="input-candidate-register-interview"
               sx={{ width: "100%" }}
               label="Candidato"
               InputProps={{
@@ -68,12 +70,18 @@ export const RegisterInterview: React.FC = () => {
               }}
               {...register("candidate")}
             />
-            <Typography variant="subtitle1" color="red" sx={{ mr: "auto" }}>
+            <Typography
+              id="error-candidate-register-interview"
+              variant="subtitle1"
+              color="red"
+              sx={{ mr: "auto" }}
+            >
               {errors.candidate?.message}
             </Typography>
           </Box>
           <Box>
             <TextField
+              id="input-dateInterview-register-interview"
               sx={{ width: "100%" }}
               label="Data da entrevista"
               type="date"
@@ -82,17 +90,28 @@ export const RegisterInterview: React.FC = () => {
               }}
               {...register("dateInterview")}
             />
-            <Typography variant="subtitle1" color="red" sx={{ mr: "auto" }}>
+            <Typography
+              id="error-dateInterview-register-interview"
+              variant="subtitle1"
+              color="red"
+              sx={{ mr: "auto" }}
+            >
               {errors.dateInterview?.message}
             </Typography>
           </Box>
           <Box>
             <TextField
+              id="input-city-register-interview"
               sx={{ width: "100%" }}
               label="Cidade"
               {...register("city")}
             />
-            <Typography variant="subtitle1" color="red" sx={{ mr: "auto" }}>
+            <Typography
+              id="error-city-register-interview"
+              variant="subtitle1"
+              color="red"
+              sx={{ mr: "auto" }}
+            >
               {errors.city?.message}
             </Typography>
           </Box>
@@ -108,17 +127,23 @@ export const RegisterInterview: React.FC = () => {
         >
           <Box display="flex" flexDirection="column" width="100%">
             <TextField
-              label="E-mail do candidato"
+              id="input-email-register-interview"
+              label="E-mail do usuário"
               sx={{ width: "100%" }}
               {...register("email")}
             />
-            <Typography variant="subtitle1" color="red" width="90%">
+            <Typography
+              id="error-email-register-interview"
+              variant="subtitle1"
+              color="red"
+              width="90%"
+            >
               {errors.email?.message}
             </Typography>
           </Box>
           <Box display="flex" flexDirection="column" width="100%">
             <TextField
-              id="time"
+              id="input-scheduleInterview-register-interview"
               label="Horário da entrevista"
               type="time"
               InputLabelProps={{
@@ -127,17 +152,28 @@ export const RegisterInterview: React.FC = () => {
               sx={{ width: "100%" }}
               {...register("scheduleInterview")}
             />
-            <Typography variant="subtitle1" color="red" width="90%">
+            <Typography
+              id="error-scheduleInterview-register-interview"
+              variant="subtitle1"
+              color="red"
+              width="90%"
+            >
               {errors.scheduleInterview?.message}
             </Typography>
           </Box>
           <Box display="flex" flexDirection="column" width="100%">
             <TextField
+              id="input-state-register-interview"
               label="Estado"
               sx={{ width: "100%" }}
               {...register("state")}
             />
-            <Typography variant="subtitle1" color="red" width="90%">
+            <Typography
+              id="error-state--register-interview"
+              variant="subtitle1"
+              color="red"
+              width="90%"
+            >
               {errors.state?.message}
             </Typography>
           </Box>
@@ -150,6 +186,7 @@ export const RegisterInterview: React.FC = () => {
           alignItems="center"
         >
           <TextField
+            id="input-observation-register-interview"
             multiline
             label="Observações / Lembretes"
             sx={{ mt: 3, width: "90%" }}
@@ -160,7 +197,12 @@ export const RegisterInterview: React.FC = () => {
             }}
             {...register("observation")}
           />
-          <Typography variant="subtitle1" color="red" sx={{ mr: "auto" }}>
+          <Typography
+            id="error-observation-register-interview"
+            variant="subtitle1"
+            color="red"
+            sx={{ mr: "auto" }}
+          >
             {errors.observation?.message}
           </Typography>
         </Box>
@@ -173,11 +215,16 @@ export const RegisterInterview: React.FC = () => {
           mt="1rem"
           mb={mdDown ? "2rem" : "0"}
         >
-          <Typography width="70%" textAlign="center">
+          <Typography
+            width="70%"
+            textAlign="center"
+            id="subtitle-register-interview"
+          >
             Após a finalização do cadastro, o candidato receberá um e-mail para
             confirmar a entrevista.
           </Typography>
           <Button
+            id="button-submit-register-interview"
             type="submit"
             variant="contained"
             sx={{ width: "200px", height: 40, borderRadius: 100 }}

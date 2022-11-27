@@ -1,8 +1,12 @@
-import { string, object } from "yup";
+import { string, array, object } from "yup";
 
 export const schemaCandidate = object({
-  nome: string().required("Campo obrigatório!"),
-  estado: string().required("Campo obrigatório!"),
-  cidade: string().required("Campo obrigatório!"),
-  genero: string().required("Campo obrigatório!"),
+  name: string().required("Campo obrigatório!"),
+  genre: string().required("Campo obrigatório!"),
+  city: string().required("Campo obrigatório!"),
+  state: string().required("Campo obrigatório!"),
+  class: string().required("Campo obrigatório!"),
+  edition: string().required("Campo obrigatório!"),
+  observation: string().required("Campo obrigatório!"),
+  email: string().email("E-mail inválido!").required("Campo obrigatório!"),
 });
