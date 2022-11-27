@@ -42,6 +42,7 @@ export const RegisterInterview: React.FC = () => {
           flexWrap: "wrap",
           maxWidth: "70%",
           justifyContent: "center",
+          padding: "5% 0",
         }}
         onSubmit={handleSubmit(handleSubmitInterview)}
       >
@@ -201,7 +202,6 @@ export const RegisterInterview: React.FC = () => {
             id="error-observation-register-interview"
             variant="subtitle1"
             color="red"
-            sx={{ mr: "auto" }}
           >
             {errors.observation?.message}
           </Typography>
@@ -216,9 +216,9 @@ export const RegisterInterview: React.FC = () => {
           mb={mdDown ? "2rem" : "0"}
         >
           <Typography
+            id="subtitle-register-interview"
             width="70%"
             textAlign="center"
-            id="subtitle-register-interview"
           >
             Após a finalização do cadastro, o candidato receberá um e-mail para
             confirmar a entrevista.
