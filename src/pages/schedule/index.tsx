@@ -1,5 +1,10 @@
 import React from "react";
+import { Calendar } from "../../shared/components";
 
 export const Schedule: React.FC = () => {
-  return <>schedule</>;
+  return (
+    <>
+      <Calendar />
+    </>
+  );
 };
