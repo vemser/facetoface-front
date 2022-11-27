@@ -13,7 +13,8 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useSideBar } from "../../contexts";
+import { useAuth, useSideBar } from "../../contexts";
+import { useNavigate } from "react-router-dom";
 
 // icons
 import VideoCameraFrontIcon from "@mui/icons-material/VideoCameraFront";
@@ -28,8 +29,10 @@ interface IProps {
 }
 
 export const SideBar: React.FC<IProps> = ({ children }) => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("sm"));
+  const { handleSignIn } = useAuth();
 
   const { isOpen, toggleOpen } = useSideBar();
 
@@ -72,42 +75,42 @@ export const SideBar: React.FC<IProps> = ({ children }) => {
 
           <Box flex="1">
             <List component="nav">
-              <ListItemButton>
+              <ListItemButton onClick={() => navigate("/")}>
                 <ListItemIcon>
                   <HomeIcon />
                 </ListItemIcon>
                 <ListItemText primary="Página inicial" />
               </ListItemButton>
               {/* item */}
-              <ListItemButton>
+              <ListItemButton onClick={() => navigate("/register-user")}>
                 <ListItemIcon>
                   <PeopleIcon />
                 </ListItemIcon>
                 <ListItemText primary="Cadastrar usuário" />
               </ListItemButton>
               {/* item */}
-              <ListItemButton>
+              <ListItemButton onClick={() => navigate("/register-candidate")}>
                 <ListItemIcon>
                   <PeopleIcon />
                 </ListItemIcon>
                 <ListItemText primary="Cadastrar candidato" />
               </ListItemButton>
               {/* item */}
-              <ListItemButton>
+              <ListItemButton onClick={() => navigate("/register-interview")}>
                 <ListItemIcon>
                   <VideoCameraFrontIcon />
                 </ListItemIcon>
                 <ListItemText primary="Cadastrar entrevista" />
               </ListItemButton>
               {/* item */}
-              <ListItemButton>
+              <ListItemButton onClick={() => navigate("/schedule")}>
                 <ListItemIcon>
                   <CalendarMonthIcon />
                 </ListItemIcon>
                 <ListItemText primary="Agenda" />
               </ListItemButton>
               {/* item */}
-              <ListItemButton>
+              <ListItemButton onClick={handleSignIn}>
                 <ListItemIcon>
                   <LogoutIcon />
                 </ListItemIcon>

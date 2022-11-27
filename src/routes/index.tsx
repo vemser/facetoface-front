@@ -10,14 +10,16 @@ import {
   SignIn,
 } from "../pages";
 import { SideBar } from "../shared/components";
+import { useAuth } from "../shared/contexts";
 
 export const AppRoutes: React.FC = () => {
-  const [signIn, setSignIn] = useState<boolean>(true);
+  const { signIn, handleSignIn } = useAuth();
 
   if (!signIn)
     return (
       <Routes>
         <Route path="/" element={<SignIn />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     );
   else {
