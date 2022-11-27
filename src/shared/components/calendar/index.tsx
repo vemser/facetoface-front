@@ -2,7 +2,7 @@ import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { getDaysInMonth, startOfMonth } from "date-fns";
 import React, { useState } from "react";
-import { DayCalendar } from "../dayCalendar";
+import { DayCalendar } from "../day-calendar";
 
 export const Calendar: React.FC = () => {
   const [dateNow, setDateNow] = useState<Date>(new Date());

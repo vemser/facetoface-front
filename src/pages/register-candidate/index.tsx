@@ -18,7 +18,7 @@ import {
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { TagLanguages } from "../../shared/components";
+import { TagLanguages, ErrorMessage } from "../../shared/components";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaCandidate } from "../../shared/schemas/register-candidate.schema";
 import { ICandidate } from "../../shared/interfaces";
@@ -31,7 +31,7 @@ export const RegisterCandidate: React.FC = () => {
     formState: { errors },
     watch,
     reset,
-  } = useForm<ICandidate>();
+  } = useForm<ICandidate>({ resolver: yupResolver(schemaCandidate) });
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -117,11 +117,16 @@ export const RegisterCandidate: React.FC = () => {
               label="Nome completo"
               sx={{ width: "100%" }}
               {...register("name")}
+              error={errors.name ? true : false}
             />
+            <ErrorMessage width={"100%"}>{errors.name?.message}</ErrorMessage>
           </Box>
           {/* genre box */}
           <Box sx={{ width: "100%", mt: "1rem" }}>
-            <FormControl sx={{ width: "100%" }}>
+            <FormControl
+              sx={{ width: "100%" }}
+              error={errors.genre ? true : false}
+            >
               <FormLabel id="label-genero-register-candidate">Gênero</FormLabel>
               <RadioGroup row>
                 <FormControlLabel
@@ -140,6 +145,7 @@ export const RegisterCandidate: React.FC = () => {
                 />
               </RadioGroup>
             </FormControl>
+            <ErrorMessage width={"100%"}>{errors.genre?.message}</ErrorMessage>
           </Box>
           {/* city box */}
           <Box sx={{ width: "100%", mt: "1rem" }}>
@@ -148,7 +154,9 @@ export const RegisterCandidate: React.FC = () => {
               label="Cidade"
               sx={{ width: "100%" }}
               {...register("city")}
+              error={errors.city ? true : false}
             />
+            <ErrorMessage width={"100%"}>{errors.city?.message}</ErrorMessage>
           </Box>
           {/* cv box */}
           <Box sx={{ width: "100%", mt: "1rem" }}>
@@ -168,7 +176,9 @@ export const RegisterCandidate: React.FC = () => {
               label="E-mail do candidato"
               sx={{ width: "100%" }}
               {...register("email")}
+              error={errors.email ? true : false}
             />
+            <ErrorMessage width={"100%"}>{errors.email?.message}</ErrorMessage>
           </Box>
           {/* observation box */}
           <Box sx={{ width: "100%", mt: "1rem" }}>
@@ -182,7 +192,11 @@ export const RegisterCandidate: React.FC = () => {
                 shrink: true,
               }}
               {...register("observation")}
+              error={errors.observation ? true : false}
             />
+            <ErrorMessage width={"100%"}>
+              {errors.observation?.message}
+            </ErrorMessage>
           </Box>
         </Box>
         {/* second column */}
@@ -198,12 +212,17 @@ export const RegisterCandidate: React.FC = () => {
               id="estado-register-candidate"
               label="Estado"
               sx={{ width: "100%" }}
+              error={errors.state ? true : false}
               {...register("state")}
             />
+            <ErrorMessage width={"100%"}>{errors.state?.message}</ErrorMessage>
           </Box>
           {/* class box */}
           <Box sx={{ width: "100%", mt: "1rem" }}>
-            <FormControl sx={{ width: "100%" }}>
+            <FormControl
+              sx={{ width: "100%" }}
+              error={errors.class ? true : false}
+            >
               <FormLabel id="demo-row-radio-buttons-group-label">
                 Turma escolhida
               </FormLabel>
@@ -231,6 +250,7 @@ export const RegisterCandidate: React.FC = () => {
                 />
               </RadioGroup>
             </FormControl>
+            <ErrorMessage width={"100%"}>{errors.class?.message}</ErrorMessage>
           </Box>
           {/* edition box */}
           <Box sx={{ width: "100%", mt: "1rem" }}>
@@ -243,6 +263,7 @@ export const RegisterCandidate: React.FC = () => {
                 sx={{ width: "100%" }}
                 label="Edição vem ser"
                 value={edition ? edition : ""}
+                error={errors.edition ? true : false}
                 {...register("edition")}
               >
                 <MenuItem id="selected" value={""} selected>
@@ -262,6 +283,9 @@ export const RegisterCandidate: React.FC = () => {
                 </MenuItem>
               </Select>
             </FormControl>
+            <ErrorMessage width={"100%"}>
+              {errors.edition?.message}
+            </ErrorMessage>
           </Box>
           {/* languages box */}
           <Box sx={{ width: "100%", mt: "1rem" }}>
