@@ -67,6 +67,7 @@ export const RegisterCandidate: React.FC = () => {
       justifyContent="center"
     >
       <form
+        id="form-register-candidate"
         onSubmit={handleSubmit(handleSubmitCandidate)}
         style={{
           display: "flex",
@@ -85,13 +86,13 @@ export const RegisterCandidate: React.FC = () => {
           flexDirection={mdDown ? "column" : "row"}
         >
           <Avatar
-            id="foto-register-candidate"
+            id="avatar-register-candidate"
             alt="Remy Sharp"
             src="Foto perfil"
             sx={{ width: 80, height: 80, m: "auto" }}
           />
           <TextField
-            id="up-foto-register-candidate"
+            id="input-avatar-register-candidate"
             type="file"
             label="Foto"
             sx={{
@@ -113,31 +114,34 @@ export const RegisterCandidate: React.FC = () => {
           {/* name box */}
           <Box sx={{ width: "100%", mt: "1rem" }}>
             <TextField
-              id="nome-register-candidate"
+              id="input-name-register-candidate"
               label="Nome completo"
               sx={{ width: "100%" }}
               {...register("name")}
               error={errors.name ? true : false}
             />
-            <ErrorMessage width={"100%"}>{errors.name?.message}</ErrorMessage>
+            <ErrorMessage id="error-name-register-candidate" width={"100%"}>
+              {errors.name?.message}
+            </ErrorMessage>
           </Box>
           {/* genre box */}
           <Box sx={{ width: "100%", mt: "1rem" }}>
             <FormControl
+              id="input-genre-register-candidate"
               sx={{ width: "100%" }}
               error={errors.genre ? true : false}
             >
-              <FormLabel id="label-genero-register-candidate">Gênero</FormLabel>
+              <FormLabel id="label-genre-register-candidate">Gênero</FormLabel>
               <RadioGroup row>
                 <FormControlLabel
-                  id="genero-feminino-register-candidato"
+                  id="genre-feminino-register-candidato"
                   value="feminino"
                   control={<Radio />}
                   label="Feminino"
                   {...register("genre")}
                 />
                 <FormControlLabel
-                  id="genero-masculino-register-candidato"
+                  id="genre-masculino-register-candidato"
                   value="masculino"
                   control={<Radio />}
                   label="Masculino"
@@ -145,23 +149,27 @@ export const RegisterCandidate: React.FC = () => {
                 />
               </RadioGroup>
             </FormControl>
-            <ErrorMessage width={"100%"}>{errors.genre?.message}</ErrorMessage>
+            <ErrorMessage id="error-genre-register-candidate" width={"100%"}>
+              {errors.genre?.message}
+            </ErrorMessage>
           </Box>
           {/* city box */}
           <Box sx={{ width: "100%", mt: "1rem" }}>
             <TextField
-              id="cidade-register-candidate"
+              id="input-city-register-candidate"
               label="Cidade"
               sx={{ width: "100%" }}
               {...register("city")}
               error={errors.city ? true : false}
             />
-            <ErrorMessage width={"100%"}>{errors.city?.message}</ErrorMessage>
+            <ErrorMessage id="erros-city-register-candidate" width={"100%"}>
+              {errors.city?.message}
+            </ErrorMessage>
           </Box>
           {/* cv box */}
           <Box sx={{ width: "100%", mt: "1rem" }}>
             <TextField
-              id="up-cv-register-candidate"
+              id="input-cv-register-candidate"
               type="file"
               label="CV"
               sx={{ width: "100%" }}
@@ -173,16 +181,20 @@ export const RegisterCandidate: React.FC = () => {
           {/* email box */}
           <Box sx={{ width: "100%", mt: "1rem" }}>
             <TextField
+              id="input-email-register-candidate"
               label="E-mail do candidato"
               sx={{ width: "100%" }}
               {...register("email")}
               error={errors.email ? true : false}
             />
-            <ErrorMessage width={"100%"}>{errors.email?.message}</ErrorMessage>
+            <ErrorMessage id="error-email-register-candidate" width={"100%"}>
+              {errors.email?.message}
+            </ErrorMessage>
           </Box>
           {/* observation box */}
           <Box sx={{ width: "100%", mt: "1rem" }}>
             <TextField
+              id="input-observation-register-candidate"
               multiline
               sx={{ width: "100%" }}
               label="Observações / Lembretes"
@@ -194,7 +206,10 @@ export const RegisterCandidate: React.FC = () => {
               {...register("observation")}
               error={errors.observation ? true : false}
             />
-            <ErrorMessage width={"100%"}>
+            <ErrorMessage
+              id="error-observation-register-candidate"
+              width={"100%"}
+            >
               {errors.observation?.message}
             </ErrorMessage>
           </Box>
@@ -209,21 +224,24 @@ export const RegisterCandidate: React.FC = () => {
           {/* state box */}
           <Box sx={{ width: "100%", mt: "1rem" }}>
             <TextField
-              id="estado-register-candidate"
+              id="input-state-register-candidate"
               label="Estado"
               sx={{ width: "100%" }}
               error={errors.state ? true : false}
               {...register("state")}
             />
-            <ErrorMessage width={"100%"}>{errors.state?.message}</ErrorMessage>
+            <ErrorMessage id="error-state-register-candidate" width={"100%"}>
+              {errors.state?.message}
+            </ErrorMessage>
           </Box>
           {/* class box */}
           <Box sx={{ width: "100%", mt: "1rem" }}>
             <FormControl
+              id="input-class-register-candidate"
               sx={{ width: "100%" }}
               error={errors.class ? true : false}
             >
-              <FormLabel id="demo-row-radio-buttons-group-label">
+              <FormLabel id="label-class-register-candidate">
                 Turma escolhida
               </FormLabel>
               <RadioGroup row>
@@ -250,16 +268,21 @@ export const RegisterCandidate: React.FC = () => {
                 />
               </RadioGroup>
             </FormControl>
-            <ErrorMessage width={"100%"}>{errors.class?.message}</ErrorMessage>
+            <ErrorMessage id="error-class-register-candidate" width={"100%"}>
+              {errors.class?.message}
+            </ErrorMessage>
           </Box>
           {/* edition box */}
           <Box sx={{ width: "100%", mt: "1rem" }}>
-            <FormControl sx={{ width: "100%" }}>
-              <InputLabel id="demo-simple-select-label">
+            <FormControl
+              id="input-edition-register-candidate"
+              sx={{ width: "100%" }}
+            >
+              <InputLabel id="label-edition-register-candidate">
                 Edição vem ser
               </InputLabel>
               <Select
-                id="select-edicao"
+                id="select-edition"
                 sx={{ width: "100%" }}
                 label="Edição vem ser"
                 value={edition ? edition : ""}
@@ -283,14 +306,14 @@ export const RegisterCandidate: React.FC = () => {
                 </MenuItem>
               </Select>
             </FormControl>
-            <ErrorMessage width={"100%"}>
+            <ErrorMessage id="error-edition-register-candidate" width={"100%"}>
               {errors.edition?.message}
             </ErrorMessage>
           </Box>
           {/* languages box */}
           <Box sx={{ width: "100%", mt: "1rem" }}>
             <TextField
-              id="linguagens-register-candidate"
+              id="input-languages-register-candidate"
               type="text"
               label="Linguagens de programação que você conhece"
               sx={{ width: "100%" }}

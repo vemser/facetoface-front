@@ -14,18 +14,21 @@ import { IInterview } from "../../shared/interfaces";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaInterview } from "../../shared/schemas";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { ErrorMessage } from "../../shared/components";
 
 export const RegisterInterview: React.FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<IInterview>({ resolver: yupResolver(schemaInterview) });
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
 
   const handleSubmitInterview = (data: IInterview) => {
     console.log(data);
+    reset();
   };
 
   return (
@@ -41,7 +44,7 @@ export const RegisterInterview: React.FC = () => {
           display: "flex",
           flexWrap: "wrap",
           maxWidth: "70%",
-          justifyContent: "center",
+          justifyContent: "space-between",
           padding: "5% 0",
         }}
         onSubmit={handleSubmit(handleSubmitInterview)}
@@ -49,17 +52,16 @@ export const RegisterInterview: React.FC = () => {
         {/* first */}
         <Box
           display="flex"
+          width={mdDown ? "100%" : "45%"}
+          alignItems="center"
           flexDirection="column"
-          width={mdDown ? "80%" : "40%"}
-          gap="1rem"
-          m="auto"
-          mt={mdDown ? "2rem" : "0"}
         >
-          <Box>
+          <Box sx={{ width: "100%", mt: "1rem" }}>
             <TextField
               id="input-candidate-register-interview"
               sx={{ width: "100%" }}
               label="Candidato"
+              error={errors.candidate ? true : false}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -71,78 +73,62 @@ export const RegisterInterview: React.FC = () => {
               }}
               {...register("candidate")}
             />
-            <Typography
-              id="error-candidate-register-interview"
-              variant="subtitle1"
-              color="red"
-              sx={{ mr: "auto" }}
-            >
+            <ErrorMessage id="error-candidate-register-interview" width="100%">
               {errors.candidate?.message}
-            </Typography>
+            </ErrorMessage>
           </Box>
-          <Box>
+          <Box sx={{ width: "100%", mt: "1rem" }}>
             <TextField
               id="input-dateInterview-register-interview"
               sx={{ width: "100%" }}
               label="Data da entrevista"
               type="date"
+              error={errors.dateInterview ? true : false}
               InputLabelProps={{
                 shrink: true,
               }}
               {...register("dateInterview")}
             />
-            <Typography
+            <ErrorMessage
               id="error-dateInterview-register-interview"
-              variant="subtitle1"
-              color="red"
-              sx={{ mr: "auto" }}
+              width="100%"
             >
               {errors.dateInterview?.message}
-            </Typography>
+            </ErrorMessage>
           </Box>
-          <Box>
+          <Box sx={{ width: "100%", mt: "1rem" }}>
             <TextField
               id="input-city-register-interview"
               sx={{ width: "100%" }}
               label="Cidade"
               {...register("city")}
+              error={errors.city ? true : false}
             />
-            <Typography
-              id="error-city-register-interview"
-              variant="subtitle1"
-              color="red"
-              sx={{ mr: "auto" }}
-            >
+            <ErrorMessage id="error-city-register-interview" width="100%">
               {errors.city?.message}
-            </Typography>
+            </ErrorMessage>
           </Box>
         </Box>
         {/* second */}
         <Box
           display="flex"
+          width={mdDown ? "100%" : "45%"}
+          alignItems="center"
           flexDirection="column"
-          width={mdDown ? "80%" : "40%"}
-          gap="1rem"
-          m="auto"
-          mt={mdDown ? "1rem" : "0"}
         >
-          <Box display="flex" flexDirection="column" width="100%">
+          <Box sx={{ width: "100%", mt: "1rem" }}>
             <TextField
               id="input-email-register-interview"
               label="E-mail do usuário"
               sx={{ width: "100%" }}
               {...register("email")}
+              error={errors.email ? true : false}
             />
-            <Typography
-              id="error-email-register-interview"
-              variant="subtitle1"
-              color="red"
-              width="90%"
-            >
+            <ErrorMessage id="error-email-register-interview" width="100%">
               {errors.email?.message}
-            </Typography>
+            </ErrorMessage>
           </Box>
-          <Box display="flex" flexDirection="column" width="100%">
+          <Box sx={{ width: "100%", mt: "1rem" }}>
             <TextField
               id="input-scheduleInterview-register-interview"
               label="Horário da entrevista"
@@ -152,59 +138,46 @@ export const RegisterInterview: React.FC = () => {
               }}
               sx={{ width: "100%" }}
               {...register("scheduleInterview")}
+              error={errors.scheduleInterview ? true : false}
             />
-            <Typography
+            <ErrorMessage
               id="error-scheduleInterview-register-interview"
-              variant="subtitle1"
-              color="red"
-              width="90%"
+              width="100%"
             >
               {errors.scheduleInterview?.message}
-            </Typography>
+            </ErrorMessage>
           </Box>
-          <Box display="flex" flexDirection="column" width="100%">
+          <Box sx={{ width: "100%", mt: "1rem" }}>
             <TextField
               id="input-state-register-interview"
               label="Estado"
               sx={{ width: "100%" }}
               {...register("state")}
+              error={errors.state ? true : false}
             />
-            <Typography
-              id="error-state--register-interview"
-              variant="subtitle1"
-              color="red"
-              width="90%"
-            >
+            <ErrorMessage id="error-state-register-interview" width="100%">
               {errors.state?.message}
-            </Typography>
+            </ErrorMessage>
           </Box>
         </Box>
         {/* textArea */}
-        <Box
-          display="flex"
-          flexDirection="column"
-          width={mdDown ? "90%" : "100%"}
-          alignItems="center"
-        >
+        <Box sx={{ width: "100%", mt: "1rem" }}>
           <TextField
             id="input-observation-register-interview"
             multiline
             label="Observações / Lembretes"
-            sx={{ mt: 3, width: "90%" }}
+            sx={{ width: "100%" }}
             minRows={3}
             placeholder="Digite alguma observação..."
             InputLabelProps={{
               shrink: true,
             }}
             {...register("observation")}
+            error={errors.observation ? true : false}
           />
-          <Typography
-            id="error-observation-register-interview"
-            variant="subtitle1"
-            color="red"
-          >
+          <ErrorMessage id="error-observation-register-interview" width="100%">
             {errors.observation?.message}
-          </Typography>
+          </ErrorMessage>
         </Box>
         <Box
           width="100%"
@@ -213,11 +186,10 @@ export const RegisterInterview: React.FC = () => {
           alignItems="center"
           gap="1rem"
           mt="1rem"
-          mb={mdDown ? "2rem" : "0"}
         >
           <Typography
             id="subtitle-register-interview"
-            width="70%"
+            width="90%"
             textAlign="center"
           >
             Após a finalização do cadastro, o candidato receberá um e-mail para

@@ -10,6 +10,7 @@ interface IProps {
 export const TagLanguages: React.FC<IProps> = ({ language, onClick }) => {
   return (
     <Box
+      id={`tag-languages-register-candidate-${language}`}
       display="flex"
       gap="1rem"
       sx={{
@@ -22,6 +23,7 @@ export const TagLanguages: React.FC<IProps> = ({ language, onClick }) => {
     >
       {language}
       <HighlightOffIcon
+        id={`tag-languages-register-candidate-${language}`}
         onClick={onClick}
         sx={{ width: "18px" }}
         cursor="pointer"
