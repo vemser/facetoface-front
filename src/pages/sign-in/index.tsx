@@ -5,7 +5,6 @@ import {
   IconButton,
   InputAdornment,
   TextField,
-  Typography,
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
@@ -16,7 +15,6 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { string, object } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Header } from "../../shared/components/header";
 import { ErrorMessage } from "../../shared/components";
 import { useAuth } from "../../shared/contexts";
 

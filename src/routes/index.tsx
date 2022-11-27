@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import {
   Home,
@@ -13,12 +13,13 @@ import { SideBar } from "../shared/components";
 import { useAuth } from "../shared/contexts";
 
 export const AppRoutes: React.FC = () => {
-  const { signIn, handleSignIn } = useAuth();
+  const { signIn } = useAuth();
 
   if (!signIn)
     return (
       <Routes>
         <Route path="/" element={<SignIn />} />
+        <Route path="/recover-password" element={<RecoverPassword />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     );
@@ -28,7 +29,6 @@ export const AppRoutes: React.FC = () => {
         <SideBar>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/recover-password" element={<RecoverPassword />} />
             <Route path="/register-candidate" element={<RegisterCandidate />} />
             <Route path="/register-interview" element={<RegisterInterview />} />
             <Route path="/register-user" element={<RegisterUser />} />
