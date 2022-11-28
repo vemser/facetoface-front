@@ -43,7 +43,7 @@ export const RegisterCandidate: React.FC = () => {
     setArrLanguages([]);
     reset();
   };
-  // Nome da página 
+  // Nome da página
   useEffect(() => {
     document.title = `Cadastro de candidato`;
   }, []);
@@ -62,7 +62,6 @@ export const RegisterCandidate: React.FC = () => {
     let arrAux = arrLanguages.filter((item) => item !== language);
     setArrLanguages(arrAux);
   };
-
 
   return (
     <Box
@@ -287,6 +286,7 @@ export const RegisterCandidate: React.FC = () => {
                 Edição vem ser
               </InputLabel>
               <Select
+                placeholder="Edição vem ser"
                 id="select-edition"
                 sx={{ width: "100%" }}
                 label="Edição vem ser"
