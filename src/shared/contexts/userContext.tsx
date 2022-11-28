@@ -21,7 +21,7 @@ interface IChildren {
 	children: React.ReactNode;
 }
 
-const UserContext = createContext({} as IUserContext);
+export const UserContext = createContext({} as IUserContext);
 
 export const UserProvider: React.FC<IChildren> = ({ children }) => {
 	const { token } = useAuth();
@@ -130,8 +130,4 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
 			{children}
 		</UserContext.Provider>
 	);
-};
-
-export const useUser = () => {
-	return useContext(UserContext);
 };

@@ -12,14 +12,17 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaUser } from "../../shared/schemas/register-user.schema";
 import { IUser } from "../../shared/interfaces";
 import { ErrorMessage } from "../../shared/components";
+import { UserContext } from "../../shared/contexts/userContext";
 
 export const RegisterUser: React.FC = () => {
+  const {postUser} = useContext(UserContext);
+
   const {
     register,
     handleSubmit,
@@ -27,7 +30,7 @@ export const RegisterUser: React.FC = () => {
   } = useForm<IUser>({ resolver: yupResolver(schemaUser) });
 
   const handleSubmitUser = (data: IUser) => {
-    console.log(data);
+  postUser(data);
   };
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
