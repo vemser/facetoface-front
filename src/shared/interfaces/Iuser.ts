@@ -1,9 +1,14 @@
+export interface IPerfis{
+  nome:string
+}
+
 export interface IUser {
-    name: string;
-    city: string;
-    state: string;
-    genre: string;
+    nomeCompleto: string;
+    cidade: string;
+    estado: string;
     email: string;
-    type: string;
+    genero: "FEMININO" | "MASCULINO" | "OUTRO";
+    edicao: string;
+    perfis: IPerfis[];
   }
   

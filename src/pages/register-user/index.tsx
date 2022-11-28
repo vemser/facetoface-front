@@ -97,10 +97,10 @@ export const RegisterUser: React.FC = () => {
                 id="name-register-user"
                 label="Nome completo"
                 sx={{ width: "100%" }}
-                {...register("name")}
+                {...register("nomeCompleto")}
               />
               <ErrorMessage id="error-name-register-user" width="100%">
-                {errors.name?.message}
+                {errors.nomeCompleto?.message}
               </ErrorMessage>
             </Box>
 
@@ -109,10 +109,10 @@ export const RegisterUser: React.FC = () => {
                 id="cidade-register-user"
                 label="Cidade"
                 sx={{ width: "100%" }}
-                {...register("city")}
+                {...register("cidade")}
               />
-              <ErrorMessage id="error-city-register-user" width="100%">
-                {errors.city?.message}
+              <ErrorMessage id="error-cidade-register-user" width="100%">
+                {errors.cidade?.message}
               </ErrorMessage>
             </Box>
             <Box sx={{ width: "100%" }}>
@@ -127,22 +127,29 @@ export const RegisterUser: React.FC = () => {
                 >
                   <FormControlLabel
                     id="genero-feminino-register-user"
-                    value="feminino"
+                    value="FEMININO"
                     control={<Radio />}
                     label="Feminino"
-                    {...register("genre")}
+                    {...register("genero")}
                   />
                   <FormControlLabel
                     id="genero-masculino-register-user"
-                    value="masculino"
+                    value="MASCULINO"
                     control={<Radio />}
                     label="Masculino"
-                    {...register("genre")}
+                    {...register("genero")}
+                  />
+                  <FormControlLabel
+                    id="genero-masculino-register-user"
+                    value="OUTRO"
+                    control={<Radio />}
+                    label="Outros"
+                    {...register("genero")}
                   />
                 </RadioGroup>
               </FormControl>
-              <ErrorMessage id="error-genre-register-user" width="100%">
-                {errors.genre?.message}
+              <ErrorMessage id="error-genero-register-user" width="100%">
+                {errors.genero?.message}
               </ErrorMessage>
             </Box>
           </Box>
@@ -168,10 +175,10 @@ export const RegisterUser: React.FC = () => {
                 id="estado-register-user"
                 label="Estado"
                 sx={{ width: "100%" }}
-                {...register("state")}
+                {...register("estado")}
               />
               <ErrorMessage id="error-state-register-user" width="100%">
-                {errors.state?.message}
+                {errors.estado?.message}
               </ErrorMessage>
             </Box>
 
@@ -186,22 +193,22 @@ export const RegisterUser: React.FC = () => {
                   >
                     <FormControlLabel
                       id="tipo-gestao-register-user"
-                      value="gestaoPessoas"
+                      value="ROLE_GESTAO"
                       control={<Radio />}
                       label="Gestão de pessoas"
-                      {...register("type")}
+                      {...register("perfis")}
                     />
                     <FormControlLabel
                       id="tipo-instutor-register-user"
-                      value="instrutor"
+                      value="ROLE_INSTRUTOR"
                       control={<Radio />}
                       label="Instrutor"
-                      {...register("type")}
+                      {...register("perfis")}
                     />
                   </RadioGroup>
                 </FormControl>
                 <ErrorMessage id="error-type-register-user" width="100%">
-                  {errors.type?.message}
+                  {errors.perfis?.message}
                 </ErrorMessage>
               </Box>
             </Box>
