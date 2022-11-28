@@ -15,7 +15,7 @@ import {
   TextField,
   useTheme,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { TagLanguages, ErrorMessage } from "../../shared/components";
@@ -43,6 +43,10 @@ export const RegisterCandidate: React.FC = () => {
     setArrLanguages([]);
     reset();
   };
+  // Nome da página 
+  useEffect(() => {
+    document.title = `Cadastro de candidato`;
+  }, []);
 
   const [arrLanguages, setArrLanguages] = useState<string[]>([]);
   const [language, setLanguage] = useState<string>("");
@@ -58,6 +62,7 @@ export const RegisterCandidate: React.FC = () => {
     let arrAux = arrLanguages.filter((item) => item !== language);
     setArrLanguages(arrAux);
   };
+
 
   return (
     <Box
