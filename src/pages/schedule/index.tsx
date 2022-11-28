@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import { Button, TextField, Typography } from "@mui/material";
+import { Button, TextField, Typography, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
 import { getDaysInMonth, startOfMonth } from "date-fns";
 import { DayCalendar } from "../../shared/components";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 export const Schedule: React.FC = () => {
+  const theme = useTheme();
+  const mdDown = useMediaQuery(theme.breakpoints.down("md"));
   const [dateNow, setDateNow] = useState<Date>(new Date());
   const [days, setDays] = useState<number>(
     getDaysInMonth(new Date(dateNow.toISOString()))
@@ -26,49 +29,138 @@ export const Schedule: React.FC = () => {
 
   return (
     <Box
-      width="100%"
+      width="90%"
       minHeight="100%"
       display="flex"
       flexDirection="column"
       alignItems="center"
-      justifyContent="center"
-      pt="5%"
+      pt="3%"
+      margin="0 auto"
     >
       <Box
         width="100%"
         display="flex"
-        justifyContent="flex-start"
-        alignItems="flex-end"
-        pl="6%"
-        gap="2rem"
+        alignItems="center"
+        justifyContent="center"
+        padding="2rem "
       >
-        <Typography variant="h5">Agenda de Entrevistas</Typography>
-        <Typography variant="h5" color="primary">
-          {dateNow.getMonth() + 1} - {dateNow.getFullYear()}
+        <Typography
+          color="primary"
+          variant="h3"
+          fontSize={mdDown ? "1.5rem" : "3rem"}
+        >
+          Agenda de Entrevistas
         </Typography>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DatePicker
-            views={["year", "month"]}
-            label="Year and Month"
-            minDate={new Date("2012-03-01")}
-            maxDate={new Date("2023-06-01")}
-            value={dateNow}
-            onChange={(newValue) => {
-              if (newValue) {
-                setDateNow(new Date(newValue));
-                setDays(getDaysInMonth(new Date(newValue)));
-                setDayWeek(startOfMonth(new Date(new Date(newValue))).getDay());
-              }
-            }}
-            renderInput={(params) => (
-              <TextField {...params} helperText={null} />
-            )}
-          />
-        </LocalizationProvider>
       </Box>
-      <Box width="100%" display="flex" justifyContent="center">
-        <Button onClick={() => toggleMonth(1)}>Avançar</Button>
-        <Button onClick={() => toggleMonth(-1)}>Voltar</Button>
+      <Box width="100%" display="flex" justifyContent="space-evenly">
+        {mdDown ? (
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                views={["year", "month"]}
+                label="Mudar mês e ano"
+                minDate={new Date("2012-03-01")}
+                maxDate={new Date("2023-06-01")}
+                value={dateNow}
+                onChange={(newValue) => {
+                  if (newValue) {
+                    setDateNow(new Date(newValue));
+                    setDays(getDaysInMonth(new Date(newValue)));
+                    setDayWeek(
+                      startOfMonth(new Date(new Date(newValue))).getDay()
+                    );
+                  }
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    color="primary"
+                    focused
+                    variant="outlined"
+                    {...params}
+                    helperText={null}
+                    sx={{ width: `${mdDown ? "200px" : "40%"}` }}
+                  />
+                )}
+              />
+            </LocalizationProvider>
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="space-evenly"
+              mt="1rem"
+              gap="1rem"
+            >
+              <Button
+                sx={{ borderRadius: "100px" }}
+                color="primary"
+                variant="outlined"
+                onClick={() => toggleMonth(1)}
+              >
+                Avançar
+              </Button>
+              <Button
+                sx={{ borderRadius: "100px" }}
+                color="primary"
+                variant="outlined"
+                onClick={() => toggleMonth(-1)}
+              >
+                Voltar
+              </Button>
+            </Box>
+          </Box>
+        ) : (
+          <Box width="100%" display="flex" justifyContent="space-evenly">
+            <Button
+              sx={{ borderRadius: "100px" }}
+              color="primary"
+              variant="outlined"
+              onClick={() => toggleMonth(1)}
+            >
+              Avançar
+            </Button>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                views={["year", "month"]}
+                label="Mudar mês e ano"
+                minDate={new Date("2012-03-01")}
+                maxDate={new Date("2023-06-01")}
+                value={dateNow}
+                onChange={(newValue) => {
+                  if (newValue) {
+                    setDateNow(new Date(newValue));
+                    setDays(getDaysInMonth(new Date(newValue)));
+                    setDayWeek(
+                      startOfMonth(new Date(new Date(newValue))).getDay()
+                    );
+                  }
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    color="primary"
+                    focused
+                    variant="outlined"
+                    {...params}
+                    helperText={null}
+                    sx={{ width: `${mdDown ? "35%" : "40%"}` }}
+                  />
+                )}
+              />
+            </LocalizationProvider>
+            <Button
+              sx={{ borderRadius: "100px" }}
+              color="primary"
+              variant="outlined"
+              onClick={() => toggleMonth(-1)}
+            >
+              Voltar
+            </Button>
+          </Box>
+        )}
       </Box>
       <Box width="100%" display="flex" pt="2rem">
         <DayCalendar days={days} date={dateNow} dayWeek={dayWeek} />
