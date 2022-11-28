@@ -6,7 +6,11 @@ import { ThemeProvider } from "@mui/material";
 import { LightTheme } from "./shared/themes";
 import { Box } from "@mui/system";
 import "./global.css";
-import { AuthProvider, SideBarProvider } from "./shared/contexts";
+import {
+  AuthProvider,
+  CandidateProvider,
+  SideBarProvider,
+} from "./shared/contexts";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -17,12 +21,14 @@ root.render(
       <ThemeProvider theme={LightTheme}>
         <AuthProvider>
           <SideBarProvider>
-            <Box
-              minHeight="100vh"
-              bgcolor={LightTheme.palette.background.default}
-            >
-              <AppRoutes />
-            </Box>
+            <CandidateProvider>
+              <Box
+                minHeight="100vh"
+                bgcolor={LightTheme.palette.background.default}
+              >
+                <AppRoutes />
+              </Box>
+            </CandidateProvider>
           </SideBarProvider>
         </AuthProvider>
       </ThemeProvider>
