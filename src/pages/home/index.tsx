@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { Box, TextField, Button } from "@mui/material";
 import { useCandidate } from "../../shared/contexts";
+import { ItemCandidate } from "../../shared/components";
 
 export const Home: React.FC = () => {
-  const { getCandidates } = useCandidate();
+  const { getCandidates, candidates } = useCandidate();
 
   useEffect(() => {
     getCandidates();
@@ -24,7 +25,12 @@ export const Home: React.FC = () => {
         <Button>teste</Button>
         <Button>teste2</Button>
       </Box>
-      <Box></Box>
+      <Box display="flex" flexDirection="column" width="100%">
+        {candidates.elementos &&
+          candidates.elementos.map((item: any) => {
+            return <ItemCandidate key={item.idCandidato} {...item} />;
+          })}
+      </Box>
     </Box>
   );
 };
