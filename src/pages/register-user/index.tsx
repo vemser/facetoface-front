@@ -26,7 +26,7 @@ export const RegisterUser: React.FC = () => {
     formState: { errors },
   } = useForm<IUser>({ resolver: yupResolver(schemaUser) });
 
-  const handleSubmitUser = (data: any) => {
+  const handleSubmitUser = (data: IUser) => {
     console.log(data);
   };
   const theme = useTheme();
@@ -35,6 +35,7 @@ export const RegisterUser: React.FC = () => {
   useEffect(() => {
     document.title = `Cadastro de usuário`;
   }, []);
+
   return (
     <Box
       display="flex"
