@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Button,
@@ -30,6 +30,11 @@ export const RegisterInterview: React.FC = () => {
     console.log(data);
     reset();
   };
+
+   // Nome da página 
+   useEffect(() => {
+    document.title = `Cadastro de entrevista`;
+  }, []);
 
   return (
     <Box
@@ -197,6 +202,7 @@ export const RegisterInterview: React.FC = () => {
           </Typography>
           <Button
             id="button-submit-register-interview"
+            data-testid="button-submit-testid-register-interview"
             type="submit"
             variant="contained"
             sx={{ width: "200px", height: 40, borderRadius: 100 }}
