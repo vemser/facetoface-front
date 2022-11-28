@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import alertError from "../alerts/error";
 import { api } from "../api";
 
 interface IAuthContext {
   token: string | null;
-  handleSignIn: () => Promise<void>;
+  handleSignIn: (login: { email: string; senha: string }) => Promise<void>;
   handleLogout: () => void;
 }
 
@@ -20,18 +21,14 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
   );
   const navigate = useNavigate();
 
-  const handleSignIn = async () => {
-    const login = {
-      email: "julio.gabriel@dbccompany.com",
-      senha: "123",
-    };
+  const handleSignIn = async (login: { email: string; senha: string }) => {
     try {
       const { data } = await api.post("/auth/fazer-login", login);
       localStorage.setItem("token", data);
       setToken(data);
       navigate("/");
     } catch (err) {
-      console.log();
+      alertError("Senha ou email incorretos!");
     } finally {
     }
   };

@@ -20,14 +20,14 @@ import { useAuth } from "../../shared/contexts";
 
 //schema user signIn
 const schema = object({
-  user: string().required("Campo obrigatório!"),
-  password: string().required("Campo obrigatório!"),
+  email: string().email("E-mail inválido!").required("Campo obrigatório!"),
+  senha: string().required("Campo obrigatório!"),
 }).required();
 
 //interface user signIn
 interface IUser {
-  user: string;
-  password: string;
+  email: string;
+  senha: string;
 }
 
 export const SignIn: React.FC = () => {
@@ -40,11 +40,15 @@ export const SignIn: React.FC = () => {
   } = useForm<IUser>({ resolver: yupResolver(schema) });
   const { handleSignIn } = useAuth();
 
-  const userWatcher = watch("user");
-  const passwordWatcher = watch("password");
+  const userWatcher = watch("email");
+  const passwordWatcher = watch("senha");
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  const trySignIn = (data: IUser) => {
+    handleSignIn(data);
   };
 
   return (
@@ -86,15 +90,15 @@ export const SignIn: React.FC = () => {
             <TextField
               id="input-user-sign-in"
               sx={{ width: 250 }}
-              label="Usuário"
+              label="E-mail"
               variant="outlined"
               type="text"
-              {...register("user")}
-              error={errors.user && true}
+              {...register("email")}
+              error={errors.email && true}
             />
           </Box>
           <ErrorMessage id="errors-user-sign-in" width="auto" marginLeft="auto">
-            {errors.user?.message}
+            {errors.email?.message}
           </ErrorMessage>
         </Box>
         <Box display="flex" flexDirection="column">
@@ -111,12 +115,12 @@ export const SignIn: React.FC = () => {
             <TextField
               id="input-password-sign-in"
               sx={{ width: 250 }}
-              label="Usuário"
+              label="Senha"
               variant="outlined"
               color="primary"
               type={showPassword ? "text" : "password"}
-              {...register("password")}
-              error={errors.password && true}
+              {...register("senha")}
+              error={errors.senha && true}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -133,7 +137,7 @@ export const SignIn: React.FC = () => {
             width="auto"
             marginLeft="auto"
           >
-            {errors.password?.message}
+            {errors.senha?.message}
           </ErrorMessage>
         </Box>
         <Button
@@ -141,7 +145,7 @@ export const SignIn: React.FC = () => {
           variant="contained"
           color="primary"
           sx={{ paddingInline: 4, borderRadius: 100 }}
-          onClick={handleSubmit(handleSignIn)}
+          onClick={handleSubmit(trySignIn)}
         >
           Entrar
         </Button>

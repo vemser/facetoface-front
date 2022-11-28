@@ -1,5 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Home,
   RecoverPassword,
@@ -17,16 +19,20 @@ export const AppRoutes: React.FC = () => {
 
   if (!token)
     return (
-      <Routes>
-        <Route path="/" element={<SignIn />} />
-        <Route path="/recover-password" element={<RecoverPassword />} />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
+      <>
+        <ToastContainer />
+        <Routes>
+          <Route path="/" element={<SignIn />} />
+          <Route path="/recover-password" element={<RecoverPassword />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </>
     );
   else {
     return (
       <>
         <SideBar>
+          <ToastContainer />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/register-candidate" element={<RegisterCandidate />} />
