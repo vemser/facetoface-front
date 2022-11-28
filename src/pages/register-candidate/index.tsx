@@ -156,6 +156,13 @@ export const RegisterCandidate: React.FC = () => {
                   label="Masculino"
                   {...register("genero")}
                 />
+                <FormControlLabel
+                  id="genre-masculino-register-candidato"
+                  value="OUTRO"
+                  control={<Radio />}
+                  label="Outro"
+                  {...register("genero")}
+                />
               </RadioGroup>
             </FormControl>
             <ErrorMessage id="error-genre-register-candidate" width={"100%"}>

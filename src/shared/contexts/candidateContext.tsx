@@ -64,7 +64,7 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
   };
 
   // get all candidates
-  const getCandidates = async (page: number = 0, size: number = 20) => {
+  const getCandidates = async (page: number = 0, size: number = 10) => {
     try {
       const { data } = await api.get(
         `candidato?pagina=${page}&tamanho=${size}`
