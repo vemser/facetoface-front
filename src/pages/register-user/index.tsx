@@ -12,11 +12,11 @@ import {
 	useMediaQuery,
 	useTheme,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaUser } from "../../shared/schemas/register-user.schema";
-import { IUser } from "../../shared/interfaces/Iuser";
+import { IUser } from "../../shared/interfaces";
 
 export const RegisterUser: React.FC = () => {
 	const {
@@ -31,6 +31,9 @@ export const RegisterUser: React.FC = () => {
 	const theme = useTheme();
 	const mdDown = useMediaQuery(theme.breakpoints.down("md"));
 
+  useEffect(() => {
+    document.title = `Cadastro de usuário`;
+  }, []);
 	return (
 		<Box
 			display="flex"
@@ -222,7 +225,7 @@ export const RegisterUser: React.FC = () => {
 											id="tipo-gestao-register-user"
 											value="gestaoPessoas"
 											control={<Radio />}
-											label="Gestão de Pessoas"
+											label="Gestão de pessoas"
 											{...register("type")}
 										/>
 										<FormControlLabel
