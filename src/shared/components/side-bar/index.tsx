@@ -32,7 +32,7 @@ export const SideBar: React.FC<IProps> = ({ children }) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("sm"));
-  const { handleSignIn } = useAuth();
+  const { handleLogout } = useAuth();
 
   const { isOpen, toggleOpen } = useSideBar();
 
@@ -110,7 +110,7 @@ export const SideBar: React.FC<IProps> = ({ children }) => {
                 <ListItemText primary="Agenda" />
               </ListItemButton>
               {/* item */}
-              <ListItemButton onClick={handleSignIn}>
+              <ListItemButton onClick={handleLogout}>
                 <ListItemIcon>
                   <LogoutIcon />
                 </ListItemIcon>

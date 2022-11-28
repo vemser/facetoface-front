@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ICandidate } from "../interfaces";
+import { api } from "../api";
 
 interface ICandidateContext {
   candidates: any;

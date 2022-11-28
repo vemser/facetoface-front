@@ -1,9 +1,11 @@
 import React, { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { api } from "../api";
 
 interface IAuthContext {
-  signIn: boolean;
-  handleSignIn: () => void;
+  token: string | null;
+  handleSignIn: () => Promise<void>;
+  handleLogout: () => void;
 }
 
 interface IChildren {
@@ -13,16 +15,35 @@ interface IChildren {
 const AuthContext = createContext({} as IAuthContext);
 
 export const AuthProvider: React.FC<IChildren> = ({ children }) => {
-  const [signIn, setSignIn] = useState<boolean>(false);
+  const [token, setToken] = useState<string | null>(
+    localStorage.getItem("token")
+  );
   const navigate = useNavigate();
 
-  const handleSignIn = () => {
-    setSignIn(!signIn);
+  const handleSignIn = async () => {
+    const login = {
+      email: "julio.gabriel@dbccompany.com",
+      senha: "123",
+    };
+    try {
+      const { data } = await api.post("/auth/fazer-login", login);
+      localStorage.setItem("token", data);
+      setToken(data);
+      navigate("/");
+    } catch (err) {
+      console.log();
+    } finally {
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setToken(null);
     navigate("/");
   };
 
   return (
-    <AuthContext.Provider value={{ signIn, handleSignIn }}>
+    <AuthContext.Provider value={{ token, handleSignIn, handleLogout }}>
       {children}
     </AuthContext.Provider>
   );

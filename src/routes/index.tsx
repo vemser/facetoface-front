@@ -13,9 +13,9 @@ import { SideBar } from "../shared/components";
 import { useAuth } from "../shared/contexts";
 
 export const AppRoutes: React.FC = () => {
-  const { signIn } = useAuth();
+  const { token } = useAuth();
 
-  if (!signIn)
+  if (!token)
     return (
       <Routes>
         <Route path="/" element={<SignIn />} />
