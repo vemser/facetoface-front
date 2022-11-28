@@ -8,7 +8,7 @@ export interface IUser {
     estado: string;
     email: string;
     genero: "FEMININO" | "MASCULINO" | "OUTRO";
-    edicao: string;
+    trilha: string;
     perfis: IPerfis[];
   }
   
