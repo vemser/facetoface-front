@@ -1,11 +1,15 @@
+interface ILanguages {
+  nome: string;
+}
+
 export interface ICandidate {
-  name: string;
-  city: string;
-  state: string;
-  genre: string;
+  nomeCompleto: string;
+  cidade: string;
+  estado: string;
+  genero: string;
   email: string;
-  observation: string;
-  languages: string[];
-  class: string;
-  edition: string;
+  observacoes: string;
+  linguagens: ILanguages[];
+  trilha: ILanguages;
+  edicao: ILanguages;
 }

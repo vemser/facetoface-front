@@ -23,6 +23,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaCandidate } from "../../shared/schemas/register-candidate.schema";
 import { ICandidate } from "../../shared/interfaces";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useCandidate } from "../../shared/contexts";
+
+interface ILanguages {
+  nome: string;
+}
 
 export const RegisterCandidate: React.FC = () => {
   const {
@@ -32,14 +37,17 @@ export const RegisterCandidate: React.FC = () => {
     watch,
     reset,
   } = useForm<ICandidate>({ resolver: yupResolver(schemaCandidate) });
+  const { postCandidate } = useCandidate();
+  const [arrLanguages, setArrLanguages] = useState<ILanguages[]>([]);
+  const [language, setLanguage] = useState<string>("");
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
 
-  const edition = watch("edition");
+  const edicao = watch("edicao.nome");
 
   const handleSubmitCandidate = (data: ICandidate) => {
-    data.languages = arrLanguages;
-    console.log(data);
+    data.linguagens = arrLanguages;
+    postCandidate(data);
     setArrLanguages([]);
     reset();
   };
@@ -48,18 +56,15 @@ export const RegisterCandidate: React.FC = () => {
     document.title = `Cadastro de candidato`;
   }, []);
 
-  const [arrLanguages, setArrLanguages] = useState<string[]>([]);
-  const [language, setLanguage] = useState<string>("");
-
   // lógica de adicionar languages
   const handleAddLanguages = () => {
-    setArrLanguages([...arrLanguages, language]);
+    setArrLanguages([...arrLanguages, { nome: language }]);
     setLanguage("");
   };
 
   // lógica de remover languages
   const removeLanguage = (language: string) => {
-    let arrAux = arrLanguages.filter((item) => item !== language);
+    let arrAux = arrLanguages.filter((item) => item.nome !== language);
     setArrLanguages(arrAux);
   };
 
@@ -121,11 +126,11 @@ export const RegisterCandidate: React.FC = () => {
               id="input-name-register-candidate"
               label="Nome completo"
               sx={{ width: "100%" }}
-              {...register("name")}
-              error={errors.name ? true : false}
+              {...register("nomeCompleto")}
+              error={errors.nomeCompleto ? true : false}
             />
             <ErrorMessage id="error-name-register-candidate" width={"100%"}>
-              {errors.name?.message}
+              {errors.nomeCompleto?.message}
             </ErrorMessage>
           </Box>
           {/* genre box */}
@@ -133,7 +138,7 @@ export const RegisterCandidate: React.FC = () => {
             <FormControl
               id="input-genre-register-candidate"
               sx={{ width: "100%" }}
-              error={errors.genre ? true : false}
+              error={errors.genero ? true : false}
             >
               <FormLabel id="label-genre-register-candidate">Gênero</FormLabel>
               <RadioGroup row>
@@ -142,19 +147,19 @@ export const RegisterCandidate: React.FC = () => {
                   value="feminino"
                   control={<Radio />}
                   label="Feminino"
-                  {...register("genre")}
+                  {...register("genero")}
                 />
                 <FormControlLabel
                   id="genre-masculino-register-candidato"
                   value="masculino"
                   control={<Radio />}
                   label="Masculino"
-                  {...register("genre")}
+                  {...register("genero")}
                 />
               </RadioGroup>
             </FormControl>
             <ErrorMessage id="error-genre-register-candidate" width={"100%"}>
-              {errors.genre?.message}
+              {errors.genero?.message}
             </ErrorMessage>
           </Box>
           {/* city box */}
@@ -163,11 +168,11 @@ export const RegisterCandidate: React.FC = () => {
               id="input-city-register-candidate"
               label="Cidade"
               sx={{ width: "100%" }}
-              {...register("city")}
-              error={errors.city ? true : false}
+              {...register("cidade")}
+              error={errors.cidade ? true : false}
             />
             <ErrorMessage id="erros-city-register-candidate" width={"100%"}>
-              {errors.city?.message}
+              {errors.cidade?.message}
             </ErrorMessage>
           </Box>
           {/* cv box */}
@@ -207,14 +212,14 @@ export const RegisterCandidate: React.FC = () => {
               InputLabelProps={{
                 shrink: true,
               }}
-              {...register("observation")}
-              error={errors.observation ? true : false}
+              {...register("observacoes")}
+              error={errors.observacoes ? true : false}
             />
             <ErrorMessage
               id="error-observation-register-candidate"
               width={"100%"}
             >
-              {errors.observation?.message}
+              {errors.observacoes?.message}
             </ErrorMessage>
           </Box>
         </Box>
@@ -231,11 +236,11 @@ export const RegisterCandidate: React.FC = () => {
               id="input-state-register-candidate"
               label="Estado"
               sx={{ width: "100%" }}
-              error={errors.state ? true : false}
-              {...register("state")}
+              error={errors.estado ? true : false}
+              {...register("estado")}
             />
             <ErrorMessage id="error-state-register-candidate" width={"100%"}>
-              {errors.state?.message}
+              {errors.estado?.message}
             </ErrorMessage>
           </Box>
           {/* class box */}
@@ -243,7 +248,7 @@ export const RegisterCandidate: React.FC = () => {
             <FormControl
               id="input-class-register-candidate"
               sx={{ width: "100%" }}
-              error={errors.class ? true : false}
+              error={errors.trilha ? true : false}
             >
               <FormLabel id="label-class-register-candidate">
                 Turma escolhida
@@ -254,26 +259,26 @@ export const RegisterCandidate: React.FC = () => {
                   value="frontend"
                   control={<Radio />}
                   label="Front"
-                  {...register("class")}
+                  {...register("trilha.nome")}
                 />
                 <FormControlLabel
                   id="backend-register-candidate"
                   value="backend"
                   control={<Radio />}
                   label="Back"
-                  {...register("class")}
+                  {...register("trilha.nome")}
                 />
                 <FormControlLabel
                   id="qa-register-candidate"
                   value="qa"
                   control={<Radio />}
                   label="QA"
-                  {...register("class")}
+                  {...register("trilha.nome")}
                 />
               </RadioGroup>
             </FormControl>
             <ErrorMessage id="error-class-register-candidate" width={"100%"}>
-              {errors.class?.message}
+              {errors.trilha?.message}
             </ErrorMessage>
           </Box>
           {/* edition box */}
@@ -290,9 +295,9 @@ export const RegisterCandidate: React.FC = () => {
                 id="select-edition"
                 sx={{ width: "100%" }}
                 label="Edição vem ser"
-                value={edition ? edition : ""}
-                error={errors.edition ? true : false}
-                {...register("edition")}
+                value={edicao ? edicao : ""}
+                error={errors.edicao ? true : false}
+                {...register("edicao.nome")}
               >
                 <MenuItem id="selected" value={""} selected>
                   Selecione uma edição
@@ -312,7 +317,7 @@ export const RegisterCandidate: React.FC = () => {
               </Select>
             </FormControl>
             <ErrorMessage id="error-edition-register-candidate" width={"100%"}>
-              {errors.edition?.message}
+              {errors.edicao?.message}
             </ErrorMessage>
           </Box>
           {/* languages box */}
@@ -355,9 +360,9 @@ export const RegisterCandidate: React.FC = () => {
             {arrLanguages.map((item) => {
               return (
                 <TagLanguages
-                  key={item}
-                  language={item}
-                  onClick={() => removeLanguage(item)}
+                  key={item.nome}
+                  language={item.nome}
+                  onClick={() => removeLanguage(item.nome)}
                 />
               );
             })}

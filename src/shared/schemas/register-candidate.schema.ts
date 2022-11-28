@@ -1,12 +1,13 @@
 import { string, object } from "yup";
 
 export const schemaCandidate = object({
-  name: string().required("Campo obrigatório!"),
-  genre: string().required("Campo obrigatório!").nullable(),
-  city: string().required("Campo obrigatório!"),
-  state: string().required("Campo obrigatório!"),
-  class: string().required("Campo obrigatório!").nullable(),
-  edition: string().required("Campo obrigatório!"),
-  observation: string(),
+  nomeCompleto: string().required("Campo obrigatório!"),
+  genero: string().required("Campo obrigatório!").nullable(),
+  cidade: string().required("Campo obrigatório!"),
+  estado: string().required("Campo obrigatório!"),
+  trilha: object({ nome: string().required("Campo obrigatório!").nullable() }),
+  edicao: object({ nome: string().required("Campo obrigatório!") }),
+  observacoes: string(),
   email: string().email("E-mail inválido!").required("Campo obrigatório!"),
+  ativo: string().default("T"),
 });
