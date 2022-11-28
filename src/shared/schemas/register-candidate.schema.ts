@@ -1,4 +1,4 @@
-import { string, object } from "yup";
+import { string, object, number } from "yup";
 
 export const schemaCandidate = object({
   nomeCompleto: string().required("Campo obrigatório!"),
@@ -10,4 +10,5 @@ export const schemaCandidate = object({
   observacoes: string(),
   email: string().email("E-mail inválido!").required("Campo obrigatório!"),
   ativo: string().default("T"),
+  notaProva: number().default(0),
 });

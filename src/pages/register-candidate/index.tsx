@@ -144,14 +144,14 @@ export const RegisterCandidate: React.FC = () => {
               <RadioGroup row>
                 <FormControlLabel
                   id="genre-feminino-register-candidato"
-                  value="feminino"
+                  value="FEMININO"
                   control={<Radio />}
                   label="Feminino"
                   {...register("genero")}
                 />
                 <FormControlLabel
                   id="genre-masculino-register-candidato"
-                  value="masculino"
+                  value="MASCULINO"
                   control={<Radio />}
                   label="Masculino"
                   {...register("genero")}
@@ -256,21 +256,21 @@ export const RegisterCandidate: React.FC = () => {
               <RadioGroup row>
                 <FormControlLabel
                   id="frontend-register-candidate"
-                  value="frontend"
+                  value="FRONTEND"
                   control={<Radio />}
                   label="Front"
                   {...register("trilha.nome")}
                 />
                 <FormControlLabel
                   id="backend-register-candidate"
-                  value="backend"
+                  value="BACKEND"
                   control={<Radio />}
                   label="Back"
                   {...register("trilha.nome")}
                 />
                 <FormControlLabel
                   id="qa-register-candidate"
-                  value="qa"
+                  value="QA"
                   control={<Radio />}
                   label="QA"
                   {...register("trilha.nome")}
