@@ -12,6 +12,7 @@ export const ItemCandidate: React.FC = (props: any) => {
       width="100%"
       justifyContent="space-between"
       p={1}
+      sx={{ borderBottom: "1px solid #bdbdbd" }}
     >
       <Box
         width="14%"

@@ -143,11 +143,13 @@ export const Home: React.FC = () => {
           candidates.elementos.map((item: any) => {
             return <ItemCandidate key={item.idCandidato} {...item} />;
           })}
-        <Pagination
-          count={candidates.quantidadePaginas}
-          page={candidates.pagina}
-          onChange={togglePage}
-        />
+        <Box display="flex" alignItems="center" justifyContent="center" mt={1}>
+          <Pagination
+            count={candidates.quantidadePaginas}
+            page={candidates.pagina}
+            onChange={togglePage}
+          />
+        </Box>
       </Box>
     </Box>
   );
