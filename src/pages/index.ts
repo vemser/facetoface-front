@@ -6,3 +6,4 @@ export * from "./register-user";
 export * from "./schedule";
 export * from "./sign-in";
 export * from "./update-candidate";
+export * from "./update-user";

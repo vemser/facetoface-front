@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { IUser } from "../interfaces";
+import { IUser, IUserComplete } from "../interfaces";
 import { api } from "../api";
 import { useAuth } from "./authContext";
 import axios from "axios";
@@ -12,9 +12,10 @@ interface IUserContext {
   sizePage: number;
   attStateUser: boolean;
   postUser: (data: IUser) => void;
-  putUser: (idUsuario: number, usuario: IUser) => Promise<void>;
+  putUser: (usuario: IUserComplete) => Promise<void>;
   deleteUser: (id: number) => void;
   getUsers: (page?: number, size?: number) => Promise<void>;
+  getUserByName: (nome: string, page?: number, size?: number) => Promise<void>
 }
 
 interface IChildren {
@@ -59,10 +60,10 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
   };
 
   // update one user
-  const putUser = async (idUsuario: number, usuario: IUser) => {
+  const putUser = async (usuario: IUserComplete ) => {
     try {
       await axios
-        .put(`${api}/usuario/${idUsuario}`, usuario, {
+        .put(`${api}/usuario/${usuario.idUsuario}`, usuario, {
           headers: {
             Authorization: token,
           },
@@ -102,6 +103,29 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
     }
   };
 
+  const getUserByName =async (
+    nome: string, 
+    page: number = 0, 
+    size: number = 10
+  ) => {
+    try {
+      await axios 
+      .get(`${api}/usurario/findbynomecompleto??nomeCompleto=${nome}&pagina=${page}&tamanho=${size}`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        setUsers(response.data);
+        navigate("/");
+      }); 
+    } catch(err) {
+      alertError("Ops! algo deu errado na busca!");
+    } finally {
+      
+    }
+  }
+
   return (
     <UserContext.Provider
       value={{
@@ -112,6 +136,7 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
         putUser,
         deleteUser,
         getUsers,
+        getUserByName
       }}
     >
       {children}

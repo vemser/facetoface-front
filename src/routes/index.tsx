@@ -11,6 +11,7 @@ import {
   Schedule,
   SignIn,
   UpdateCandidate,
+  UpdateUser,
 } from "../pages";
 import { UpdateUser } from "../pages/update-user";
 import { RouteAdmin, SideBar } from "../shared/components";

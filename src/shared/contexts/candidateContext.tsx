@@ -105,6 +105,7 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
     } catch (err) {
       alertError("Ops! algo deu errado na busca!");
     } finally {
+      
     }
   };
 
