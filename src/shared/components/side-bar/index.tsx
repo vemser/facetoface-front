@@ -30,6 +30,10 @@ interface IProps {
 
 export const SideBar: React.FC<IProps> = ({ children }) => {
   const { user } = useAuth();
+
+  //a melhorar
+  const userSigned = JSON.parse(user);
+
   const navigate = useNavigate();
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("sm"));
@@ -78,7 +82,7 @@ export const SideBar: React.FC<IProps> = ({ children }) => {
                 textOverflow: "ellipsis",
               }}
             >
-              {user?.email}
+              {userSigned?.email}
             </Typography>
           </Box>
 
