@@ -12,6 +12,7 @@ import {
   SignIn,
 } from "../pages";
 import { UpdateCandidate } from "../pages/update-candidate";
+import { UpdateUser } from "../pages/update-user";
 import { SideBar } from "../shared/components";
 import { useAuth } from "../shared/contexts";
 
@@ -39,6 +40,7 @@ export const AppRoutes: React.FC = () => {
             <Route path="/register-candidate" element={<RegisterCandidate />} />
             <Route path="/update-candidate/:id" element={<UpdateCandidate />} />
             <Route path="/register-interview" element={<RegisterInterview />} />
+            <Route path="/update-user/:id" element={<UpdateUser />} />
             <Route path="/register-user" element={<RegisterUser />} />
             <Route path="/schedule" element={<Schedule />} />
             <Route path="*" element={<Navigate to="/" />} />
