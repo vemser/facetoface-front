@@ -69,7 +69,7 @@ export const SideBar: React.FC<IProps> = ({ children }) => {
               src=""
               sx={{ height: theme.spacing(12), width: theme.spacing(12) }}
             />
-            <Typography>{user.email}</Typography>
+            <Typography>{user?.email}</Typography>
           </Box>
 
           <Divider />

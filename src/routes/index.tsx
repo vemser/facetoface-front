@@ -13,7 +13,6 @@ import {
   UpdateCandidate,
   UpdateUser,
 } from "../pages";
-import { UpdateUser } from "../pages/update-user";
 import { RouteAdmin, SideBar } from "../shared/components";
 import { useAuth } from "../shared/contexts";
 
