@@ -5,7 +5,13 @@ export const schemaUser = object({
   genero: string().required("Campo obrigatório!").nullable(),
   cidade: string().required("Campo obrigatório!"),
   estado: string().required("Campo obrigatório!"),
-  perfis: string().required("Campo obrigatório!").nullable(),
-  email: string().email("E-mail inválido!").required("Campo obrigatório!"),
-  trilha: string().default("COLABORADOR")
+  email: string()
+    .email("E-mail inválido!")
+    .matches(
+      /^\w+@dbccompany\.com\.br$/,
+      "O e-mail deve ser @dbccompany.com.br"
+    )
+    .required("Campo obrigatório!"),
+  trilha: object().default({ nome: "COLABORADOR" }),
+  ativo: string().default("T"),
 });

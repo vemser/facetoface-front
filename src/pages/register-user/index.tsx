@@ -1,3 +1,4 @@
+import React, { useContext, useEffect, useState } from "react";
 import {
   Avatar,
   Box,
@@ -8,11 +9,10 @@ import {
   Radio,
   RadioGroup,
   TextField,
-  Typography,
+  Checkbox,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaUser } from "../../shared/schemas/register-user.schema";
@@ -20,8 +20,17 @@ import { IUser } from "../../shared/interfaces";
 import { ErrorMessage } from "../../shared/components";
 import { UserContext } from "../../shared/contexts/userContext";
 
+interface IProps {
+  nome: string;
+}
+
 export const RegisterUser: React.FC = () => {
-  const {postUser} = useContext(UserContext);
+  const { postUser } = useContext(UserContext);
+  const [roles, setRoles] = useState<IProps[]>([]);
+  const theme = useTheme();
+  const mdDown = useMediaQuery(theme.breakpoints.down("md"));
+
+  const [errorRole, setErrorRole] = React.useState(false);
 
   const {
     register,
@@ -30,10 +39,21 @@ export const RegisterUser: React.FC = () => {
   } = useForm<IUser>({ resolver: yupResolver(schemaUser) });
 
   const handleSubmitUser = (data: IUser) => {
-  postUser(data);
+    if (roles.length === 0) setErrorRole(true);
+    else {
+      data.perfis = roles;
+      postUser(data);
+    }
   };
-  const theme = useTheme();
-  const mdDown = useMediaQuery(theme.breakpoints.down("md"));
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setErrorRole(false);
+    let exists = roles.find((item) => item.nome === event.target.value);
+    if (exists) {
+      let result = roles.filter((item) => item.nome !== exists?.nome);
+      setRoles(result);
+    } else setRoles([...roles, { nome: event.target.value }]);
+  };
 
   useEffect(() => {
     document.title = `Cadastro de usuário`;
@@ -190,7 +210,30 @@ export const RegisterUser: React.FC = () => {
               <Box sx={{ width: "100%" }}>
                 <FormControl>
                   <FormLabel id="label-tipo-register-user">Tipo</FormLabel>
-                  <RadioGroup
+                  <RadioGroup row>
+                    <FormControlLabel
+                      control={
+                        <Checkbox value="ROLE_GESTAO" onChange={handleChange} />
+                      }
+                      label="Gestão de pessoas"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          value="ROLE_INSTRUTOR"
+                          onChange={handleChange}
+                        />
+                      }
+                      label="Instrutor"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox value="ROLE_ADMIN" onChange={handleChange} />
+                      }
+                      label="Admin"
+                    />
+                  </RadioGroup>
+                  {/* <RadioGroup
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
                     name="row-radio-buttons-group"
@@ -209,10 +252,10 @@ export const RegisterUser: React.FC = () => {
                       label="Instrutor"
                       {...register("perfis")}
                     />
-                  </RadioGroup>
+                  </RadioGroup> */}
                 </FormControl>
                 <ErrorMessage id="error-type-register-user" width="100%">
-                  {errors.perfis?.message}
+                  {errorRole && "Campo obrigatório!"}
                 </ErrorMessage>
               </Box>
             </Box>

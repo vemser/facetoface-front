@@ -10,8 +10,8 @@ import {
   RegisterUser,
   Schedule,
   SignIn,
+  UpdateCandidate,
 } from "../pages";
-import { UpdateCandidate } from "../pages/update-candidate";
 import { SideBar } from "../shared/components";
 import { useAuth } from "../shared/contexts";
 

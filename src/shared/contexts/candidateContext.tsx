@@ -95,6 +95,7 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
     size: number = 10
   ) => {
     try {
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
       const { data } = await api.get(
         `findbynomecompleto?nomeCompleto=${name}&pagina=${page}&tamanho=${size}`
       );

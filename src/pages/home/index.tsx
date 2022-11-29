@@ -8,11 +8,12 @@ import {
   Typography,
 } from "@mui/material";
 import { useCandidate } from "../../shared/contexts";
-import { ItemCandidate } from "../../shared/components";
+import { ItemCandidate, ItemUser } from "../../shared/components";
 import SearchIcon from "@mui/icons-material/Search";
 import Pagination from "@mui/material/Pagination";
 import { useNavigate } from "react-router-dom";
-import { ICandidateComplete } from "../../shared/interfaces";
+import { ICandidateComplete, IUserComplete } from "../../shared/interfaces";
+import { useUser } from "../../shared/contexts/userContext";
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -20,9 +21,12 @@ export const Home: React.FC = () => {
   const [search, setSearch] = useState<string>("");
   const { getCandidates, candidates, deleteCandidate, getByName } =
     useCandidate();
+  const { getUsers, users } = useUser();
 
   useEffect(() => {
     getCandidates();
+    getUsers();
+    console.log(users);
   }, []);
 
   const togglePage = () => {
@@ -146,29 +150,41 @@ export const Home: React.FC = () => {
             <Typography>Ações</Typography>
           </Box>
         </Box>
-        <Box display="flex" flexDirection="column" width="100%" height="60vh">
-          {optionSelected &&
-            candidates.elementos &&
-            candidates.elementos.map((item: ICandidateComplete) => {
-              if (item.ativo != "F")
-                return (
-                  <ItemCandidate
-                    key={item.idCandidato}
-                    props={item}
-                    onDelete={() => deleteCandidate(item.idCandidato)}
-                    onUpdate={() =>
-                      navigate("/update-candidate/" + item.idCandidato, {
-                        state: item,
-                      })
-                    }
-                  />
-                );
-            })}
+        <Box display="flex" flexDirection="column" width="100%">
+          {optionSelected
+            ? candidates.elementos?.map((item: ICandidateComplete) => {
+                if (item.ativo != "F")
+                  return (
+                    <ItemCandidate
+                      key={item.idCandidato}
+                      props={item}
+                      onDelete={() => deleteCandidate(item.idCandidato)}
+                      onUpdate={() =>
+                        navigate("/update-candidate/" + item.idCandidato, {
+                          state: item,
+                        })
+                      }
+                    />
+                  );
+              })
+            : users.elementos?.map((item: IUserComplete) => {
+                return <ItemUser key={item.idUsuario} props={item} />;
+              })}
         </Box>
-        <Box display="flex" alignItems="center" justifyContent="center" mt={1}>
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          mt={3}
+          mb={6}
+        >
           <Pagination
-            count={candidates.quantidadePaginas}
-            page={candidates.pagina}
+            count={
+              optionSelected
+                ? candidates.quantidadePaginas
+                : users.quantidadePaginas
+            }
+            page={optionSelected ? candidates.pagina : users.pagina}
             onChange={togglePage}
           />
         </Box>

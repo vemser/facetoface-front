@@ -11,6 +11,7 @@ import {
   CandidateProvider,
   SideBarProvider,
 } from "./shared/contexts";
+import { UserProvider } from "./shared/contexts/userContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -22,12 +23,14 @@ root.render(
         <AuthProvider>
           <SideBarProvider>
             <CandidateProvider>
-              <Box
-                minHeight="100vh"
-                bgcolor={LightTheme.palette.background.default}
-              >
-                <AppRoutes />
-              </Box>
+              <UserProvider>
+                <Box
+                  minHeight="100vh"
+                  bgcolor={LightTheme.palette.background.default}
+                >
+                  <AppRoutes />
+                </Box>
+              </UserProvider>
             </CandidateProvider>
           </SideBarProvider>
         </AuthProvider>
