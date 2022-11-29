@@ -20,40 +20,58 @@ import { useForm } from "react-hook-form";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { TagLanguages, ErrorMessage } from "../../shared/components";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { schemaCandidate } from "../../shared/schemas/register-candidate.schema";
-import { ICandidate } from "../../shared/interfaces";
+import { schemaCandidateComplete } from "../../shared/schemas/register-candidate.schema";
+import { ICandidateComplete } from "../../shared/interfaces";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useCandidate } from "../../shared/contexts";
+import { useLocation } from "react-router-dom";
 
 interface ILanguages {
   nome: string;
 }
 
-export const RegisterCandidate: React.FC = () => {
+export const UpdateCandidate: React.FC = () => {
+  const { state } = useLocation();
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
     reset,
-  } = useForm<ICandidate>({ resolver: yupResolver(schemaCandidate) });
-  const { postCandidate } = useCandidate();
-  const [arrLanguages, setArrLanguages] = useState<ILanguages[]>([]);
+  } = useForm<ICandidateComplete>({
+    resolver: yupResolver(schemaCandidateComplete),
+    defaultValues: {
+      cidade: state.cidade,
+      edicao: state.edicao,
+      email: state.email,
+      estado: state.estado,
+      genero: state.genero,
+      linguagens: state.linguagens,
+      nomeCompleto: state.nomeCompleto,
+      observacoes: state.observacoes,
+      trilha: state.trilha,
+      notaProva: state.notaProva,
+      idCandidato: state.idCandidato,
+      ativo: state.ativo,
+    },
+  });
+  const { putCandidate } = useCandidate();
+  const [arrLanguages, setArrLanguages] = useState<ILanguages[]>(
+    state.linguagens
+  );
   const [language, setLanguage] = useState<string>("");
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
 
-  const edicao = watch("edicao.nome");
-
-  const handleSubmitCandidate = (data: ICandidate) => {
+  const handleSubmitCandidate = (data: ICandidateComplete) => {
     data.linguagens = arrLanguages;
-    postCandidate(data);
+    console.log(data);
+    putCandidate(data);
     setArrLanguages([]);
     reset();
   };
   // Nome da página
   useEffect(() => {
-    document.title = `Cadastro de candidato`;
+    document.title = `Update de candidato`;
   }, []);
 
   // lógica de adicionar languages
@@ -141,7 +159,7 @@ export const RegisterCandidate: React.FC = () => {
               error={errors.genero ? true : false}
             >
               <FormLabel id="label-genre-register-candidate">Gênero</FormLabel>
-              <RadioGroup row>
+              <RadioGroup row defaultValue={state.genero}>
                 <FormControlLabel
                   id="genre-feminino-register-candidato"
                   value="FEMININO"
@@ -260,7 +278,7 @@ export const RegisterCandidate: React.FC = () => {
               <FormLabel id="label-class-register-candidate">
                 Turma escolhida
               </FormLabel>
-              <RadioGroup row>
+              <RadioGroup row defaultValue={state.trilha.nome}>
                 <FormControlLabel
                   id="frontend-register-candidate"
                   value="FRONTEND"
@@ -302,13 +320,11 @@ export const RegisterCandidate: React.FC = () => {
                 id="select-edition"
                 sx={{ width: "100%" }}
                 label="Edição vem ser"
-                value={edicao ? edicao : ""}
+                defaultValue={state.edicao.nome}
+                value={state.edicao.value}
                 error={errors.edicao ? true : false}
                 {...register("edicao.nome")}
               >
-                <MenuItem id="selected" value={""} selected>
-                  Selecione uma edição
-                </MenuItem>
                 <MenuItem id="edicao-9" value="EDICAO9">
                   9ª edição
                 </MenuItem>
