@@ -23,6 +23,12 @@ export const Home: React.FC = () => {
     useCandidate();
   const { getUsers, users } = useUser();
 
+  useEffect(() => {
+    getCandidates();
+    getUsers();
+    console.log(users);
+  }, []);
+
   const togglePage = () => {
     if (candidates.quantidadePaginas != candidates.paginas + 1)
       getCandidates(candidates.paginas + 1, 10);
