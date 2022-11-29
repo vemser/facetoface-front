@@ -233,26 +233,6 @@ export const RegisterUser: React.FC = () => {
                       label="Admin"
                     />
                   </RadioGroup>
-                  {/* <RadioGroup
-                    row
-                    aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="row-radio-buttons-group"
-                  >
-                    <FormControlLabel
-                      id="tipo-gestao-register-user"
-                      value="ROLE_GESTAO"
-                      control={<Radio />}
-                      label="Gestão de pessoas"
-                      {...register("perfis")}
-                    />
-                    <FormControlLabel
-                      id="tipo-instutor-register-user"
-                      value="ROLE_INSTRUTOR"
-                      control={<Radio />}
-                      label="Instrutor"
-                      {...register("perfis")}
-                    />
-                  </RadioGroup> */}
                 </FormControl>
                 <ErrorMessage id="error-type-register-user" width="100%">
                   {errorRole && "Campo obrigatório!"}
