@@ -168,7 +168,17 @@ export const Home: React.FC = () => {
                   );
               })
             : users.elementos?.map((item: IUserComplete) => {
-                return <ItemUser key={item.idUsuario} props={item} />;
+                return (
+                  <ItemUser
+                    key={item.idUsuario}
+                    props={item}
+                    onUpdate={() =>
+                      navigate("/update-user/" + item.idUsuario, {
+                        state: item,
+                      })
+                    }
+                  />
+                );
               })}
         </Box>
         <Box
