@@ -1,10 +1,10 @@
 import { string, object } from "yup";
 
 export const schemaUser = object({
-  nomeCompleto: string().required("Campo obrigatório!"),
+  nomeCompleto: string().required("Campo obrigatório!").matches(/^([^0-9]*)$/, "Números não são permitidos!"),
   genero: string().required("Campo obrigatório!").nullable(),
-  cidade: string().required("Campo obrigatório!"),
-  estado: string().required("Campo obrigatório!"),
+  cidade: string().required("Campo obrigatório!").matches(/^([^0-9]*)$/, "Números não são permitidos!"),
+  estado: string().required("Campo obrigatório!").matches(/^([^0-9]*)$/, "Números não são permitidos!"),
   email: string()
     .email("E-mail inválido!")
     .matches(
