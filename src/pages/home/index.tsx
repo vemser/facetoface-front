@@ -12,6 +12,7 @@ import { ItemCandidate } from "../../shared/components";
 import SearchIcon from "@mui/icons-material/Search";
 import Pagination from "@mui/material/Pagination";
 import { useNavigate } from "react-router-dom";
+import { ICandidateComplete } from "../../shared/interfaces";
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -138,8 +139,9 @@ export const Home: React.FC = () => {
           </Box>
         </Box>
         <Box display="flex" flexDirection="column" width="100%" height="60vh">
-          {candidates.elementos &&
-            candidates.elementos.map((item: any) => {
+          {optionSelected &&
+            candidates.elementos &&
+            candidates.elementos.map((item: ICandidateComplete) => {
               if (item.ativo != "F")
                 return (
                   <ItemCandidate

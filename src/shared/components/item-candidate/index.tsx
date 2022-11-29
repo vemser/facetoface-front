@@ -2,9 +2,10 @@ import React from "react";
 import { Box, Typography, Button, IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { ICandidateComplete } from "../../interfaces";
 
 interface IProps {
-  props: any;
+  props: ICandidateComplete;
   onDelete: any;
   onUpdate: any;
 }

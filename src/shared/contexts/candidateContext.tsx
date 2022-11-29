@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ICandidate } from "../interfaces";
+import { ICandidate, ICandidateComplete } from "../interfaces";
 import { api } from "../api";
 import alertError from "../alerts/error";
 import alertSuccess from "../alerts/sucess";
@@ -9,7 +9,7 @@ import { useAuth } from "./authContext";
 interface ICandidateContext {
   candidates: any;
   postCandidate: (data: ICandidate) => Promise<void>;
-  putCandidate: (data: ICandidate) => void;
+  putCandidate: (candidato: ICandidateComplete) => Promise<void>;
   deleteCandidate: (id: number) => Promise<void>;
   getCandidates: (page?: number, size?: number) => Promise<void>;
 }
@@ -36,17 +36,24 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
       alertSuccess("Candidato cadastrado com sucesso!");
       navigate("/");
     } catch (err) {
-      alertError("Ops! algo deu errado!");
+      alertError("Ops! algo deu errado no cadastro!");
     } finally {
       // adicionar loading
     }
   };
 
   // update one candidate
-  const putCandidate = (data: ICandidate) => {
+  const putCandidate = async (candidato: ICandidateComplete) => {
     try {
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      await api.put(
+        `candidato/${candidato.idCandidato}?genero=${candidato.genero}`,
+        candidato
+      );
+      alertSuccess("Candidato cadastrado com sucesso!");
+      navigate("/");
     } catch (err) {
-      console.log(err);
+      alertError("Ops! algo deu errado na atualização!");
     } finally {
       // adicionar loading
     }
@@ -55,11 +62,12 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
   // delete one candidate
   const deleteCandidate = async (id: number) => {
     try {
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
       await api.delete("candidato/" + id);
       await getCandidates();
       alertSuccess("Candidato deletado com sucesso!");
     } catch (err) {
-      alertError("Ops! algo deu na exclusão!");
+      alertError("Ops! algo deu errado na exclusão!");
     } finally {
       // adicionar loading
     }

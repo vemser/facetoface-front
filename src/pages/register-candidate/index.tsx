@@ -309,16 +309,16 @@ export const RegisterCandidate: React.FC = () => {
                 <MenuItem id="selected" value={""} selected>
                   Selecione uma edição
                 </MenuItem>
-                <MenuItem id="edicao-9" value="edicao9">
+                <MenuItem id="edicao-9" value="EDICAO9">
                   9ª edição
                 </MenuItem>
-                <MenuItem id="edicao-10" value="edicao10">
+                <MenuItem id="edicao-10" value="EDICAO10">
                   10ª edição
                 </MenuItem>
-                <MenuItem id="edicao-11" value="edicao11">
+                <MenuItem id="edicao-11" value="EDICAO11">
                   11ª edição
                 </MenuItem>
-                <MenuItem id="edicao-12" value="edicao12">
+                <MenuItem id="edicao-12" value="EDICAO12">
                   12ª edição
                 </MenuItem>
               </Select>

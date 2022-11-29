@@ -1,4 +1,4 @@
-interface ILanguages {
+interface IObject {
   nome: string;
 }
 
@@ -9,7 +9,13 @@ export interface ICandidate {
   genero: string;
   email: string;
   observacoes: string;
-  linguagens: ILanguages[];
-  trilha: ILanguages;
-  edicao: ILanguages;
+  linguagens: IObject[];
+  trilha: IObject;
+  edicao: IObject;
+}
+
+export interface ICandidateComplete extends ICandidate{
+  notaProva: number;
+  ativo: string;
+  idCandidato: number;
 }
