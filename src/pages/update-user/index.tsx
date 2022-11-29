@@ -16,28 +16,35 @@ import {
   import { useForm } from "react-hook-form";
   import { yupResolver } from "@hookform/resolvers/yup";
   import { schemaUser } from "../../shared/schemas/register-user.schema";
-  import { IUser } from "../../shared/interfaces";
+  import { IUserComplete, IUser } from "../../shared/interfaces";
   import { ErrorMessage } from "../../shared/components";
   import { UserContext } from "../../shared/contexts/userContext";
 import { useLocation } from "react-router-dom";
   
   export const UpdateUser: React.FC = () => {
-    const {postUser} = useContext(UserContext);
+    const {putUser} = useContext(UserContext);
     const { state } = useLocation();
   
     const {
       register,
       handleSubmit,
       formState: { errors },
-    } = useForm<IUser>({ resolver: yupResolver(schemaUser),
+    } = useForm<IUserComplete>({ resolver: yupResolver(schemaUser),
       defaultValues: {
-        nomeCompleto:state.nomeCompleto,
-        
+        nomeCompleto: state.nomeCompleto,
+        cidade: state.cidade,
+        estado: state.estado,
+        email: state.email,
+        genero: state.genero,
+        trilha: state.trilha,
+        perfis: state.perfis,
+        ativo: state.ativo,
+        idUsuario: state.idUsuario
       }
     });
   
-    const handleSubmitUser = (data: IUser) => {
-    postUser(data);
+    const handleSubmitUser = (data: IUserComplete) => {
+    putUser(data);
     };
     const theme = useTheme();
     const mdDown = useMediaQuery(theme.breakpoints.down("md"));
