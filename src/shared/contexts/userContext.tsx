@@ -15,7 +15,7 @@ interface IUserContext {
   putUser: (usuario: IUserComplete) => Promise<void>;
   deleteUser: (id: number) => void;
   getUsers: (page?: number, size?: number) => Promise<void>;
-  getUserByName: (nome: string, page?: number, size?: number) => Promise<void>
+  getUserByName: (nome: string, page?: number, size?: number) => Promise<void>;
 }
 
 interface IChildren {
@@ -47,7 +47,6 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
   // post one user
   const postUser = async (usuario: IUser) => {
     try {
-      console.log(usuario);
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
       await api.post(`usuario?genero=${usuario.genero}`, usuario);
       alertSuccess("Usuário cadastrado com sucesso!");
@@ -60,22 +59,28 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
   };
 
   // update one user
-  const putUser = async (usuario: IUserComplete ) => {
+  const putUser = async (usuario: IUserComplete) => {
     try {
-      await axios
-        .put(`${api}/usuario/${usuario.idUsuario}`, usuario, {
-          headers: {
-            Authorization: token,
-          },
-        })
-        .then(() => {
-          navigate("/update-user/:id");
-          setAttStateUser((state) => !state);
-          alertSuccess("Usuário editado com sucesso!");
-        });
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      await api.put(
+        `usuario/${usuario.idUsuario}?genero=${usuario.genero}`,
+        usuario
+      );
+      // await axios
+      //   .put(`${api}/usuario/${usuario.idUsuario}`, usuario, {
+      //     headers: {
+      //       Authorization: token,
+      //     },
+      //   })
+      //   .then(() => {
+      //     navigate("/update-user/:id");
+      //     setAttStateUser((state) => !state);
+      //     alertSuccess("Usuário editado com sucesso!");
+      //   });
+      navigate("/");
+      alertSuccess("Usuário editado com sucesso!");
     } catch (err) {
-      console.log(err);
-      alertError("Ops! algo deu errado!");
+      alertError("Ops! algo deu errado na atualização!");
     } finally {
       // adicionar loading
     }
@@ -103,28 +108,30 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
     }
   };
 
-  const getUserByName =async (
-    nome: string, 
-    page: number = 0, 
+  const getUserByName = async (
+    nome: string,
+    page: number = 0,
     size: number = 10
   ) => {
     try {
-      await axios 
-      .get(`${api}/usurario/findbynomecompleto??nomeCompleto=${nome}&pagina=${page}&tamanho=${size}`, {
-        headers: {
-          Authorization: token,
-        },
-      })
-      .then((response) => {
-        setUsers(response.data);
-        navigate("/");
-      }); 
-    } catch(err) {
+      await axios
+        .get(
+          `${api}/usurario/findbynomecompleto??nomeCompleto=${nome}&pagina=${page}&tamanho=${size}`,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
+        .then((response) => {
+          setUsers(response.data);
+          navigate("/");
+        });
+    } catch (err) {
       alertError("Ops! algo deu errado na busca!");
     } finally {
-      
     }
-  }
+  };
 
   return (
     <UserContext.Provider
@@ -136,7 +143,7 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
         putUser,
         deleteUser,
         getUsers,
-        getUserByName
+        getUserByName,
       }}
     >
       {children}
