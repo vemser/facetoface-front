@@ -24,6 +24,7 @@ import { schemaCandidate } from "../../shared/schemas/register-candidate.schema"
 import { ICandidate } from "../../shared/interfaces";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useCandidate } from "../../shared/contexts";
+import { useRef } from "react";
 
 interface ILanguages {
   nome: string;
@@ -40,8 +41,10 @@ export const RegisterCandidate: React.FC = () => {
   const { postCandidate } = useCandidate();
   const [arrLanguages, setArrLanguages] = useState<ILanguages[]>([]);
   const [language, setLanguage] = useState<string>("");
+  const [image, setImage] = useState(null);
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const edicao = watch("edicao.nome");
 
@@ -67,6 +70,19 @@ export const RegisterCandidate: React.FC = () => {
     let arrAux = arrLanguages.filter((item) => item.nome !== language);
     setArrLanguages(arrAux);
   };
+
+  const handleClickFile = () => {
+    inputRef.current?.click();
+  };
+
+  // lógica de pegar a imagem
+  const handleFileChange = (event: any) => {
+    setImage(event.target.files[0]);
+  };
+
+  useEffect(() => {
+    console.log(image);
+  }, [image]);
 
   return (
     <Box
@@ -97,20 +113,16 @@ export const RegisterCandidate: React.FC = () => {
           <Avatar
             id="avatar-register-candidate"
             alt="Remy Sharp"
-            src="Foto perfil"
+            src={image ? URL.createObjectURL(image) : ""}
             sx={{ width: 80, height: 80, m: "auto" }}
+            onClick={handleClickFile}
           />
-          <TextField
-            id="input-avatar-register-candidate"
+          <input
+            id="input-file-register-candidate"
+            style={{ display: "none" }}
+            ref={inputRef}
             type="file"
-            label="Foto"
-            sx={{
-              width: `${mdDown ? "100%" : "80%"}`,
-              marginTop: `${mdDown ? "20px" : "0"}`,
-            }}
-            InputLabelProps={{
-              shrink: true,
-            }}
+            onChange={handleFileChange}
           />
         </Box>
         {/* first column */}

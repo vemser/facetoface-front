@@ -21,16 +21,17 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
   const [token, setToken] = useState<string | null>(
     localStorage.getItem("token")
   );
-  const [user, setUser] = useState<any>();
+  const [user, setUser] = useState<any>(localStorage.getItem("user"));
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      let storage = JSON.parse(user);
-      setUser(storage);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const user = localStorage.getItem("user");
+  //   console.log(user);
+  //   if (user) {
+  //     let storage = JSON.parse(user);
+  //     setUser(storage);
+  //   }
+  // }, []);
 
   const handleSignIn = async (login: { email: string; senha: string }) => {
     try {
