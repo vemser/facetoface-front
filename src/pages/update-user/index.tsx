@@ -50,7 +50,7 @@ import { useLocation } from "react-router-dom";
     const mdDown = useMediaQuery(theme.breakpoints.down("md"));
   
     useEffect(() => {
-      document.title = `Cadastro de usuário`;
+      document.title = `Editar usuário`;
     }, []);
   
     return (
@@ -83,13 +83,13 @@ import { useLocation } from "react-router-dom";
             mb={3}
           >
             <Avatar
-              id="foto-register-candidate"
+              id="foto-editar-usuario"
               alt="foto"
               src=""
               sx={{ width: 100, height: 100 }}
             />
             <TextField
-              id="up-foto-register-candidate"
+              id="up-foto-editar-usuario"
               type="file"
               label="Foto"
               sx={{
@@ -112,30 +112,30 @@ import { useLocation } from "react-router-dom";
             <Box display="flex" width="100%" flexDirection="column" gap={3}>
               <Box>
                 <TextField
-                  id="name-register-user"
+                  id="name-editar-usuario"
                   label="Nome completo"
                   sx={{ width: "100%" }}
                   {...register("nomeCompleto")}
                 />
-                <ErrorMessage id="error-name-register-user" width="100%">
+                <ErrorMessage id="error-name-editar-usuario" width="100%">
                   {errors.nomeCompleto?.message}
                 </ErrorMessage>
               </Box>
   
               <Box>
                 <TextField
-                  id="cidade-register-user"
+                  id="cidade-editar-usuario"
                   label="Cidade"
                   sx={{ width: "100%" }}
                   {...register("cidade")}
                 />
-                <ErrorMessage id="error-cidade-register-user" width="100%">
+                <ErrorMessage id="error-cidade-editar-usuario" width="100%">
                   {errors.cidade?.message}
                 </ErrorMessage>
               </Box>
               <Box sx={{ width: "100%" }}>
                 <FormControl>
-                  <FormLabel id="label-genero-register-candidate">
+                  <FormLabel id="label-genero-editar-usuario">
                     Gênero
                   </FormLabel>
                   <RadioGroup
@@ -144,21 +144,21 @@ import { useLocation } from "react-router-dom";
                     name="row-radio-buttons-group"
                   >
                     <FormControlLabel
-                      id="genero-feminino-register-user"
+                      id="genero-feminino-editar-usuario"
                       value="FEMININO"
                       control={<Radio />}
                       label="Feminino"
                       {...register("genero")}
                     />
                     <FormControlLabel
-                      id="genero-masculino-register-user"
+                      id="genero-masculino-editar-usuario"
                       value="MASCULINO"
                       control={<Radio />}
                       label="Masculino"
                       {...register("genero")}
                     />
                     <FormControlLabel
-                      id="genero-masculino-register-user"
+                      id="genero-masculino-editar-usuario"
                       value="OUTRO"
                       control={<Radio />}
                       label="Outros"
@@ -166,7 +166,7 @@ import { useLocation } from "react-router-dom";
                     />
                   </RadioGroup>
                 </FormControl>
-                <ErrorMessage id="error-genero-register-user" width="100%">
+                <ErrorMessage id="error-genero-editar-usuarior" width="100%">
                   {errors.genero?.message}
                 </ErrorMessage>
               </Box>
@@ -177,12 +177,12 @@ import { useLocation } from "react-router-dom";
               <Box>
                 <Box>
                   <TextField
-                    id="email-register-user"
+                    id="email-editar-usuario"
                     label="Email"
                     sx={{ width: "100%" }}
                     {...register("email")}
                   />
-                  <ErrorMessage id="error-email-register-user" width="100%">
+                  <ErrorMessage id="error-email-editar-usuario" width="100%">
                     {errors.email?.message}
                   </ErrorMessage>
                 </Box>
@@ -195,7 +195,7 @@ import { useLocation } from "react-router-dom";
                   sx={{ width: "100%" }}
                   {...register("estado")}
                 />
-                <ErrorMessage id="error-state-register-user" width="100%">
+                <ErrorMessage id="error-state-editar-usuario" width="100%">
                   {errors.estado?.message}
                 </ErrorMessage>
               </Box>
@@ -203,21 +203,21 @@ import { useLocation } from "react-router-dom";
               <Box>
                 <Box sx={{ width: "100%" }}>
                   <FormControl>
-                    <FormLabel id="label-tipo-register-user">Tipo</FormLabel>
+                    <FormLabel id="label-tipo-editar-usuario">Tipo</FormLabel>
                     <RadioGroup
                       row
-                      aria-labelledby="demo-row-radio-buttons-group-label"
+                      aria-labelledby="demo-row-radio-editar-usuario"
                       name="row-radio-buttons-group"
                     >
                       <FormControlLabel
-                        id="tipo-gestao-register-user"
+                        id="tipo-gestao-editar-usuario"
                         value="ROLE_GESTAO"
                         control={<Radio />}
                         label="Gestão de pessoas"
                         {...register("perfis")}
                       />
                       <FormControlLabel
-                        id="tipo-instutor-register-user"
+                        id="tipo-instutor-editar-usuario"
                         value="ROLE_INSTRUTOR"
                         control={<Radio />}
                         label="Instrutor"
@@ -225,7 +225,7 @@ import { useLocation } from "react-router-dom";
                       />
                     </RadioGroup>
                   </FormControl>
-                  <ErrorMessage id="error-type-register-user" width="100%">
+                  <ErrorMessage id="error-type-editar-usuario" width="100%">
                     {errors.perfis?.message}
                   </ErrorMessage>
                 </Box>
@@ -241,7 +241,7 @@ import { useLocation } from "react-router-dom";
             mt={4}
           >
             <Button
-              id="button-submit-register-user"
+              id="button-submit-editar-usuario"
               type="submit"
               variant="contained"
               sx={{ width: "200px", height: 40, borderRadius: 100 }}
