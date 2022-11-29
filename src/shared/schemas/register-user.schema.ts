@@ -8,7 +8,7 @@ export const schemaUser = object({
   email: string()
     .email("E-mail inválido!")
     .matches(
-      /^\w+@dbccompany\.com\.br$/,
+      /^[a-z0-9.]+@dbccompany\.com\.br$/,
       "O e-mail deve ser @dbccompany.com.br"
     )
     .required("Campo obrigatório!"),

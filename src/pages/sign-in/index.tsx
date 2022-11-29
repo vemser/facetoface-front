@@ -20,8 +20,8 @@ import { useAuth } from "../../shared/contexts";
 
 //schema user signIn
 const schema = object({
-  email: string().email("E-mail inválido!").required("Campo obrigatório!"),
-  senha: string().required("Campo obrigatório!"),
+  email: string().email("E-mail inválido!").required("E-mail é obrigatório!"),
+  senha: string().required("Senha é obrigatório!"),
 }).required();
 
 //interface user signIn

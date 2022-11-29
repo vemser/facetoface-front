@@ -31,8 +31,8 @@ export const RegisterInterview: React.FC = () => {
     reset();
   };
 
-   // Nome da página 
-   useEffect(() => {
+  // Nome da página
+  useEffect(() => {
     document.title = `Cadastro de entrevista`;
   }, []);
 
@@ -63,10 +63,11 @@ export const RegisterInterview: React.FC = () => {
         >
           <Box sx={{ width: "100%", mt: "1rem" }}>
             <TextField
-              id="input-candidate-register-interview"
+              id="input-email-register-interview"
+              label="E-mail do candidato"
               sx={{ width: "100%" }}
-              label="Candidato"
-              error={errors.candidate ? true : false}
+              {...register("email")}
+              error={errors.email ? true : false}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -76,10 +77,9 @@ export const RegisterInterview: React.FC = () => {
                   </InputAdornment>
                 ),
               }}
-              {...register("candidate")}
             />
-            <ErrorMessage id="error-candidate-register-interview" width="100%">
-              {errors.candidate?.message}
+            <ErrorMessage id="error-email-register-interview" width="100%">
+              {errors.email?.message}
             </ErrorMessage>
           </Box>
           <Box sx={{ width: "100%", mt: "1rem" }}>
@@ -123,14 +123,14 @@ export const RegisterInterview: React.FC = () => {
         >
           <Box sx={{ width: "100%", mt: "1rem" }}>
             <TextField
-              id="input-email-register-interview"
-              label="E-mail do usuário"
+              id="input-candidate-register-interview"
               sx={{ width: "100%" }}
-              {...register("email")}
-              error={errors.email ? true : false}
+              label="Nome"
+              error={errors.candidate ? true : false}
+              {...register("candidate")}
             />
-            <ErrorMessage id="error-email-register-interview" width="100%">
-              {errors.email?.message}
+            <ErrorMessage id="error-candidate-register-interview" width="100%">
+              {errors.candidate?.message}
             </ErrorMessage>
           </Box>
           <Box sx={{ width: "100%", mt: "1rem" }}>
@@ -207,7 +207,7 @@ export const RegisterInterview: React.FC = () => {
             variant="contained"
             sx={{ width: "200px", height: 40, borderRadius: 100 }}
           >
-            Enviar
+            Marcar entrevista
           </Button>
         </Box>
       </form>
