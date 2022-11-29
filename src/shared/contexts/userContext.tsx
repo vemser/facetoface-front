@@ -68,7 +68,7 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
           },
         })
         .then(() => {
-          // navigate("/pagina de edit")
+          navigate("/update-user/:id");
           setAttStateUser((state) => !state);
           alertSuccess("Usuário editado com sucesso!");
         });
