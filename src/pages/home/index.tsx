@@ -11,10 +11,12 @@ import { useCandidate } from "../../shared/contexts";
 import { ItemCandidate } from "../../shared/components";
 import SearchIcon from "@mui/icons-material/Search";
 import Pagination from "@mui/material/Pagination";
+import { useNavigate } from "react-router-dom";
 
 export const Home: React.FC = () => {
+  const navigate = useNavigate();
   const [optionSelected, setOptionSelected] = useState<boolean>(true);
-  const { getCandidates, candidates } = useCandidate();
+  const { getCandidates, candidates, deleteCandidate } = useCandidate();
 
   useEffect(() => {
     getCandidates();
@@ -25,12 +27,19 @@ export const Home: React.FC = () => {
       getCandidates(candidates.paginas + 1, 10);
   };
 
+  const styleColumns = {
+    width: "14%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  };
+
   return (
     <Box
       display="flex"
       flexDirection="column"
-      width="80%"
-      minHeight="100%"
+      width="90%"
+      minHeight="100vh"
       margin="0 auto"
     >
       <Box
@@ -83,66 +92,69 @@ export const Home: React.FC = () => {
           p={1}
         >
           <Box
-            width="14%"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
+            sx={{
+              width: "8%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
             <Typography>Nota</Typography>
           </Box>
-          <Box
-            width="14%"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
+          <Box sx={styleColumns}>
             <Typography>Nome</Typography>
           </Box>
           <Box
-            width="14%"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
+            sx={{
+              width: "25%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
           >
             <Typography>E-mail</Typography>
           </Box>
           <Box
-            width="14%"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
+            sx={{
+              width: "10%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
             <Typography>Trilha</Typography>
           </Box>
-          <Box
-            width="14%"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
+          <Box sx={styleColumns}>
             <Typography>Gênero</Typography>
           </Box>
-          <Box
-            width="14%"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
+          <Box sx={styleColumns}>
             <Typography>Marcar</Typography>
           </Box>
-          <Box
-            width="14%"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
+          <Box sx={styleColumns}>
             <Typography>Ações</Typography>
           </Box>
         </Box>
-        {candidates.elementos &&
-          candidates.elementos.map((item: any) => {
-            return <ItemCandidate key={item.idCandidato} {...item} />;
-          })}
+        <Box display="flex" flexDirection="column" width="100%" height="60vh">
+          {candidates.elementos &&
+            candidates.elementos.map((item: any) => {
+              if (item.ativo != "F")
+                return (
+                  <ItemCandidate
+                    key={item.idCandidato}
+                    props={item}
+                    onDelete={() => deleteCandidate(item.idCandidato)}
+                    onUpdate={() =>
+                      navigate("/update-candidate/" + item.idCandidato, {
+                        state: item,
+                      })
+                    }
+                  />
+                );
+            })}
+        </Box>
         <Box display="flex" alignItems="center" justifyContent="center" mt={1}>
           <Pagination
             count={candidates.quantidadePaginas}

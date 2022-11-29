@@ -1,10 +1,29 @@
 import React from "react";
 import { Box, Typography, Button, IconButton } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-export const ItemCandidate: React.FC = (props: any) => {
+interface IProps {
+  props: any;
+  onDelete: any;
+  onUpdate: any;
+}
+
+export const ItemCandidate: React.FC<IProps> = ({
+  props,
+  onDelete,
+  onUpdate,
+}) => {
+  const styleColumns = {
+    width: "14%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  };
+
   return (
     <Box
       display="flex"
@@ -15,51 +34,45 @@ export const ItemCandidate: React.FC = (props: any) => {
       sx={{ borderBottom: "1px solid #bdbdbd" }}
     >
       <Box
-        width="14%"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
+        sx={{
+          width: "8%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
         <Typography fontSize="15px">{props.notaProva}</Typography>
       </Box>
-      <Box
-        width="14%"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
+      <Box sx={styleColumns}>
         <Typography fontSize="15px">{props.nomeCompleto}</Typography>
       </Box>
       <Box
-        width="14%"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
+        sx={{
+          width: "25%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}
       >
         <Typography fontSize="15px">{props.email}</Typography>
       </Box>
       <Box
-        width="14%"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
+        sx={{
+          width: "10%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
         <Typography fontSize="15px">{props.trilha.nome}</Typography>
       </Box>
-      <Box
-        width="14%"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
+      <Box sx={styleColumns}>
         <Typography fontSize="15px">{props.genero}</Typography>
       </Box>
-      <Box
-        width="14%"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
+      <Box sx={styleColumns}>
         <Button
           variant="contained"
           sx={{ borderRadius: "100px", fontSize: "12px" }}
@@ -67,16 +80,11 @@ export const ItemCandidate: React.FC = (props: any) => {
           Entrevista
         </Button>
       </Box>
-      <Box
-        width="14%"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <IconButton>
+      <Box sx={styleColumns}>
+        <IconButton onClick={onUpdate}>
           <EditIcon />
         </IconButton>
-        <IconButton>
+        <IconButton onClick={onDelete}>
           <DeleteIcon />
         </IconButton>
       </Box>

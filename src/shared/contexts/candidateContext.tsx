@@ -10,7 +10,7 @@ interface ICandidateContext {
   candidates: any;
   postCandidate: (data: ICandidate) => Promise<void>;
   putCandidate: (data: ICandidate) => void;
-  deleteCandidate: (id: number) => void;
+  deleteCandidate: (id: number) => Promise<void>;
   getCandidates: (page?: number, size?: number) => Promise<void>;
 }
 
@@ -53,11 +53,13 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
   };
 
   // delete one candidate
-  const deleteCandidate = (id: number) => {
+  const deleteCandidate = async (id: number) => {
     try {
-      console.log(id);
+      await api.delete("candidato/" + id);
+      await getCandidates();
+      alertSuccess("Candidato deletado com sucesso!");
     } catch (err) {
-      console.log(err);
+      alertError("Ops! algo deu na exclusão!");
     } finally {
       // adicionar loading
     }
@@ -66,6 +68,7 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
   // get all candidates
   const getCandidates = async (page: number = 0, size: number = 10) => {
     try {
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
       const { data } = await api.get(
         `candidato?pagina=${page}&tamanho=${size}`
       );
