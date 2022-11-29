@@ -5,8 +5,10 @@ import { api } from "../api";
 
 interface IAuthContext {
   token: string | null;
+  user: any;
   handleSignIn: (login: { email: string; senha: string }) => Promise<void>;
   handleLogout: () => void;
+  handleSignedUser: () => Promise<void>;
 }
 
 interface IChildren {
@@ -19,6 +21,7 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
   const [token, setToken] = useState<string | null>(
     localStorage.getItem("token")
   );
+  const [user, setUser] = useState<any>(null);
   const navigate = useNavigate();
 
   const handleSignIn = async (login: { email: string; senha: string }) => {
@@ -26,9 +29,22 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
       const { data } = await api.post("/auth/fazer-login", login);
       localStorage.setItem("token", data);
       setToken(data);
+      await handleSignedUser(data);
       navigate("/");
     } catch (err) {
       alertError("Senha ou email incorretos!");
+    } finally {
+    }
+  };
+
+  const handleSignedUser = async (token?: string) => {
+    try {
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      const { data } = await api.get("usuario/logado");
+      console.log(data);
+      setUser(data);
+    } catch (err) {
+      alertError("Ops, algo deu errado!");
     } finally {
     }
   };
@@ -40,7 +56,9 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ token, handleSignIn, handleLogout }}>
+    <AuthContext.Provider
+      value={{ token, user, handleSignIn, handleLogout, handleSignedUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

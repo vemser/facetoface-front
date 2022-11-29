@@ -29,6 +29,7 @@ interface IProps {
 }
 
 export const SideBar: React.FC<IProps> = ({ children }) => {
+  const { user } = useAuth();
   const navigate = useNavigate();
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("sm"));
@@ -68,7 +69,7 @@ export const SideBar: React.FC<IProps> = ({ children }) => {
               src=""
               sx={{ height: theme.spacing(12), width: theme.spacing(12) }}
             />
-            <Typography>Nome</Typography>
+            <Typography>{user.email}</Typography>
           </Box>
 
           <Divider />
