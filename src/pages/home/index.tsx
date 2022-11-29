@@ -17,7 +17,9 @@ import { ICandidateComplete } from "../../shared/interfaces";
 export const Home: React.FC = () => {
   const navigate = useNavigate();
   const [optionSelected, setOptionSelected] = useState<boolean>(true);
-  const { getCandidates, candidates, deleteCandidate } = useCandidate();
+  const [search, setSearch] = useState<string>("");
+  const { getCandidates, candidates, deleteCandidate, getByName } =
+    useCandidate();
 
   useEffect(() => {
     getCandidates();
@@ -26,6 +28,10 @@ export const Home: React.FC = () => {
   const togglePage = () => {
     if (candidates.quantidadePaginas != candidates.paginas + 1)
       getCandidates(candidates.paginas + 1, 10);
+  };
+
+  const toggleSearch = () => {
+    getByName(search);
   };
 
   const styleColumns = {
@@ -54,10 +60,12 @@ export const Home: React.FC = () => {
           variant="outlined"
           label="Pesquisar por nome"
           sx={{ width: "45%" }}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton>
+                <IconButton onClick={toggleSearch}>
                   <SearchIcon />
                 </IconButton>
               </InputAdornment>

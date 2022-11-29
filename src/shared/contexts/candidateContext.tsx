@@ -12,6 +12,7 @@ interface ICandidateContext {
   putCandidate: (candidato: ICandidateComplete) => Promise<void>;
   deleteCandidate: (id: number) => Promise<void>;
   getCandidates: (page?: number, size?: number) => Promise<void>;
+  getByName: (name: string, page?: number, size?: number) => Promise<void>;
 }
 
 interface IChildren {
@@ -88,6 +89,24 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
     }
   };
 
+  const getByName = async (
+    name: string,
+    page: number = 0,
+    size: number = 10
+  ) => {
+    try {
+      const { data } = await api.get(
+        `findbynomecompleto?nomeCompleto=${name}&pagina=${page}&tamanho=${size}`
+      );
+      setCandidates(data);
+      alertSuccess("Candidato cadastrado com sucesso!");
+      navigate("/");
+    } catch (err) {
+      alertError("Ops! algo deu errado na busca!");
+    } finally {
+    }
+  };
+
   return (
     <CandidateContext.Provider
       value={{
@@ -96,6 +115,7 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
         deleteCandidate,
         getCandidates,
         putCandidate,
+        getByName,
       }}
     >
       {children}
