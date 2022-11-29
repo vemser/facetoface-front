@@ -324,7 +324,7 @@ export const RegisterCandidate: React.FC = () => {
               </Select>
             </FormControl>
             <ErrorMessage id="error-edition-register-candidate" width={"100%"}>
-              {errors.edicao?.message}
+              {errors.edicao?.nome?.message}
             </ErrorMessage>
           </Box>
           {/* languages box */}
