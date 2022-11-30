@@ -15,21 +15,51 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaInterview } from "../../shared/schemas";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { ErrorMessage } from "../../shared/components";
+import { useAuth, useCandidate } from "../../shared/contexts";
+import { useInterview } from "../../shared/contexts/interviewContext";
 
 export const RegisterInterview: React.FC = () => {
+  const { postInterview } = useInterview();
+  const { user } = useAuth();
+  const { getByEmailInterview, candidateByEmail } = useCandidate();
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
+    watch,
   } = useForm<IInterview>({ resolver: yupResolver(schemaInterview) });
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
 
   const handleSubmitInterview = (data: IInterview) => {
-    console.log(data);
+    let newDate = new Date(
+      `${data.dateInterview}T${data.scheduleInterview}:00.000z`
+    );
+    let dataFinal = {
+      candidatoEmail: data.email,
+      usuarioEmail: user.email,
+      dataEntrevista: `${data.dateInterview}T${data.scheduleInterview}:00.00`,
+      cidade: data.cidade,
+      estado: data.estado,
+      observacoes: "teste",
+    };
+    console.log(dataFinal);
+    postInterview(dataFinal);
+    setValue("nomeCompleto", "");
+    setValue("cidade", "");
+    setValue("estado", "");
     reset();
   };
+
+  const email = watch("email");
+
+  useEffect(() => {
+    setValue("nomeCompleto", candidateByEmail?.nomeCompleto);
+    setValue("cidade", candidateByEmail?.cidade);
+    setValue("estado", candidateByEmail?.estado);
+  }, [getByEmailInterview]);
 
   // Nome da página
   useEffect(() => {
@@ -71,7 +101,12 @@ export const RegisterInterview: React.FC = () => {
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton>
+                    <IconButton
+                      onClick={() => {
+                        console.log(email);
+                        getByEmailInterview(email);
+                      }}
+                    >
                       <SearchIcon />
                     </IconButton>
                   </InputAdornment>
@@ -106,11 +141,14 @@ export const RegisterInterview: React.FC = () => {
               id="input-city-register-interview"
               sx={{ width: "100%" }}
               label="Cidade"
-              {...register("city")}
-              error={errors.city ? true : false}
+              {...register("cidade")}
+              error={errors.cidade ? true : false}
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
             <ErrorMessage id="error-city-register-interview" width="100%">
-              {errors.city?.message}
+              {errors.cidade?.message}
             </ErrorMessage>
           </Box>
         </Box>
@@ -126,11 +164,14 @@ export const RegisterInterview: React.FC = () => {
               id="input-candidate-register-interview"
               sx={{ width: "100%" }}
               label="Nome"
-              error={errors.candidate ? true : false}
-              {...register("candidate")}
+              error={errors.nomeCompleto ? true : false}
+              {...register("nomeCompleto")}
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
             <ErrorMessage id="error-candidate-register-interview" width="100%">
-              {errors.candidate?.message}
+              {errors.nomeCompleto?.message}
             </ErrorMessage>
           </Box>
           <Box sx={{ width: "100%", mt: "1rem" }}>
@@ -157,11 +198,14 @@ export const RegisterInterview: React.FC = () => {
               id="input-state-register-interview"
               label="Estado"
               sx={{ width: "100%" }}
-              {...register("state")}
-              error={errors.state ? true : false}
+              {...register("estado")}
+              error={errors.estado ? true : false}
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
             <ErrorMessage id="error-state-register-interview" width="100%">
-              {errors.state?.message}
+              {errors.estado?.message}
             </ErrorMessage>
           </Box>
         </Box>
@@ -177,11 +221,11 @@ export const RegisterInterview: React.FC = () => {
             InputLabelProps={{
               shrink: true,
             }}
-            {...register("observation")}
-            error={errors.observation ? true : false}
+            {...register("observacoes")}
+            error={errors.observacoes ? true : false}
           />
           <ErrorMessage id="error-observation-register-interview" width="100%">
-            {errors.observation?.message}
+            {errors.observacoes?.message}
           </ErrorMessage>
         </Box>
         <Box

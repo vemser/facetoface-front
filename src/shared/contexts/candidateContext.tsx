@@ -12,11 +12,13 @@ import { useAuth } from "./authContext";
 
 interface ICandidateContext {
   candidates: any;
+  candidateByEmail: any;
   postCandidate: (data: ICandidate) => Promise<void>;
   putCandidate: (candidato: ICandidateComplete) => Promise<void>;
   deleteCandidate: (id: number) => Promise<void>;
   getCandidates: (page?: number, size?: number) => Promise<void>;
   getByEmail: (email: string) => Promise<void>;
+  getByEmailInterview: (email: string) => Promise<any>;
 }
 
 interface IChildren {
@@ -28,6 +30,7 @@ const CandidateContext = createContext({} as ICandidateContext);
 export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
   const { token } = useAuth();
   const [candidates, setCandidates] = useState<IObjectCandidate | []>([]);
+  const [candidateByEmail, setCandidateByEmail] = useState([]);
   const navigate = useNavigate();
 
   // post one candidate
@@ -93,6 +96,7 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
     }
   };
 
+  // pegar por email
   const getByEmail = async (email: string) => {
     try {
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
@@ -112,15 +116,29 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
     }
   };
 
+  // pegar por email
+  const getByEmailInterview = async (email: string) => {
+    try {
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      const { data } = await api.get(`candidato/findbyemails/${email}`);
+      setCandidateByEmail(data);
+    } catch (err) {
+      alertError("Ops! algo deu errado na busca!");
+    } finally {
+    }
+  };
+
   return (
     <CandidateContext.Provider
       value={{
+        candidateByEmail,
         candidates,
         postCandidate,
         deleteCandidate,
         getCandidates,
         putCandidate,
         getByEmail,
+        getByEmailInterview,
       }}
     >
       {children}
