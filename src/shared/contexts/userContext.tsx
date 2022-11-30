@@ -16,6 +16,7 @@ interface IUserContext {
   deleteUser: (id: number) => void;
   getUsers: (page?: number, size?: number) => Promise<void>;
   getUserByName: (nome: string, page?: number, size?: number) => Promise<void>;
+  getByName: (name: string, page?: number, size?: number) => Promise<void>;
 }
 
 interface IChildren {
@@ -66,17 +67,7 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
         `usuario/${usuario.idUsuario}?genero=${usuario.genero}`,
         usuario
       );
-      // await axios
-      //   .put(`${api}/usuario/${usuario.idUsuario}`, usuario, {
-      //     headers: {
-      //       Authorization: token,
-      //     },
-      //   })
-      //   .then(() => {
-      //     navigate("/update-user/:id");
-      //     setAttStateUser((state) => !state);
-      //     alertSuccess("Usuário editado com sucesso!");
-      //   });
+
       navigate("/");
       alertSuccess("Usuário editado com sucesso!");
     } catch (err) {
@@ -105,6 +96,25 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
       alertError("Ops! algo deu errado!");
     } finally {
       // adicionar loading
+    }
+  };
+
+  const getByName = async (
+    name: string,
+    page: number = 0,
+    size: number = 10
+  ) => {
+    try {
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      const { data } = await api.get(
+        `usuario/findbynomecompleto?nomeCompleto=${name}&pagina=${page}&tamanho=${size}`
+      );
+      setUsers(data);
+      alertSuccess("Usuário encontrado!");
+      navigate("/");
+    } catch (err) {
+      alertError("Ops! algo deu errado na busca!");
+    } finally {
     }
   };
 
@@ -144,6 +154,7 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
         deleteUser,
         getUsers,
         getUserByName,
+        getByName,
       }}
     >
       {children}

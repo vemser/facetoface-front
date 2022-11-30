@@ -1,6 +1,10 @@
 import React, { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ICandidate, ICandidateComplete } from "../interfaces";
+import {
+  ICandidate,
+  ICandidateComplete,
+  IObjectCandidate,
+} from "../interfaces";
 import { api } from "../api";
 import alertError from "../alerts/error";
 import alertSuccess from "../alerts/sucess";
@@ -12,7 +16,7 @@ interface ICandidateContext {
   putCandidate: (candidato: ICandidateComplete) => Promise<void>;
   deleteCandidate: (id: number) => Promise<void>;
   getCandidates: (page?: number, size?: number) => Promise<void>;
-  getByName: (name: string, page?: number, size?: number) => Promise<void>;
+  getByEmail: (email: string) => Promise<void>;
 }
 
 interface IChildren {
@@ -23,7 +27,7 @@ const CandidateContext = createContext({} as ICandidateContext);
 
 export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
   const { token } = useAuth();
-  const [candidates, setCandidates] = useState([]);
+  const [candidates, setCandidates] = useState<IObjectCandidate | []>([]);
   const navigate = useNavigate();
 
   // post one candidate
@@ -89,23 +93,22 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
     }
   };
 
-  const getByName = async (
-    name: string,
-    page: number = 0,
-    size: number = 10
-  ) => {
+  const getByEmail = async (email: string) => {
     try {
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
-      const { data } = await api.get(
-        `findbynomecompleto?nomeCompleto=${name}&pagina=${page}&tamanho=${size}`
-      );
-      setCandidates(data);
-      alertSuccess("Candidato cadastrado com sucesso!");
+      const { data } = await api.get(`candidato/findbyemails/${email}`);
+      setCandidates({
+        totalElementos: 1,
+        quantidadePaginas: 1,
+        pagina: 0,
+        tamanho: 10,
+        elementos: [data],
+      });
+      alertSuccess("Candidato encontrado!");
       navigate("/");
     } catch (err) {
       alertError("Ops! algo deu errado na busca!");
     } finally {
-      
     }
   };
 
@@ -117,7 +120,7 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
         deleteCandidate,
         getCandidates,
         putCandidate,
-        getByName,
+        getByEmail,
       }}
     >
       {children}
