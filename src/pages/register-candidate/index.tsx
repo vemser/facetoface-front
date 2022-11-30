@@ -278,21 +278,21 @@ export const RegisterCandidate: React.FC = () => {
                   value="FRONTEND"
                   control={<Radio />}
                   label="Front"
-                  {...register("trilha.nome")}
+                  {...register("trilha")}
                 />
                 <FormControlLabel
                   id="backend-register-candidate"
                   value="BACKEND"
                   control={<Radio />}
                   label="Back"
-                  {...register("trilha.nome")}
+                  {...register("trilha")}
                 />
                 <FormControlLabel
                   id="qa-register-candidate"
                   value="QA"
                   control={<Radio />}
                   label="QA"
-                  {...register("trilha.nome")}
+                  {...register("trilha")}
                 />
               </RadioGroup>
             </FormControl>
@@ -320,6 +320,30 @@ export const RegisterCandidate: React.FC = () => {
               >
                 <MenuItem id="selected" value={""} selected>
                   Selecione uma edição
+                </MenuItem>
+                <MenuItem id="edicao-1" value="EDICAO1">
+                  1ª edição
+                </MenuItem>
+                <MenuItem id="edicao-2" value="EDICAO2">
+                  1ª edição
+                </MenuItem>
+                <MenuItem id="edicao-3" value="EDICAO3">
+                  3ª edição
+                </MenuItem>
+                <MenuItem id="edicao-4" value="EDICAO4">
+                  4ª edição
+                </MenuItem>
+                <MenuItem id="edicao-5" value="EDICAO5">
+                  5ª edição
+                </MenuItem>
+                <MenuItem id="edicao-6" value="EDICAO6">
+                  6ª edição
+                </MenuItem>
+                <MenuItem id="edicao-7" value="EDICAO7">
+                  7ª edição
+                </MenuItem>
+                <MenuItem id="edicao-8" value="EDICAO8">
+                  8ª edição
                 </MenuItem>
                 <MenuItem id="edicao-9" value="EDICAO9">
                   9ª edição
