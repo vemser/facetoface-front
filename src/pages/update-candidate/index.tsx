@@ -71,7 +71,7 @@ export const UpdateCandidate: React.FC = () => {
   };
   // Nome da página
   useEffect(() => {
-    document.title = `Update de candidato`;
+    document.title = `Editar candidato`;
   }, []);
 
   // lógica de adicionar languages

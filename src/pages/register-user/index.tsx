@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   Avatar,
   Box,
@@ -29,6 +29,10 @@ export const RegisterUser: React.FC = () => {
   const [roles, setRoles] = useState<IProps[]>([]);
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
+  
+  //imagem
+  const [image, setImage] = useState(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [errorRole, setErrorRole] = React.useState(false);
 
@@ -46,6 +50,15 @@ export const RegisterUser: React.FC = () => {
     }
   };
 
+  const handleClickFile = () => {
+    inputRef.current?.click();
+  };
+
+   // lógica de pegar a imagem
+   const handleFileChange = (event: any) => {
+    setImage(event.target.files[0]);
+  };
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setErrorRole(false);
     let exists = roles.find((item) => item.nome === event.target.value);
@@ -58,6 +71,10 @@ export const RegisterUser: React.FC = () => {
   useEffect(() => {
     document.title = `Cadastro de usuário`;
   }, []);
+
+  useEffect(() => {
+    console.log(image);
+  }, [image]);
 
   return (
     <Box
@@ -87,24 +104,24 @@ export const RegisterUser: React.FC = () => {
           gap={3}
           alignItems="center"
           mb={3}
-        >
+        > 
+          
           <Avatar
             id="foto-register-candidate"
             alt="foto"
-            src=""
+            src={image ? URL.createObjectURL(image) : ""}
             sx={{ width: 100, height: 100 }}
+            onClick={handleClickFile}
+            
           />
-          <TextField
-            id="up-foto-register-candidate"
+          <input
+            id="input-file-register-candidate"
+            style={{ display: "none" }}
+            ref={inputRef}
             type="file"
-            label="Foto"
-            sx={{
-              width: "100%",
-            }}
-            InputLabelProps={{
-              shrink: true,
-            }}
+            onChange={handleFileChange}
           />
+          
         </Box>
 
         {/* ------------- Box 2 ------------------ */}

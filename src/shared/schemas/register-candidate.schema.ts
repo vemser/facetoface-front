@@ -5,14 +5,13 @@ export const schemaCandidate = object({
   genero: string().required("Gênero é obrigatório!").nullable(),
   cidade: string().required("Cidade é obrigatório!").matches(/^([^0-9]*)$/, "Números não são permitidos!").matches(/[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/, "Cidade não pode conter caracteres epeciais"),
   estado: string().required("Estado é obrigatório!").matches(/^([^0-9]*)$/, "Números não são permitidos!").matches(/[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/, "Estado não pode conter caracteres epeciais"),
-  trilha: object({
-    nome: string().required("Trilha é obrigatório!"),
-  }),
-  edicao: object({ nome: string().required("Edição é obrigatório!") }),
+  trilha: string().required("Trilha é obrigatória!").nullable(),
+  edicao: object({ nome: string().required("Edição é obrigatória!") }),
   observacoes: string(),
   email: string().email("E-mail inválido!").required("E-mail é obrigatório!"),
   ativo: string().default("T"),
   notaProva: number().default(0),
+
 });
 
 export const schemaCandidateComplete = object({
