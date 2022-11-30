@@ -53,6 +53,7 @@ export const Home: React.FC = () => {
         pt="5%"
       >
         <TextField
+          id="input-search-home"
           type="text"
           variant="outlined"
           label="Pesquisar por nome"
@@ -72,6 +73,7 @@ export const Home: React.FC = () => {
         {isAdmin && (
           <Box display="flex" alignItems="center" gap="3rem">
             <Button
+              id="button-candidates-home"
               variant={optionSelected ? "contained" : "outlined"}
               sx={{ borderRadius: "100px" }}
               onClick={() => setOptionSelected(!optionSelected)}
@@ -79,6 +81,7 @@ export const Home: React.FC = () => {
               Candidatos
             </Button>
             <Button
+              id="button-users-home"
               variant={!optionSelected ? "contained" : "outlined"}
               sx={{ borderRadius: "100px" }}
               onClick={() => setOptionSelected(!optionSelected)}
@@ -104,6 +107,7 @@ export const Home: React.FC = () => {
           mb={6}
         >
           <Pagination
+            id="change-page-home"
             count={
               optionSelected
                 ? candidates.quantidadePaginas

@@ -29,7 +29,7 @@ export const RegisterUser: React.FC = () => {
   const [roles, setRoles] = useState<IProps[]>([]);
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
-  
+
   //imagem
   const [image, setImage] = useState(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -54,8 +54,8 @@ export const RegisterUser: React.FC = () => {
     inputRef.current?.click();
   };
 
-   // lógica de pegar a imagem
-   const handleFileChange = (event: any) => {
+  // lógica de pegar a imagem
+  const handleFileChange = (event: any) => {
     setImage(event.target.files[0]);
   };
 
@@ -104,15 +104,13 @@ export const RegisterUser: React.FC = () => {
           gap={3}
           alignItems="center"
           mb={3}
-        > 
-          
+        >
           <Avatar
             id="foto-register-candidate"
             alt="foto"
             src={image ? URL.createObjectURL(image) : ""}
             sx={{ width: 100, height: 100 }}
             onClick={handleClickFile}
-            
           />
           <input
             id="input-file-register-candidate"
@@ -121,7 +119,6 @@ export const RegisterUser: React.FC = () => {
             type="file"
             onChange={handleFileChange}
           />
-          
         </Box>
 
         {/* ------------- Box 2 ------------------ */}
@@ -270,6 +267,9 @@ export const RegisterUser: React.FC = () => {
             id="button-submit-register-user"
             type="submit"
             variant="contained"
+            onClick={() => {
+              if (roles.length === 0) setErrorRole(true);
+            }}
             sx={{ width: "200px", height: 40, borderRadius: 100 }}
           >
             Enviar

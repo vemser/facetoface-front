@@ -282,6 +282,9 @@ export const UpdateUser: React.FC = () => {
             id="button-submit-editar-usuario"
             type="submit"
             variant="contained"
+            onClick={() => {
+              if (roles.length === 0) setErrorRole(true);
+            }}
             sx={{ width: "200px", height: 40, borderRadius: 100 }}
           >
             Enviar
