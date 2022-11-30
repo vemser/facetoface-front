@@ -13,7 +13,7 @@ import {
   UpdateCandidate,
   UpdateUser,
 } from "../pages";
-import { RouteAdmin, SideBar } from "../shared/components";
+import { SideBar } from "../shared/components";
 import { useAuth } from "../shared/contexts";
 
 export const AppRoutes: React.FC = () => {
@@ -36,15 +36,14 @@ export const AppRoutes: React.FC = () => {
         <SideBar>
           <ToastContainer />
           <Routes>
-            <Route element={<RouteAdmin />}>
-              <Route path="/register-user" element={<RegisterUser />} />
-              <Route path="/update-user/:id" element={<UpdateUser />} />
-            </Route>
             <Route path="/" element={<Home />} />
+            <Route path="/register-user" element={<RegisterUser />} />
+            <Route path="/update-user/:id" element={<UpdateUser />} />
             <Route path="/register-candidate" element={<RegisterCandidate />} />
             <Route path="/update-candidate/:id" element={<UpdateCandidate />} />
-            <Route path="/register-interview" element={<RegisterInterview />} />
             <Route path="/schedule" element={<Schedule />} />
+            <Route path="/register-interview" element={<RegisterInterview />} />
+
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </SideBar>

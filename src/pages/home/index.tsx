@@ -26,7 +26,6 @@ export const Home: React.FC = () => {
   useEffect(() => {
     getCandidates();
     getUsers();
-    console.log(users);
   }, []);
 
   const togglePage = () => {

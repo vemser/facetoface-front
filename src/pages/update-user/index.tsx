@@ -31,9 +31,9 @@ export const UpdateUser: React.FC = () => {
   const [roles, setRoles] = useState<IProps[]>(state.perfis);
   const [errorRole, setErrorRole] = React.useState(false);
 
-  const admin = state.perfis.find((item: any) => item.nome === "ROLE_ADMIN");
-  const gestao = state.perfis.find((item: any) => item.nome === "ROLE_GESTAO");
-  const instrutor = state.perfis.find(
+  let admin = state.perfis.find((item: any) => item.nome === "ROLE_ADMIN");
+  let gestao = state.perfis.find((item: any) => item.nome === "ROLE_GESTAO");
+  let instrutor = state.perfis.find(
     (item: any) => item.nome === "ROLE_INSTRUTOR"
   );
 
@@ -234,7 +234,7 @@ export const UpdateUser: React.FC = () => {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={gestao}
+                          defaultChecked={gestao}
                           value="ROLE_GESTAO"
                           onChange={handleChange}
                         />
@@ -244,7 +244,7 @@ export const UpdateUser: React.FC = () => {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={instrutor}
+                          defaultChecked={instrutor}
                           value="ROLE_INSTRUTOR"
                           onChange={handleChange}
                         />
@@ -254,7 +254,7 @@ export const UpdateUser: React.FC = () => {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={admin}
+                          defaultChecked={admin}
                           value="ROLE_ADMIN"
                           onChange={handleChange}
                         />

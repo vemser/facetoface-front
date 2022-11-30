@@ -29,10 +29,7 @@ interface IProps {
 }
 
 export const SideBar: React.FC<IProps> = ({ children }) => {
-  const { user } = useAuth();
-
-  //a melhorar
-  const userSigned = JSON.parse(user);
+  const { user, isAdmin, isGestor, isInstructor } = useAuth();
 
   const navigate = useNavigate();
   const theme = useTheme();
@@ -80,9 +77,10 @@ export const SideBar: React.FC<IProps> = ({ children }) => {
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
+                textAlign: "center",
               }}
             >
-              {userSigned?.email}
+              {user?.nomeCompleto}
             </Typography>
           </Box>
 
@@ -97,33 +95,42 @@ export const SideBar: React.FC<IProps> = ({ children }) => {
                 <ListItemText primary="Página inicial" />
               </ListItemButton>
               {/* item */}
-              <ListItemButton onClick={() => navigate("/register-user")}>
-                <ListItemIcon>
-                  <PeopleIcon />
-                </ListItemIcon>
-                <ListItemText primary="Cadastrar usuário" />
-              </ListItemButton>
+              {isAdmin && (
+                <ListItemButton onClick={() => navigate("/register-user")}>
+                  <ListItemIcon>
+                    <PeopleIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Cadastrar usuário" />
+                </ListItemButton>
+              )}
               {/* item */}
-              <ListItemButton onClick={() => navigate("/register-candidate")}>
-                <ListItemIcon>
-                  <PeopleIcon />
-                </ListItemIcon>
-                <ListItemText primary="Cadastrar candidato" />
-              </ListItemButton>
+              {isGestor && (
+                <ListItemButton onClick={() => navigate("/register-candidate")}>
+                  <ListItemIcon>
+                    <PeopleIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Cadastrar candidato" />
+                </ListItemButton>
+              )}
               {/* item */}
-              <ListItemButton onClick={() => navigate("/register-interview")}>
-                <ListItemIcon>
-                  <VideoCameraFrontIcon />
-                </ListItemIcon>
-                <ListItemText primary="Cadastrar entrevista" />
-              </ListItemButton>
+              {isInstructor && (
+                <ListItemButton onClick={() => navigate("/register-interview")}>
+                  <ListItemIcon>
+                    <VideoCameraFrontIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Cadastrar entrevista" />
+                </ListItemButton>
+              )}
               {/* item */}
-              <ListItemButton onClick={() => navigate("/schedule")}>
-                <ListItemIcon>
-                  <CalendarMonthIcon />
-                </ListItemIcon>
-                <ListItemText primary="Agenda" />
-              </ListItemButton>
+              {isGestor ||
+                (isInstructor && (
+                  <ListItemButton onClick={() => navigate("/schedule")}>
+                    <ListItemIcon>
+                      <CalendarMonthIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Agenda" />
+                  </ListItemButton>
+                ))}
               {/* item */}
               <ListItemButton onClick={handleLogout}>
                 <ListItemIcon>
