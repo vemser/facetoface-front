@@ -99,17 +99,17 @@ export const Schedule: React.FC = () => {
                 sx={{ borderRadius: "100px" }}
                 color="primary"
                 variant="outlined"
-                onClick={() => toggleMonth(1)}
+                onClick={() => toggleMonth(-1)}
               >
-                Avançar
+                Voltar
               </Button>
               <Button
                 sx={{ borderRadius: "100px" }}
                 color="primary"
                 variant="outlined"
-                onClick={() => toggleMonth(-1)}
+                onClick={() => toggleMonth(1)}
               >
-                Voltar
+                Avançar
               </Button>
             </Box>
           </Box>
@@ -119,9 +119,9 @@ export const Schedule: React.FC = () => {
               sx={{ borderRadius: "100px" }}
               color="primary"
               variant="outlined"
-              onClick={() => toggleMonth(1)}
+              onClick={() => toggleMonth(-1)}
             >
-              Avançar
+              Voltar
             </Button>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
@@ -151,13 +151,14 @@ export const Schedule: React.FC = () => {
                 )}
               />
             </LocalizationProvider>
+
             <Button
               sx={{ borderRadius: "100px" }}
               color="primary"
               variant="outlined"
-              onClick={() => toggleMonth(-1)}
+              onClick={() => toggleMonth(1)}
             >
-              Voltar
+              Avançar
             </Button>
           </Box>
         )}

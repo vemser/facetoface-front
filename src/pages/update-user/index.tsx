@@ -9,14 +9,14 @@ import {
   RadioGroup,
   TextField,
   Checkbox,
-  useMediaQuery,
   useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaUser } from "../../shared/schemas/register-user.schema";
-import { IUserComplete, IUser } from "../../shared/interfaces";
+import { IUserComplete } from "../../shared/interfaces";
 import { ErrorMessage } from "../../shared/components";
 import { UserContext } from "../../shared/contexts/userContext";
 import { useLocation } from "react-router-dom";

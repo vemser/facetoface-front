@@ -3,6 +3,7 @@ import { Box, Typography, Button, IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { ICandidateComplete } from "../../interfaces";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 interface IProps {
   props: ICandidateComplete;
@@ -15,78 +16,80 @@ export const ItemCandidate: React.FC<IProps> = ({
   onDelete,
   onUpdate,
 }) => {
-  const styleColumns = {
-    width: "14%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-  };
+  const firtsBreakpoint = useMediaQuery("(max-width:1100px)");
+  const secondBreakpoint = useMediaQuery("(max-width:800px)");
+
+  let name = props.nomeCompleto.split(" ");
 
   return (
     <Box
       display="flex"
       alignItems="center"
+      textAlign="center"
       width="100%"
       justifyContent="space-between"
-      p={1}
-      sx={{ borderBottom: "1px solid #bdbdbd" }}
+      sx={{ borderBottom: "1px solid #bdbdbd", padding: ".5rem 0" }}
     >
-      <Box
+      <Typography fontSize={firtsBreakpoint ? "12px" : "15px"} width="25%">
+        {name[0]} {name[1]}...
+      </Typography>
+
+      <Typography
+        fontSize={firtsBreakpoint ? "12px" : "15px"}
+        width="25%"
         sx={{
-          width: "8%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Typography fontSize="15px">{props.notaProva}</Typography>
-      </Box>
-      <Box sx={styleColumns}>
-        <Typography fontSize="15px">{props.nomeCompleto}</Typography>
-      </Box>
-      <Box
-        sx={{
-          width: "25%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
           whiteSpace: "nowrap",
           overflow: "hidden",
           textOverflow: "ellipsis",
         }}
       >
-        <Typography fontSize="15px">{props.email}</Typography>
-      </Box>
-      <Box
-        sx={{
-          width: "10%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Typography fontSize="15px">{props.trilha.nome}</Typography>
-      </Box>
-      <Box sx={styleColumns}>
-        <Typography fontSize="15px">{props.genero}</Typography>
-      </Box>
-      <Box sx={styleColumns}>
+        {props.email}
+      </Typography>
+
+      {!secondBreakpoint && (
+        <Typography fontSize={firtsBreakpoint ? "11px" : "14px"} width="10%">
+          {props.trilha.nome}
+        </Typography>
+      )}
+
+      {!firtsBreakpoint && (
+        <Typography fontSize={firtsBreakpoint ? "12px" : "15px"} width="15%">
+          {props.genero}
+        </Typography>
+      )}
+
+      <Typography width="5%" fontSize={firtsBreakpoint ? "13px" : "15px"}>
+        {props.notaProva}
+      </Typography>
+
+      <Box width="15%">
         <Button
           variant="contained"
-          sx={{ borderRadius: "100px", fontSize: "12px" }}
+          sx={{
+            borderRadius: "100px",
+            fontSize: `${firtsBreakpoint ? "9px" : "12px"}`,
+          }}
         >
-          Entrevista
+          Marcar
         </Button>
       </Box>
-      <Box sx={styleColumns}>
+      <Box
+        width="11%"
+        display="flex"
+        justifyContent="center"
+        flexDirection={secondBreakpoint ? "column" : "row"}
+      >
         <IconButton onClick={onUpdate}>
-          <EditIcon />
+          <EditIcon
+            sx={{
+              fontSize: `${firtsBreakpoint ? "18px" : "25px"}`,
+            }}
+          />
         </IconButton>
         <IconButton onClick={onDelete}>
-          <DeleteIcon />
+          <DeleteIcon
+            sx={{ fontSize: `${firtsBreakpoint ? "18px" : "25px"}` }}
+          />
         </IconButton>
       </Box>
     </Box>

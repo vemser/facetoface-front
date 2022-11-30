@@ -58,13 +58,19 @@ export const SideBar: React.FC<IProps> = ({ children }) => {
         >
           <Box
             width="100%"
-            height={theme.spacing(20)}
+            height={theme.spacing(40)}
             display="flex"
             flexDirection="column"
             gap="0.5rem"
             alignItems="center"
             justifyContent="center"
           >
+            <img
+              id="logo-vem-ser-blue-sign-in"
+              src={require("../../assets/logo/vem-ser-blue.png")}
+              alt="logo vem ser"
+              style={{ width: "180px", marginBottom: "2rem" }}
+            />
             <Avatar
               alt="foto de perfil"
               src=""
@@ -113,24 +119,27 @@ export const SideBar: React.FC<IProps> = ({ children }) => {
                 </ListItemButton>
               )}
               {/* item */}
-              {isInstructor && (
+              {isInstructor || isGestor ? (
                 <ListItemButton onClick={() => navigate("/register-interview")}>
                   <ListItemIcon>
                     <VideoCameraFrontIcon />
                   </ListItemIcon>
                   <ListItemText primary="Cadastrar entrevista" />
                 </ListItemButton>
+              ) : (
+                ""
               )}
               {/* item */}
-              {isGestor ||
-                (isInstructor && (
-                  <ListItemButton onClick={() => navigate("/schedule")}>
-                    <ListItemIcon>
-                      <CalendarMonthIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Agenda" />
-                  </ListItemButton>
-                ))}
+              {isGestor || isAdmin || isInstructor ? (
+                <ListItemButton onClick={() => navigate("/schedule")}>
+                  <ListItemIcon>
+                    <CalendarMonthIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Agenda" />
+                </ListItemButton>
+              ) : (
+                ""
+              )}
               {/* item */}
               <ListItemButton onClick={handleLogout}>
                 <ListItemIcon>

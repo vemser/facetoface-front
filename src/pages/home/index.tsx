@@ -5,23 +5,24 @@ import {
   Button,
   InputAdornment,
   IconButton,
-  Typography,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
-import { useCandidate } from "../../shared/contexts";
-import { ItemCandidate, ItemUser } from "../../shared/components";
+import { useAuth, useCandidate } from "../../shared/contexts";
+import { ListCandidates } from "../../shared/components";
 import SearchIcon from "@mui/icons-material/Search";
 import Pagination from "@mui/material/Pagination";
-import { useNavigate } from "react-router-dom";
-import { ICandidateComplete, IUserComplete } from "../../shared/interfaces";
 import { useUser } from "../../shared/contexts/userContext";
+import { ListUsers } from "../../shared/components/list-users";
 
 export const Home: React.FC = () => {
-  const navigate = useNavigate();
   const [optionSelected, setOptionSelected] = useState<boolean>(true);
   const [search, setSearch] = useState<string>("");
-  const { getCandidates, candidates, deleteCandidate, getByName } =
-    useCandidate();
+  const { getCandidates, candidates, getByName } = useCandidate();
   const { getUsers, users } = useUser();
+  const { isAdmin } = useAuth();
+  const theme = useTheme();
+  const mdDown = useMediaQuery(theme.breakpoints.down("md"));
 
   useEffect(() => {
     getCandidates();
@@ -37,13 +38,6 @@ export const Home: React.FC = () => {
     getByName(search);
   };
 
-  const styleColumns = {
-    width: "14%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  };
-
   return (
     <Box
       display="flex"
@@ -55,14 +49,14 @@ export const Home: React.FC = () => {
       <Box
         display="flex"
         alignItems="center"
-        justifyContent="space-between"
+        justifyContent={mdDown ? "center" : "space-between"}
         pt="5%"
       >
         <TextField
           type="text"
           variant="outlined"
           label="Pesquisar por nome"
-          sx={{ width: "45%" }}
+          sx={{ width: `${mdDown ? "250px" : "300px"}` }}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           InputProps={{
@@ -75,110 +69,32 @@ export const Home: React.FC = () => {
             ),
           }}
         />
-        <Box display="flex" alignItems="center" gap="3rem">
-          <Button
-            variant={optionSelected ? "contained" : "outlined"}
-            sx={{ borderRadius: "100px" }}
-            onClick={() => setOptionSelected(!optionSelected)}
-          >
-            Candidatos
-          </Button>
-          <Button
-            variant={!optionSelected ? "contained" : "outlined"}
-            sx={{ borderRadius: "100px" }}
-            onClick={() => setOptionSelected(!optionSelected)}
-          >
-            Usuários
-          </Button>
-        </Box>
+        {isAdmin && (
+          <Box display="flex" alignItems="center" gap="3rem">
+            <Button
+              variant={optionSelected ? "contained" : "outlined"}
+              sx={{ borderRadius: "100px" }}
+              onClick={() => setOptionSelected(!optionSelected)}
+            >
+              Candidatos
+            </Button>
+            <Button
+              variant={!optionSelected ? "contained" : "outlined"}
+              sx={{ borderRadius: "100px" }}
+              onClick={() => setOptionSelected(!optionSelected)}
+            >
+              Usuários
+            </Button>
+          </Box>
+        )}
       </Box>
       <Box display="flex">
         <Button>teste</Button>
         <Button>teste2</Button>
       </Box>
       <Box display="flex" flexDirection="column" width="100%">
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          p={1}
-        >
-          <Box
-            sx={{
-              width: "8%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Typography>Nota</Typography>
-          </Box>
-          <Box sx={styleColumns}>
-            <Typography>Nome</Typography>
-          </Box>
-          <Box
-            sx={{
-              width: "25%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
-            <Typography>E-mail</Typography>
-          </Box>
-          <Box
-            sx={{
-              width: "10%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Typography>Trilha</Typography>
-          </Box>
-          <Box sx={styleColumns}>
-            <Typography>Gênero</Typography>
-          </Box>
-          <Box sx={styleColumns}>
-            <Typography>Marcar</Typography>
-          </Box>
-          <Box sx={styleColumns}>
-            <Typography>Ações</Typography>
-          </Box>
-        </Box>
         <Box display="flex" flexDirection="column" width="100%">
-          {optionSelected
-            ? candidates.elementos?.map((item: ICandidateComplete) => {
-                if (item.ativo != "F")
-                  return (
-                    <ItemCandidate
-                      key={item.idCandidato}
-                      props={item}
-                      onDelete={() => deleteCandidate(item.idCandidato)}
-                      onUpdate={() =>
-                        navigate("/update-candidate/" + item.idCandidato, {
-                          state: item,
-                        })
-                      }
-                    />
-                  );
-              })
-            : users.elementos?.map((item: IUserComplete) => {
-                return (
-                  <ItemUser
-                    key={item.idUsuario}
-                    props={item}
-                    onUpdate={() =>
-                      navigate("/update-user/" + item.idUsuario, {
-                        state: item,
-                      })
-                    }
-                  />
-                );
-              })}
+          {optionSelected ? <ListCandidates /> : <ListUsers />}
         </Box>
         <Box
           display="flex"
