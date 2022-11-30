@@ -48,6 +48,7 @@ export const Schedule: React.FC = () => {
           color="primary"
           variant="h3"
           fontSize={mdDown ? "1.5rem" : "3rem"}
+          textAlign="center"
         >
           Agenda de Entrevistas
         </Typography>
@@ -60,7 +61,10 @@ export const Schedule: React.FC = () => {
             alignItems="center"
             justifyContent="center"
           >
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <Typography sx={{ fontSize: "15px" }}>
+              {dateNow.getMonth() + 1} - {dateNow.getFullYear()}
+            </Typography>
+            {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
                 views={["year", "month"]}
                 label="Mudar mês e ano"
@@ -87,7 +91,7 @@ export const Schedule: React.FC = () => {
                   />
                 )}
               />
-            </LocalizationProvider>
+            </LocalizationProvider> */}
             <Box
               display="flex"
               alignItems="center"
@@ -96,7 +100,7 @@ export const Schedule: React.FC = () => {
               gap="1rem"
             >
               <Button
-                sx={{ borderRadius: "100px" }}
+                sx={{ borderRadius: "100px", width: "100px" }}
                 color="primary"
                 variant="outlined"
                 onClick={() => toggleMonth(-1)}
@@ -104,7 +108,7 @@ export const Schedule: React.FC = () => {
                 Voltar
               </Button>
               <Button
-                sx={{ borderRadius: "100px" }}
+                sx={{ borderRadius: "100px", width: "100px" }}
                 color="primary"
                 variant="outlined"
                 onClick={() => toggleMonth(1)}
@@ -114,16 +118,24 @@ export const Schedule: React.FC = () => {
             </Box>
           </Box>
         ) : (
-          <Box width="100%" display="flex" justifyContent="space-evenly">
+          <Box
+            width="100%"
+            display="flex"
+            justifyContent="space-evenly"
+            alignItems="center"
+          >
             <Button
-              sx={{ borderRadius: "100px" }}
+              sx={{ borderRadius: "100px", width: "200px" }}
               color="primary"
               variant="outlined"
               onClick={() => toggleMonth(-1)}
             >
               Voltar
             </Button>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <Typography sx={{ fontSize: "18px", textAlign: "center" }}>
+              {dateNow.getMonth() + 1} - {dateNow.getFullYear()}
+            </Typography>
+            {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
                 views={["year", "month"]}
                 label="Mudar mês e ano"
@@ -150,10 +162,9 @@ export const Schedule: React.FC = () => {
                   />
                 )}
               />
-            </LocalizationProvider>
-
+            </LocalizationProvider> */}
             <Button
-              sx={{ borderRadius: "100px" }}
+              sx={{ borderRadius: "100px", width: "200px" }}
               color="primary"
               variant="outlined"
               onClick={() => toggleMonth(1)}
@@ -167,12 +178,30 @@ export const Schedule: React.FC = () => {
         <DayCalendar days={days} date={dateNow} dayWeek={dayWeek} />
       </Box>
 
-      <Box width="100%" display="flex" justifyContent="space-evenly">
-        <Box>
+      <Box width="100%" display="flex" justifyContent="space-evenly" mb="5%">
+        <Box width="45%" display="flex" flexDirection="column">
           <Typography>Legenda</Typography>
+          <Box width="100%" display="flex" mt="1rem">
+            <Box width="50px" height="100%" bgcolor="green"></Box>
+            <Typography pl="1rem">Confirmada</Typography>
+          </Box>
+          <Box width="100%" display="flex" mt="1rem">
+            <Box width="50px" height="100%" bgcolor="yellow"></Box>
+            <Typography pl="1rem">Pendente</Typography>
+          </Box>
+          <Box width="100%" display="flex" mt="1rem">
+            <Box width="50px" height="100%" bgcolor="red"></Box>
+            <Typography pl="1rem">Cancelada</Typography>
+          </Box>
+          <Box width="100%" display="flex" mt="1rem">
+            <Box width="50px" height="100%" bgcolor="gray"></Box>
+            <Typography pl="1rem">Outro</Typography>
+          </Box>
         </Box>
-        <Box>
-          <Typography>Legenda</Typography>
+        <Box width="45%" display="flex" flexDirection="column">
+          <Typography>Editar Calenário</Typography>
+          <Button>Cadastrar Nova Entrevista</Button>
+          <Button>Atualizar Agenda</Button>
         </Box>
       </Box>
     </Box>
