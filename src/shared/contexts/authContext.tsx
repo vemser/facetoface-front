@@ -55,7 +55,6 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
       handleGetRoles(responseUser.data);
       setUser(responseUser.data);
       setToken(responseToken.data);
-      await getImageProfile(responseUser.data.email);
       navigate("/");
     } catch (err) {
       alertError("Senha ou email incorretos!");
@@ -91,8 +90,8 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
   };
 
   const getImageProfile = async (email: string) => {
+    nProgress.start();
     try {
-      nProgress.start();
       const { data } = await api.get(`usuario/recuperar-imagem?email=${email}`);
       setImageProfile(data);
     } catch (err) {

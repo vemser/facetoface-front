@@ -25,7 +25,7 @@ interface IProps {
 }
 
 export const RegisterUser: React.FC = () => {
-  const { postUser } = useContext(UserContext);
+  const { postUser, postImage } = useContext(UserContext);
   const [roles, setRoles] = useState<IProps[]>([]);
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
@@ -46,8 +46,9 @@ export const RegisterUser: React.FC = () => {
     if (roles.length === 0) setErrorRole(true);
     else {
       data.perfis = roles;
-      if (image) postUser(data, image);
-      else postUser(data);
+      console.log(data);
+      if (image) postImage(formData, data.email);
+      postUser(data);
     }
   };
 
@@ -56,9 +57,16 @@ export const RegisterUser: React.FC = () => {
   };
 
   // lógica de pegar a imagem
-  const handleFileChange = (event: any) => {
-    setImage(event.target.files[0]);
+  const handleFileChange = (e: any) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setImage(e.target.files[0]);
+    }
   };
+
+  const formData = new FormData();
+  if (image) {
+    formData.append("file", image);
+  }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setErrorRole(false);
@@ -73,16 +81,11 @@ export const RegisterUser: React.FC = () => {
     document.title = `Cadastro de usuário`;
   }, []);
 
-  useEffect(() => {
-    console.log(image);
-  }, [image]);
-
   return (
     <Box
       display="flex"
       width="100%"
       minHeight="100%"
-      paddingTop={4}
       justifyContent="center"
       alignItems="center"
     >
@@ -95,24 +98,27 @@ export const RegisterUser: React.FC = () => {
           flexDirection: "column",
           alignItems: "center",
           flexWrap: "wrap",
+          paddingTop: "5%",
         }}
       >
         {/* ------------- Box 1 ------------------ */}
         <Box
           display="flex"
-          flexDirection={mdDown ? "column" : "row"}
           width="100%"
-          gap={3}
           alignItems="center"
-          mb={3}
+          justifyContent="center"
+          flexDirection="column"
         >
           <Avatar
             id="foto-register-candidate"
             alt="foto"
             src={image ? URL.createObjectURL(image) : ""}
-            sx={{ width: 100, height: 100 }}
+            sx={{ width: 80, height: 80 }}
             onClick={handleClickFile}
           />
+          <Button sx={{ margin: "1rem 0" }} onClick={handleClickFile}>
+            Escolher foto
+          </Button>
           <input
             id="input-file-register-candidate"
             style={{ display: "none" }}

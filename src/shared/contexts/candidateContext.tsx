@@ -9,6 +9,7 @@ import { api } from "../api";
 import alertError from "../alerts/error";
 import alertSuccess from "../alerts/sucess";
 import { useAuth } from "./authContext";
+import nProgress from "nprogress";
 
 interface ICandidateContext {
   candidates: any;
@@ -19,6 +20,10 @@ interface ICandidateContext {
   getCandidates: (page?: number, size?: number) => Promise<void>;
   getByEmail: (email: string) => Promise<void>;
   getByEmailInterview: (email: string) => Promise<any>;
+  getCandidateImage: (email: string) => Promise<any>;
+  postImage: (file: any, email: string) => Promise<void>;
+  postCurriculo: (file: any, email: string) => Promise<void>;
+  getCurriculo: (email: string) => Promise<any>;
 }
 
 interface IChildren {
@@ -128,6 +133,55 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
     }
   };
 
+  const postImage = async (file: any, email: string) => {
+    try {
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      await api.put(`candidato/upload-foto?email=${email}`, file);
+    } catch (err) {
+      alertError("Ops, algo deu errado no upload de imagem!");
+    } finally {
+    }
+  };
+
+  const postCurriculo = async (file: any, email: string) => {
+    try {
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      await api.put(`candidato/upload-curriculo?email=${email}`, file);
+    } catch (err) {
+      alertError("Ops, algo deu errado no upload do curriculo!");
+    } finally {
+    }
+  };
+
+  const getCandidateImage = async (email: string) => {
+    try {
+      nProgress.start();
+      console.log(email);
+      const { data } = await api.get(
+        `candidato/recuperar-imagem?email=${email}`
+      );
+      return data;
+    } catch (err) {
+      //alertError("Ops, algo deu errado!");
+    }
+    nProgress.done();
+  };
+
+  const getCurriculo = async (email: string) => {
+    try {
+      nProgress.start();
+      console.log(email);
+      const { data } = await api.get(
+        `candidato/recuperar-curriculo?email=${email}`
+      );
+      return data;
+    } catch (err) {
+      //alertError("Ops, algo deu errado!");
+    } finally {
+      nProgress.done();
+    }
+  };
+
   return (
     <CandidateContext.Provider
       value={{
@@ -139,6 +193,10 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
         putCandidate,
         getByEmail,
         getByEmailInterview,
+        getCandidateImage,
+        postImage,
+        postCurriculo,
+        getCurriculo,
       }}
     >
       {children}

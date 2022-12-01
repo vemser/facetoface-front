@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Button, TextField, Typography, useTheme } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { Button, Typography, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
 import { getDaysInMonth, startOfMonth } from "date-fns";
 import { DayCalendar } from "../../shared/components";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useInterview } from "../../shared/contexts";
 import { useInterview } from "../../shared/contexts";
 
 export const Schedule: React.FC = () => {

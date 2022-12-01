@@ -38,7 +38,7 @@ export const RegisterCandidate: React.FC = () => {
     watch,
     reset,
   } = useForm<ICandidate>({ resolver: yupResolver(schemaCandidate) });
-  const { postCandidate } = useCandidate();
+  const { postCandidate, postImage } = useCandidate();
   const [arrLanguages, setArrLanguages] = useState<ILanguages[]>([]);
   const [language, setLanguage] = useState<string>("");
   const [image, setImage] = useState(null);
@@ -51,6 +51,7 @@ export const RegisterCandidate: React.FC = () => {
   const handleSubmitCandidate = (data: ICandidate) => {
     data.linguagens = arrLanguages;
     postCandidate(data);
+    postImage(formData, data.email);
     setArrLanguages([]);
     reset();
   };
@@ -76,13 +77,16 @@ export const RegisterCandidate: React.FC = () => {
   };
 
   // lógica de pegar a imagem
-  const handleFileChange = (event: any) => {
-    setImage(event.target.files[0]);
+  const handleFileChange = (e: any) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setImage(e.target.files[0]);
+    }
   };
 
-  useEffect(() => {
-    console.log(image);
-  }, [image]);
+  const formData = new FormData();
+  if (image) {
+    formData.append("file", image);
+  }
 
   return (
     <Box
@@ -107,8 +111,8 @@ export const RegisterCandidate: React.FC = () => {
           display="flex"
           width="100%"
           alignItems="center"
-          justifyContent="space-between"
-          flexDirection={mdDown ? "column" : "row"}
+          justifyContent="center"
+          flexDirection="column"
         >
           <Avatar
             id="avatar-register-candidate"
@@ -117,6 +121,9 @@ export const RegisterCandidate: React.FC = () => {
             sx={{ width: 80, height: 80, m: "auto" }}
             onClick={handleClickFile}
           />
+          <Button sx={{ margin: "1rem 0" }} onClick={handleClickFile}>
+            Escolher foto
+          </Button>
           <input
             id="input-file-register-candidate"
             style={{ display: "none" }}

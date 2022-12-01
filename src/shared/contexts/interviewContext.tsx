@@ -8,12 +8,10 @@ import { IInterview } from "../interfaces";
 import { useAuth } from "./authContext";
 
 interface IInterviewContext {
-  //isOpen: boolean;
-  postInterview: (interview: any) => Promise<void>;
-  getInterview: () => Promise<void>;
   lista: IInterview[];
   schedules: any;
   postInterview: (interview: any) => Promise<void>;
+  getInterview: () => Promise<void>;
   getByMonthYear: (day: number, year: number) => Promise<void>;
 }
 
@@ -28,8 +26,6 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
   const [lista, setLista] = useState<IInterview[]>([]);
   const navigate = useNavigate();
   const [schedules, setSchedules] = useState([]);
-  const { token } = useAuth();
-  const navigate = useNavigate();
 
   const postInterview = async (interview: any) => {
     try {
@@ -63,29 +59,6 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
     }
   };
 
-  return (
-    <InterviewContext.Provider
-      value={{
-        postInterview,
-        getInterview,
-        lista,
-      }}
-    >
-      {children}
-    </InterviewContext.Provider>
-  );
-  const postInterview = async (interview: any) => {
-    try {
-      api.defaults.headers["Authorization"] = `Bearer ${token}`;
-      await api.post("entrevista/marcar-entrevista", interview);
-      alertSuccess("Entrevista cadastrada com sucesso!");
-      navigate("/");
-    } catch (err) {
-      alertError("Ops, algo deu errado!");
-    } finally {
-    }
-  };
-
   const getByMonthYear = async (day: number, year: number) => {
     try {
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
@@ -100,12 +73,38 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
 
   return (
     <InterviewContext.Provider
-      value={{ postInterview, getByMonthYear, schedules }}
+      value={{
+        postInterview,
+        getInterview,
+        getByMonthYear,
+        lista,
+        schedules,
+      }}
     >
       {children}
     </InterviewContext.Provider>
   );
 };
+//   const postInterview = async (interview: any) => {
+//     try {
+//       api.defaults.headers["Authorization"] = `Bearer ${token}`;
+//       await api.post("entrevista/marcar-entrevista", interview);
+//       alertSuccess("Entrevista cadastrada com sucesso!");
+//       navigate("/");
+//     } catch (err) {
+//       alertError("Ops, algo deu errado!");
+//     } finally {
+//     }
+//   };
+
+//   return (
+//     <InterviewContext.Provider
+//       value={{ postInterview, getByMonthYear, schedules }}
+//     >
+//       {children}
+//     </InterviewContext.Provider>
+//   );
+// };
 
 export const useInterview = () => {
   return useContext(InterviewContext);
