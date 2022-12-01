@@ -12,7 +12,7 @@ interface IInterviewContext {
   schedules: any;
   postInterview: (interview: any) => Promise<void>;
   getInterview: () => Promise<void>;
-  getByMonthYear: (day: number, year: number) => Promise<void>;
+  getByMonthYear: (month: number, year: number) => Promise<void>;
 }
 
 interface IChildren {
@@ -59,11 +59,11 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
     }
   };
 
-  const getByMonthYear = async (day: number, year: number) => {
+  const getByMonthYear = async (month: number, year: number) => {
     try {
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
       const { data } = await api.get(
-        `entrevista/listar-por-mes?pagina=0&tamanho=10&mes=${day}&ano=${year}`
+        `entrevista/listar-por-mes?pagina=0&tamanho=10&mes=${month}&ano=${year}`
       );
       setSchedules(data);
     } catch (err) {

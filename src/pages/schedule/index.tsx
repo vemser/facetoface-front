@@ -1,39 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { Button, TextField, Typography, useTheme } from "@mui/material";
+import React, { useEffect } from "react";
+import { Button, Typography, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
-import { getDaysInMonth, startOfMonth } from "date-fns";
-import { DayCalendar } from "../../shared/components";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useInterview } from "../../shared/contexts";
+import FullCalendar from "@fullcalendar/react"; // must go before plugins
+import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
+import "./index.css";
 
 export const Schedule: React.FC = () => {
   const { getByMonthYear, schedules } = useInterview();
-  const theme = useTheme();
   const { getInterview, lista } = useInterview();
+  const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
-  const [dateNow, setDateNow] = useState<Date>(new Date());
-  const [days, setDays] = useState<number>(
-    getDaysInMonth(new Date(dateNow.toISOString()))
-  );
-  const [dayWeek, setDayWeek] = useState<number>(
-    startOfMonth(new Date(dateNow.toISOString())).getDay()
-  );
 
   useEffect(() => {
-    getInterview();
-  }, []);
-
-  const toggleMonth = (action: number) => {
-    let aux = new Date(dateNow);
-    aux.setMonth(aux.getMonth() + action);
-    setDateNow(aux);
-    setDays(getDaysInMonth(aux));
-    setDayWeek(startOfMonth(aux).getDay());
-    getByMonthYear(aux.getMonth() + 1, aux.getFullYear());
-  };
-
-  useEffect(() => {
-    getByMonthYear(dateNow.getMonth() + 1, dateNow.getFullYear());
+    getByMonthYear(11, 2022);
   }, []);
 
   return (
@@ -62,75 +43,22 @@ export const Schedule: React.FC = () => {
           Agenda de Entrevistas
         </Typography>
       </Box>
-      <Box width="100%" display="flex" justifyContent="space-evenly">
-        {mdDown ? (
-          <Box
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Typography sx={{ fontSize: "15px" }}>
-              {dateNow.getMonth() + 1} - {dateNow.getFullYear()}
-            </Typography>
 
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="space-evenly"
-              mt="1rem"
-              gap="1rem"
-            >
-              <Button
-                sx={{ borderRadius: "100px", width: "100px" }}
-                color="primary"
-                variant="outlined"
-                onClick={() => toggleMonth(-1)}
-              >
-                Voltar
-              </Button>
-              <Button
-                sx={{ borderRadius: "100px", width: "100px" }}
-                color="primary"
-                variant="outlined"
-                onClick={() => toggleMonth(1)}
-              >
-                Avançar
-              </Button>
-            </Box>
-          </Box>
-        ) : (
-          <Box
-            width="100%"
-            display="flex"
-            justifyContent="space-evenly"
-            alignItems="center"
-          >
-            <Button
-              sx={{ borderRadius: "100px", width: "200px" }}
-              color="primary"
-              variant="outlined"
-              onClick={() => toggleMonth(-1)}
-            >
-              Voltar
-            </Button>
-            <Typography sx={{ fontSize: "18px", textAlign: "center" }}>
-              {dateNow.getMonth() + 1} - {dateNow.getFullYear()}
-            </Typography>
-
-            <Button
-              sx={{ borderRadius: "100px", width: "200px" }}
-              color="primary"
-              variant="outlined"
-              onClick={() => toggleMonth(1)}
-            >
-              Avançar
-            </Button>
-          </Box>
-        )}
-      </Box>
-      <Box width="100%" display="flex" pt="2rem">
-        {/* <DayCalendar days={days} date={dateNow} dayWeek={dayWeek} /> */}
+      <Box width="100%">
+        <Box width="100%" sx={{ paddingBottom: "5%" }}>
+          <FullCalendar
+            plugins={[dayGridPlugin]}
+            initialView="dayGridMonth"
+            events={[
+              { title: "event 1", date: "2022-12-30T16:42:56.52" },
+              { title: "event 2", date: "2022-12-02" },
+            ]}
+            datesSet={(arg) => {
+              let date = new Date(arg.startStr);
+              getByMonthYear(date.getMonth() + 1, date.getFullYear());
+            }}
+          />
+        </Box>
       </Box>
 
       <Box width="100%" display="flex" justifyContent="space-evenly" mb="5%">
