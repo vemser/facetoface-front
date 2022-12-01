@@ -10,6 +10,7 @@ import { useAuth } from "./authContext";
 interface IInterviewContext {
   lista: IInterview[];
   schedules: any;
+  schedulesFormated: any;
   postInterview: (interview: any) => Promise<void>;
   getInterview: () => Promise<void>;
   getByMonthYear: (month: number, year: number) => Promise<void>;
@@ -26,6 +27,7 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
   const [lista, setLista] = useState<IInterview[]>([]);
   const navigate = useNavigate();
   const [schedules, setSchedules] = useState([]);
+  const [schedulesFormated, setSchedulesFormated] = useState([]);
 
   const postInterview = async (interview: any) => {
     try {
@@ -65,6 +67,15 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
       const { data } = await api.get(
         `entrevista/listar-por-mes?pagina=0&tamanho=10&mes=${month}&ano=${year}`
       );
+      let result = data.elementos.map((item: any) => {
+        return {
+          date: item.dataEntrevista,
+          title: item.candidatoDTO.nomeCompleto,
+          color: "red",
+        };
+      });
+
+      setSchedulesFormated(result);
       setSchedules(data);
     } catch (err) {
       alertError("Ops! algo deu errado!");
@@ -79,6 +90,7 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
         getByMonthYear,
         lista,
         schedules,
+        schedulesFormated,
       }}
     >
       {children}

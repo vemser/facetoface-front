@@ -8,13 +8,14 @@ import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import "./index.css";
 
 export const Schedule: React.FC = () => {
-  const { getByMonthYear, schedules } = useInterview();
+  const { getByMonthYear, schedules, schedulesFormated } = useInterview();
   const { getInterview, lista } = useInterview();
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
 
   useEffect(() => {
-    getByMonthYear(11, 2022);
+    let date = new Date();
+    getByMonthYear(date.getMonth() + 1, date.getFullYear());
   }, []);
 
   return (
@@ -49,14 +50,13 @@ export const Schedule: React.FC = () => {
           <FullCalendar
             plugins={[dayGridPlugin]}
             initialView="dayGridMonth"
-            events={[
-              { title: "event 1", date: "2022-12-30T16:42:56.52" },
-              { title: "event 2", date: "2022-12-02" },
-            ]}
+            events={schedulesFormated}
             datesSet={(arg) => {
               let date = new Date(arg.startStr);
-              getByMonthYear(date.getMonth() + 1, date.getFullYear());
+              getByMonthYear(date.getMonth() + 2, date.getFullYear());
             }}
+            locale="pt-br"
+            buttonText={{ today: "Hoje" }}
           />
         </Box>
       </Box>
