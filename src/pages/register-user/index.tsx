@@ -46,7 +46,8 @@ export const RegisterUser: React.FC = () => {
     if (roles.length === 0) setErrorRole(true);
     else {
       data.perfis = roles;
-      postUser(data);
+      if (image) postUser(data, image);
+      else postUser(data);
     }
   };
 

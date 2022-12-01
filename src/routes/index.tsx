@@ -15,6 +15,7 @@ import {
 } from "../pages";
 import { SideBar } from "../shared/components";
 import { useAuth } from "../shared/contexts";
+import "nprogress/nprogress.css";
 
 export const AppRoutes: React.FC = () => {
   const { token } = useAuth();

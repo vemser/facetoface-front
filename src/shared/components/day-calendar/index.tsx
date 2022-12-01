@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Typography, useTheme } from "@mui/material";
+import { Button, Typography, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { ItemDay } from "../item-day";
+import { useInterview } from "../../contexts";
+import { isSameDay, getDay } from "date-fns";
 
 interface IProps {
   days: number;
@@ -11,6 +13,7 @@ interface IProps {
 }
 
 interface ISchedules {
+  dia: number;
   time: string;
   name: string;
 }
@@ -21,29 +24,56 @@ interface IDays {
 }
 
 export const DayCalendar: React.FC<IProps> = ({ days, date, dayWeek }) => {
+  const { schedules } = useInterview();
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
   const [arrDays, setArrDays] = useState<IDays[]>([]);
+  const [arrSchedules, setArrSchedules] = useState<any>([]);
+
+  const pegarDia = () => {
+    let arr: any = [];
+
+    schedules.elementos.map((item: any) => {
+      let dia: any = new Date(item.dataEntrevista).toLocaleDateString();
+      dia = dia.split("/");
+      let horario: any = item.dataEntrevista.split("T");
+      arr.push({
+        dia: parseInt(dia[0]) + 1,
+        time: `${horario[1][0]}${horario[1][1]}:${horario[1][3]}${horario[1][4]}`,
+        name: item.candidatoDTO.nomeCompleto,
+      });
+    });
+    setArrSchedules(arr);
+    salvarDias(arr);
+  };
+
+  const salvarDias = (arrSchedulesTest: any) => {
+    let arr = arrDays;
+    for (let i = 0; i < 35; i++) {
+      for (let j = 0; j < arrSchedules.length; j++) {
+        let aux = arrSchedulesTest.filter((item: any) => item.dia === i);
+        if (aux.length > 0) {
+          arr[i].schedules = aux;
+        }
+      }
+    }
+    setArrDays(arr);
+  };
 
   const renderDays = () => {
-    let sche = [
-      {
-        time: "20:00",
-        name: "teste teste teste",
-      },
-    ];
     var arr: IDays[] = [];
     for (let i = 1; i <= 35; i++) {
       if (i > dayWeek) {
-        if (i > days) {
-          arr.push({ days: i - days, thisMonth: false, schedules: sche });
-        } else
+        if (i > days + dayWeek) {
+          arr.push({ days: i - days, thisMonth: false, schedules: [] });
+        } else {
           arr.push({
             days: i - dayWeek,
             thisMonth: true,
-            schedules: sche,
+            schedules: [],
           });
-      } else arr.push({ days: i - days, thisMonth: false, schedules: sche });
+        }
+      } else arr.push({ days: i - days, thisMonth: false, schedules: [] });
     }
 
     setArrDays(arr);
@@ -52,7 +82,6 @@ export const DayCalendar: React.FC<IProps> = ({ days, date, dayWeek }) => {
   useEffect(() => {
     renderDays();
   }, [days, dayWeek]);
-
   return (
     <Box
       width="100%"
@@ -61,6 +90,7 @@ export const DayCalendar: React.FC<IProps> = ({ days, date, dayWeek }) => {
       alignItems="center"
       justifyContent="center"
     >
+      {schedules && <Button onClick={pegarDia}>test</Button>}
       <Box
         maxWidth="100%"
         minWidth="100%"

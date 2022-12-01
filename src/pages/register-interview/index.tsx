@@ -40,7 +40,7 @@ export const RegisterInterview: React.FC = () => {
     let dataFinal = {
       candidatoEmail: data.email,
       usuarioEmail: user.email,
-      dataEntrevista: `${data.dateInterview}T${data.scheduleInterview}:00.00`,
+      dataEntrevista: newDate,
       cidade: data.cidade,
       estado: data.estado,
       observacoes: "teste",

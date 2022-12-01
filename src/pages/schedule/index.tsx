@@ -1,14 +1,13 @@
-import React, { useState } from "react";
-import { Button, TextField, Typography, useTheme } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Button, Typography, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
 import { getDaysInMonth, startOfMonth } from "date-fns";
 import { DayCalendar } from "../../shared/components";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useInterview } from "../../shared/contexts";
 
 export const Schedule: React.FC = () => {
+  const { getByMonthYear, schedules } = useInterview();
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
   const [dateNow, setDateNow] = useState<Date>(new Date());
@@ -20,12 +19,17 @@ export const Schedule: React.FC = () => {
   );
 
   const toggleMonth = (action: number) => {
-    let aux = new Date(dateNow.toISOString());
+    let aux = new Date(dateNow);
     aux.setMonth(aux.getMonth() + action);
-    setDateNow(new Date(aux.toISOString()));
-    setDays(getDaysInMonth(new Date(aux.toISOString())));
-    setDayWeek(startOfMonth(new Date(aux.toISOString())).getDay());
+    setDateNow(aux);
+    setDays(getDaysInMonth(aux));
+    setDayWeek(startOfMonth(aux).getDay());
+    getByMonthYear(aux.getMonth() + 1, aux.getFullYear());
   };
+
+  useEffect(() => {
+    getByMonthYear(dateNow.getMonth() + 1, dateNow.getFullYear());
+  }, []);
 
   return (
     <Box
@@ -64,34 +68,7 @@ export const Schedule: React.FC = () => {
             <Typography sx={{ fontSize: "15px" }}>
               {dateNow.getMonth() + 1} - {dateNow.getFullYear()}
             </Typography>
-            {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DatePicker
-                views={["year", "month"]}
-                label="Mudar mês e ano"
-                minDate={new Date("2012-03-01")}
-                maxDate={new Date("2023-06-01")}
-                value={dateNow}
-                onChange={(newValue) => {
-                  if (newValue) {
-                    setDateNow(new Date(newValue));
-                    setDays(getDaysInMonth(new Date(newValue)));
-                    setDayWeek(
-                      startOfMonth(new Date(new Date(newValue))).getDay()
-                    );
-                  }
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    color="primary"
-                    focused
-                    variant="outlined"
-                    {...params}
-                    helperText={null}
-                    sx={{ width: `${mdDown ? "200px" : "40%"}` }}
-                  />
-                )}
-              />
-            </LocalizationProvider> */}
+
             <Box
               display="flex"
               alignItems="center"
@@ -135,34 +112,7 @@ export const Schedule: React.FC = () => {
             <Typography sx={{ fontSize: "18px", textAlign: "center" }}>
               {dateNow.getMonth() + 1} - {dateNow.getFullYear()}
             </Typography>
-            {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DatePicker
-                views={["year", "month"]}
-                label="Mudar mês e ano"
-                minDate={new Date("2012-03-01")}
-                maxDate={new Date("2023-06-01")}
-                value={dateNow}
-                onChange={(newValue) => {
-                  if (newValue) {
-                    setDateNow(new Date(newValue));
-                    setDays(getDaysInMonth(new Date(newValue)));
-                    setDayWeek(
-                      startOfMonth(new Date(new Date(newValue))).getDay()
-                    );
-                  }
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    color="primary"
-                    focused
-                    variant="outlined"
-                    {...params}
-                    helperText={null}
-                    sx={{ width: `${mdDown ? "35%" : "40%"}` }}
-                  />
-                )}
-              />
-            </LocalizationProvider> */}
+
             <Button
               sx={{ borderRadius: "100px", width: "200px" }}
               color="primary"
@@ -175,7 +125,7 @@ export const Schedule: React.FC = () => {
         )}
       </Box>
       <Box width="100%" display="flex" pt="2rem">
-        <DayCalendar days={days} date={dateNow} dayWeek={dayWeek} />
+        {/* <DayCalendar days={days} date={dateNow} dayWeek={dayWeek} /> */}
       </Box>
 
       <Box width="100%" display="flex" justifyContent="space-evenly" mb="5%">

@@ -12,7 +12,7 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaUser } from "../../shared/schemas/register-user.schema";
@@ -37,6 +37,9 @@ export const UpdateUser: React.FC = () => {
     (item: any) => item.nome === "ROLE_INSTRUTOR"
   );
 
+  const [image, setImage] = useState(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const {
     register,
     handleSubmit,
@@ -60,8 +63,18 @@ export const UpdateUser: React.FC = () => {
     if (roles.length === 0) setErrorRole(true);
     else {
       data.perfis = roles;
-      putUser(data);
+      if (image) putUser(data, image);
+      else putUser(data);
     }
+  };
+
+  const handleClickFile = () => {
+    inputRef.current?.click();
+  };
+
+  // lógica de pegar a imagem
+  const handleFileChange = (event: any) => {
+    setImage(event.target.files[0]);
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -112,19 +125,16 @@ export const UpdateUser: React.FC = () => {
           <Avatar
             id="foto-editar-usuario"
             alt="foto"
-            src=""
+            src={image ? URL.createObjectURL(image) : ""}
             sx={{ width: 100, height: 100 }}
+            onClick={handleClickFile}
           />
-          <TextField
-            id="up-foto-editar-usuario"
+          <input
+            id="input-file-register-candidate"
+            style={{ display: "none" }}
+            ref={inputRef}
             type="file"
-            label="Foto"
-            sx={{
-              width: "100%",
-            }}
-            InputLabelProps={{
-              shrink: true,
-            }}
+            onChange={handleFileChange}
           />
         </Box>
 

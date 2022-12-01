@@ -6,8 +6,9 @@ import { api } from "../api";
 import { useAuth } from "./authContext";
 
 interface IInterviewContext {
-  //isOpen: boolean;
+  schedules: any;
   postInterview: (interview: any) => Promise<void>;
+  getByMonthYear: (day: number, year: number) => Promise<void>;
 }
 
 interface IChildren {
@@ -17,6 +18,7 @@ interface IChildren {
 const InterviewContext = createContext({} as IInterviewContext);
 
 export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
+  const [schedules, setSchedules] = useState([]);
   const { token } = useAuth();
   const navigate = useNavigate();
 
@@ -32,8 +34,22 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
     }
   };
 
+  const getByMonthYear = async (day: number, year: number) => {
+    try {
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      const { data } = await api.get(
+        `entrevista/listar-por-mes?pagina=0&tamanho=10&mes=${day}&ano=${year}`
+      );
+      setSchedules(data);
+    } catch (err) {
+      alertError("Ops! algo deu errado!");
+    }
+  };
+
   return (
-    <InterviewContext.Provider value={{ postInterview }}>
+    <InterviewContext.Provider
+      value={{ postInterview, getByMonthYear, schedules }}
+    >
       {children}
     </InterviewContext.Provider>
   );

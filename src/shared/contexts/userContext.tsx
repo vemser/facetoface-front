@@ -6,17 +6,19 @@ import { useAuth } from "./authContext";
 import axios from "axios";
 import alertSuccess from "../alerts/sucess";
 import alertError from "../alerts/error";
+import nProgress from "nprogress";
 
 interface IUserContext {
   users: any;
   sizePage: number;
   attStateUser: boolean;
-  postUser: (data: IUser) => void;
-  putUser: (usuario: IUserComplete) => Promise<void>;
+  postUser: (usuario: IUser, file?: File) => Promise<void>;
+  putUser: (usuario: IUserComplete, file?: File) => Promise<void>;
   deleteUser: (id: number) => void;
   getUsers: (page?: number, size?: number) => Promise<void>;
   getUserByName: (nome: string, page?: number, size?: number) => Promise<void>;
   getByName: (name: string, page?: number, size?: number) => Promise<void>;
+  postImage: (file: File, email: string) => Promise<void>;
 }
 
 interface IChildren {
@@ -46,10 +48,11 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
   };
 
   // post one user
-  const postUser = async (usuario: IUser) => {
+  const postUser = async (usuario: IUser, file?: File) => {
     try {
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
       await api.post(`usuario?genero=${usuario.genero}`, usuario);
+      if (file) await postImage(file, usuario.email);
       alertSuccess("Usuário cadastrado com sucesso!");
       navigate("/");
     } catch (err) {
@@ -60,14 +63,14 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
   };
 
   // update one user
-  const putUser = async (usuario: IUserComplete) => {
+  const putUser = async (usuario: IUserComplete, file?: File) => {
     try {
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
       await api.put(
         `usuario/${usuario.idUsuario}?genero=${usuario.genero}`,
         usuario
       );
-
+      if (file) await postImage(file, usuario.email);
       navigate("/");
       alertSuccess("Usuário editado com sucesso!");
     } catch (err) {
@@ -96,6 +99,22 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
       alertError("Ops! algo deu errado!");
     } finally {
       // adicionar loading
+    }
+  };
+
+  const postImage = async (file: File, email: string) => {
+    try {
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      const formData = new FormData();
+      formData.append("File", file);
+      await fetch(
+        `http://vemser-dbc.dbccompany.com.br:39000/vemser/facetoface-back/usuario/upload-foto?email=${email}`,
+        { method: "PUT", body: formData }
+      );
+      //await api.put(`usuario/upload-foto?email=${email}`, formData);
+    } catch (err) {
+      alertError("Ops, algo deu errado!");
+    } finally {
     }
   };
 
@@ -155,6 +174,7 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
         getUsers,
         getUserByName,
         getByName,
+        postImage,
       }}
     >
       {children}
