@@ -71,7 +71,7 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
         return {
           date: item.dataEntrevista,
           title: item.candidatoDTO.nomeCompleto,
-          color: "red",
+          color: "yellow",
         };
       });
 

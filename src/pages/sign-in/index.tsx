@@ -51,10 +51,6 @@ export const SignIn: React.FC = () => {
     handleSignIn(data);
   };
 
-  useEffect(() => {
-    document.title = `Login`;
-  }, []);
-
   return (
     <Box
       id="container-sign-in"
