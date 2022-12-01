@@ -13,5 +13,5 @@ export const schemaInterview = object({
   estado: string()
     .required("Campo obrigatório!")
     .matches(/^([^0-9]*)$/, "Números não são permitidos!"),
-  observacoes: string().default("Sem observações"),
+  observacoes: string().required("Observação é obrigatório!"),
 });

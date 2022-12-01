@@ -62,6 +62,11 @@ export const Schedule: React.FC = () => {
             }}
             locale="pt-br"
             buttonText={{ today: "Hoje" }}
+            eventClick={(info) => {
+              navigate("/update-interview", {
+                state: info.event.extendedProps.state,
+              });
+            }}
           />
         </Box>
       </Box>

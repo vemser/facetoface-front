@@ -24,10 +24,16 @@ interface ICandidateContext {
   postImage: (file: any, email: string) => Promise<void>;
   postCurriculo: (file: any, email: string) => Promise<void>;
   getCurriculo: (email: string) => Promise<any>;
+  getListarPorNomeOuTrilha: ({ nome, trilha }: IGetTrilhaNome) => Promise<void>;
 }
 
 interface IChildren {
   children: React.ReactNode;
+}
+
+interface IGetTrilhaNome {
+  nome?: string;
+  trilha?: string;
 }
 
 const CandidateContext = createContext({} as ICandidateContext);
@@ -41,6 +47,7 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
   // post one candidate
   const postCandidate = async (candidate: ICandidate) => {
     try {
+      nProgress.start();
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
       let genero = candidate.genero;
       let arr: any = candidate;
@@ -52,12 +59,14 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
       alertError("Ops! algo deu errado no cadastro!");
     } finally {
       // adicionar loading
+      nProgress.done();
     }
   };
 
   // update one candidate
   const putCandidate = async (candidato: ICandidateComplete) => {
     try {
+      nProgress.start();
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
       await api.put(
         `candidato/${candidato.idCandidato}?genero=${candidato.genero}`,
@@ -69,12 +78,14 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
       alertError("Ops! algo deu errado na atualização!");
     } finally {
       // adicionar loading
+      nProgress.done();
     }
   };
 
   // delete one candidate
   const deleteCandidate = async (id: number) => {
     try {
+      nProgress.start();
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
       await api.delete("candidato/" + id);
       await getCandidates();
@@ -83,12 +94,14 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
       alertError("Ops! algo deu errado na exclusão!");
     } finally {
       // adicionar loading
+      nProgress.done();
     }
   };
 
   // get all candidates
   const getCandidates = async (page: number = 0, size: number = 10) => {
     try {
+      nProgress.start();
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
       const { data } = await api.get(
         `candidato?pagina=${page}&tamanho=${size}`
@@ -98,12 +111,14 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
       alertError("Ops! algo deu na busca por candidatos!");
     } finally {
       // adicionar loading
+      nProgress.done();
     }
   };
 
   // pegar por email
   const getByEmail = async (email: string) => {
     try {
+      nProgress.start();
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
       const { data } = await api.get(`candidato/findbyemails/${email}`);
       setCandidates({
@@ -118,38 +133,65 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
     } catch (err) {
       alertError("Ops! algo deu errado na busca!");
     } finally {
+      nProgress.done();
     }
   };
 
   // pegar por email
   const getByEmailInterview = async (email: string) => {
     try {
+      nProgress.start();
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
       const { data } = await api.get(`candidato/findbyemails/${email}`);
       setCandidateByEmail(data);
     } catch (err) {
       alertError("Ops! algo deu errado na busca!");
     } finally {
+      nProgress.done();
     }
   };
 
   const postImage = async (file: any, email: string) => {
     try {
+      nProgress.start();
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
       await api.put(`candidato/upload-foto?email=${email}`, file);
     } catch (err) {
       alertError("Ops, algo deu errado no upload de imagem!");
     } finally {
+      nProgress.done();
     }
   };
 
   const postCurriculo = async (file: any, email: string) => {
     try {
+      nProgress.start();
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
       await api.put(`candidato/upload-curriculo?email=${email}`, file);
     } catch (err) {
       alertError("Ops, algo deu errado no upload do curriculo!");
     } finally {
+      nProgress.done();
+    }
+  };
+
+  const getListarPorNomeOuTrilha = async ({ nome, trilha }: IGetTrilhaNome) => {
+    try {
+      nProgress.start();
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      if (nome && !trilha) {
+        const { data } = await api.get(
+          `candidato/listar-candidato-cadastro-por-nome-ou-por-trilha?nomeCompleto=${nome}&pagina=0&tamanho=10`
+        );
+      } else if (!nome && trilha) {
+        const { data } = await api.get(
+          `candidato/listar-candidato-cadastro-por-nome-ou-por-trilha?pagina=0&tamanho=10&nomeTrilha=${trilha}`
+        );
+        setCandidates(data);
+      }
+    } catch (err) {
+    } finally {
+      nProgress.done();
     }
   };
 
@@ -162,9 +204,10 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
       );
       return data;
     } catch (err) {
-      //alertError("Ops, algo deu errado!");
+      console.log(err);
+    } finally {
+      nProgress.done();
     }
-    nProgress.done();
   };
 
   const getCurriculo = async (email: string) => {
@@ -176,7 +219,7 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
       );
       return data;
     } catch (err) {
-      //alertError("Ops, algo deu errado!");
+      console.log(err);
     } finally {
       nProgress.done();
     }
@@ -197,6 +240,7 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
         postImage,
         postCurriculo,
         getCurriculo,
+        getListarPorNomeOuTrilha,
       }}
     >
       {children}

@@ -16,6 +16,7 @@ import {
 import { SideBar } from "../shared/components";
 import { useAuth } from "../shared/contexts";
 import "nprogress/nprogress.css";
+import { UpdateInterview } from "../pages/update-interview";
 
 export const AppRoutes: React.FC = () => {
   const { token, loadingAuth } = useAuth();
@@ -44,6 +45,7 @@ export const AppRoutes: React.FC = () => {
             <Route path="/update-candidate/:id" element={<UpdateCandidate />} />
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/register-interview" element={<RegisterInterview />} />
+            <Route path="/update-interview" element={<UpdateInterview />} />
 
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
