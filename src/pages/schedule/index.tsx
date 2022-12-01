@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, TextField, Typography, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
 import { getDaysInMonth, startOfMonth } from "date-fns";
@@ -7,9 +7,11 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useInterview } from "../../shared/contexts";
 
 export const Schedule: React.FC = () => {
   const theme = useTheme();
+  const { getInterview, lista } = useInterview()
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
   const [dateNow, setDateNow] = useState<Date>(new Date());
   const [days, setDays] = useState<number>(
@@ -18,6 +20,11 @@ export const Schedule: React.FC = () => {
   const [dayWeek, setDayWeek] = useState<number>(
     startOfMonth(new Date(dateNow.toISOString())).getDay()
   );
+
+  useEffect(() => {
+    getInterview()
+    
+  },[])
 
   const toggleMonth = (action: number) => {
     let aux = new Date(dateNow.toISOString());
