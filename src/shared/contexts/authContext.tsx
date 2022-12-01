@@ -5,6 +5,7 @@ import { api } from "../api";
 import nProgress from "nprogress";
 
 interface IAuthContext {
+  loadingAuth: boolean;
   imageProfile: File | null;
   token: string | null;
   user: any;
@@ -23,6 +24,7 @@ interface IChildren {
 const AuthContext = createContext({} as IAuthContext);
 
 export const AuthProvider: React.FC<IChildren> = ({ children }) => {
+  const [loadingAuth, setLoadingAuth] = useState<boolean>(false);
   const [imageProfile, setImageProfile] = useState(null);
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
@@ -32,7 +34,7 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    nProgress.start();
+    setLoadingAuth(true);
     let storageToken = localStorage.getItem("token");
     let storageUser = localStorage.getItem("user");
     if (storageToken && storageUser) {
@@ -41,7 +43,7 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
       setToken(storageToken);
       setUser(storageUser);
     }
-    nProgress.done();
+    setLoadingAuth(false);
   }, []);
 
   const handleSignIn = async (login: { email: string; senha: string }) => {
@@ -90,8 +92,8 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
   };
 
   const getImageProfile = async (email: string) => {
-    nProgress.start();
     try {
+      nProgress.start();
       const { data } = await api.get(`usuario/recuperar-imagem?email=${email}`);
       setImageProfile(data);
     } catch (err) {
@@ -103,6 +105,7 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
+        loadingAuth,
         imageProfile,
         token,
         user,

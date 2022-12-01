@@ -18,7 +18,7 @@ import { useAuth } from "../shared/contexts";
 import "nprogress/nprogress.css";
 
 export const AppRoutes: React.FC = () => {
-  const { token } = useAuth();
+  const { token, loadingAuth } = useAuth();
 
   if (!token)
     return (
