@@ -12,7 +12,7 @@ interface ISchedules {
 interface IDays {
   days: number;
   thisMonth: boolean;
-  schedules: ISchedules[];
+  schedules?: ISchedules[];
 }
 export const ItemDay: React.FC<IDays> = ({ thisMonth, days, schedules }) => {
   const theme = useTheme();

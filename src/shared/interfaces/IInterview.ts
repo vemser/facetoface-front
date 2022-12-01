@@ -1,9 +1,9 @@
 export interface IInterview {
-  candidate: string;
+  nomeCompleto: string;
   dateInterview: string;
-  city: string;
+  cidade: string;
   email: string;
   scheduleInterview: string;
-  state: string;
-  observation: string;
+  estado: string;
+  observacoes: string;
 }

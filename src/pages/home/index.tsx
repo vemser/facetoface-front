@@ -18,8 +18,8 @@ import { ListUsers } from "../../shared/components/list-users";
 export const Home: React.FC = () => {
   const [optionSelected, setOptionSelected] = useState<boolean>(true);
   const [search, setSearch] = useState<string>("");
-  const { getCandidates, candidates, getByName } = useCandidate();
-  const { getUsers, users } = useUser();
+  const { getCandidates, candidates, getByEmail } = useCandidate();
+  const { getUsers, users, getByName } = useUser();
   const { isAdmin } = useAuth();
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
@@ -34,8 +34,14 @@ export const Home: React.FC = () => {
       getCandidates(candidates.paginas + 1, 10);
   };
 
-  const toggleSearch = () => {
-    getByName(search);
+  const toggleSearch = async () => {
+    optionSelected ? await getByEmail(search) : await getByName(search);
+  };
+
+  const resetSearch = async () => {
+    setSearch("");
+    await getCandidates();
+    await getUsers();
   };
 
   return (
@@ -52,24 +58,33 @@ export const Home: React.FC = () => {
         justifyContent={mdDown ? "center" : "space-between"}
         pt="5%"
       >
-        <TextField
-          id="input-search-home"
-          type="text"
-          variant="outlined"
-          label="Pesquisar por nome"
-          sx={{ width: `${mdDown ? "250px" : "300px"}` }}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={toggleSearch}>
-                  <SearchIcon />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
+        <Box display="flex" alignItems="center">
+          <TextField
+            id="input-search-home"
+            type={optionSelected ? "email" : "text"}
+            variant="outlined"
+            label={
+              optionSelected ? "Pesquisar por email" : "Pesquisar por nome"
+            }
+            sx={{ width: `${mdDown ? "250px" : "300px"}` }}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={toggleSearch}>
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+          {search && (
+            <Button sx={{ marginLeft: "10px" }} onClick={resetSearch}>
+              Reset
+            </Button>
+          )}
+        </Box>
         {isAdmin && (
           <Box display="flex" alignItems="center" gap="3rem">
             <Button

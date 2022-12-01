@@ -6,16 +6,20 @@ import { useAuth } from "./authContext";
 import axios from "axios";
 import alertSuccess from "../alerts/sucess";
 import alertError from "../alerts/error";
+import nProgress from "nprogress";
 
 interface IUserContext {
   users: any;
   sizePage: number;
   attStateUser: boolean;
-  postUser: (data: IUser) => void;
+  postUser: (usuario: IUser, file?: File) => Promise<void>;
   putUser: (usuario: IUserComplete) => Promise<void>;
   deleteUser: (id: number) => void;
   getUsers: (page?: number, size?: number) => Promise<void>;
   getUserByName: (nome: string, page?: number, size?: number) => Promise<void>;
+  getByName: (name: string, page?: number, size?: number) => Promise<void>;
+  postImage: (file: any, email: string) => Promise<void>;
+  getUserImage: (email: string) => Promise<any>;
 }
 
 interface IChildren {
@@ -66,17 +70,6 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
         `usuario/${usuario.idUsuario}?genero=${usuario.genero}`,
         usuario
       );
-      // await axios
-      //   .put(`${api}/usuario/${usuario.idUsuario}`, usuario, {
-      //     headers: {
-      //       Authorization: token,
-      //     },
-      //   })
-      //   .then(() => {
-      //     navigate("/update-user/:id");
-      //     setAttStateUser((state) => !state);
-      //     alertSuccess("Usuário editado com sucesso!");
-      //   });
       navigate("/");
       alertSuccess("Usuário editado com sucesso!");
     } catch (err) {
@@ -101,10 +94,38 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
           alertSuccess("Usuário deletado com sucesso!");
         });
     } catch (err) {
-      console.log(err);
       alertError("Ops! algo deu errado!");
     } finally {
       // adicionar loading
+    }
+  };
+
+  const postImage = async (file: any, email: string) => {
+    try {
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      await api.put(`usuario/upload-foto?email=${email}`, file);
+    } catch (err) {
+      alertError("Ops, algo deu errado!");
+    } finally {
+    }
+  };
+
+  const getByName = async (
+    name: string,
+    page: number = 0,
+    size: number = 10
+  ) => {
+    try {
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      const { data } = await api.get(
+        `usuario/findbynomecompleto?nomeCompleto=${name}&pagina=${page}&tamanho=${size}`
+      );
+      setUsers(data);
+      alertSuccess("Usuário encontrado!");
+      navigate("/");
+    } catch (err) {
+      alertError("Ops! algo deu errado na busca!");
+    } finally {
     }
   };
 
@@ -133,6 +154,17 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
     }
   };
 
+  const getUserImage = async (email: string) => {
+    try {
+      nProgress.start();
+      const { data } = await api.get(`usuario/recuperar-imagem?email=${email}`);
+      return data;
+    } catch (err) {
+      //alertError("Ops, algo deu errado!");
+    }
+    nProgress.done();
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -144,6 +176,9 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
         deleteUser,
         getUsers,
         getUserByName,
+        getByName,
+        postImage,
+        getUserImage,
       }}
     >
       {children}

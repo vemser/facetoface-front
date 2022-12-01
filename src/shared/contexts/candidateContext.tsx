@@ -1,18 +1,29 @@
 import React, { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ICandidate, ICandidateComplete } from "../interfaces";
+import {
+  ICandidate,
+  ICandidateComplete,
+  IObjectCandidate,
+} from "../interfaces";
 import { api } from "../api";
 import alertError from "../alerts/error";
 import alertSuccess from "../alerts/sucess";
 import { useAuth } from "./authContext";
+import nProgress from "nprogress";
 
 interface ICandidateContext {
   candidates: any;
+  candidateByEmail: any;
   postCandidate: (data: ICandidate) => Promise<void>;
   putCandidate: (candidato: ICandidateComplete) => Promise<void>;
   deleteCandidate: (id: number) => Promise<void>;
   getCandidates: (page?: number, size?: number) => Promise<void>;
-  getByName: (name: string, page?: number, size?: number) => Promise<void>;
+  getByEmail: (email: string) => Promise<void>;
+  getByEmailInterview: (email: string) => Promise<any>;
+  getCandidateImage: (email: string) => Promise<any>;
+  postImage: (file: any, email: string) => Promise<void>;
+  postCurriculo: (file: any, email: string) => Promise<void>;
+  getCurriculo: (email: string) => Promise<any>;
 }
 
 interface IChildren {
@@ -23,7 +34,8 @@ const CandidateContext = createContext({} as ICandidateContext);
 
 export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
   const { token } = useAuth();
-  const [candidates, setCandidates] = useState([]);
+  const [candidates, setCandidates] = useState<IObjectCandidate | []>([]);
+  const [candidateByEmail, setCandidateByEmail] = useState([]);
   const navigate = useNavigate();
 
   // post one candidate
@@ -89,35 +101,102 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
     }
   };
 
-  const getByName = async (
-    name: string,
-    page: number = 0,
-    size: number = 10
-  ) => {
+  // pegar por email
+  const getByEmail = async (email: string) => {
     try {
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
-      const { data } = await api.get(
-        `findbynomecompleto?nomeCompleto=${name}&pagina=${page}&tamanho=${size}`
-      );
-      setCandidates(data);
-      alertSuccess("Candidato cadastrado com sucesso!");
+      const { data } = await api.get(`candidato/findbyemails/${email}`);
+      setCandidates({
+        totalElementos: 1,
+        quantidadePaginas: 1,
+        pagina: 0,
+        tamanho: 10,
+        elementos: [data],
+      });
+      alertSuccess("Candidato encontrado!");
       navigate("/");
     } catch (err) {
       alertError("Ops! algo deu errado na busca!");
     } finally {
-      
+    }
+  };
+
+  // pegar por email
+  const getByEmailInterview = async (email: string) => {
+    try {
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      const { data } = await api.get(`candidato/findbyemails/${email}`);
+      setCandidateByEmail(data);
+    } catch (err) {
+      alertError("Ops! algo deu errado na busca!");
+    } finally {
+    }
+  };
+
+  const postImage = async (file: any, email: string) => {
+    try {
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      await api.put(`candidato/upload-foto?email=${email}`, file);
+    } catch (err) {
+      alertError("Ops, algo deu errado no upload de imagem!");
+    } finally {
+    }
+  };
+
+  const postCurriculo = async (file: any, email: string) => {
+    try {
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      await api.put(`candidato/upload-curriculo?email=${email}`, file);
+    } catch (err) {
+      alertError("Ops, algo deu errado no upload do curriculo!");
+    } finally {
+    }
+  };
+
+  const getCandidateImage = async (email: string) => {
+    try {
+      nProgress.start();
+      console.log(email);
+      const { data } = await api.get(
+        `candidato/recuperar-imagem?email=${email}`
+      );
+      return data;
+    } catch (err) {
+      //alertError("Ops, algo deu errado!");
+    }
+    nProgress.done();
+  };
+
+  const getCurriculo = async (email: string) => {
+    try {
+      nProgress.start();
+      console.log(email);
+      const { data } = await api.get(
+        `candidato/recuperar-curriculo?email=${email}`
+      );
+      return data;
+    } catch (err) {
+      //alertError("Ops, algo deu errado!");
+    } finally {
+      nProgress.done();
     }
   };
 
   return (
     <CandidateContext.Provider
       value={{
+        candidateByEmail,
         candidates,
         postCandidate,
         deleteCandidate,
         getCandidates,
         putCandidate,
-        getByName,
+        getByEmail,
+        getByEmailInterview,
+        getCandidateImage,
+        postImage,
+        postCurriculo,
+        getCurriculo,
       }}
     >
       {children}

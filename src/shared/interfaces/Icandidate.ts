@@ -14,8 +14,16 @@ export interface ICandidate {
   edicao: IObject;
 }
 
-export interface ICandidateComplete extends ICandidate{
+export interface ICandidateComplete extends ICandidate {
   notaProva: number;
   ativo: string;
   idCandidato: number;
+}
+
+export interface IObjectCandidate {
+  totalElementos: number;
+  quantidadePaginas: number;
+  pagina: number;
+  tamanho: number;
+  elementos: ICandidateComplete[];
 }

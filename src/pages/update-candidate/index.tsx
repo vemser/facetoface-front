@@ -15,7 +15,7 @@ import {
   TextField,
   useTheme,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { TagLanguages, ErrorMessage } from "../../shared/components";
@@ -31,6 +31,11 @@ interface ILanguages {
 }
 
 export const UpdateCandidate: React.FC = () => {
+  const [image, setImage] = useState(null);
+  const [curriculo, setCurriculo] = useState(null);
+  const [curriculoGet, setCurriculoGet] = useState(null);
+  const [imageUser, setImageUser] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const { state } = useLocation();
   const {
     register,
@@ -54,7 +59,13 @@ export const UpdateCandidate: React.FC = () => {
       ativo: state.ativo,
     },
   });
-  const { putCandidate } = useCandidate();
+  const {
+    putCandidate,
+    postImage,
+    getCandidateImage,
+    postCurriculo,
+    getCurriculo,
+  } = useCandidate();
   const [arrLanguages, setArrLanguages] = useState<ILanguages[]>(
     state.linguagens
   );
@@ -62,16 +73,46 @@ export const UpdateCandidate: React.FC = () => {
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
 
+  const handleClickFile = () => {
+    inputRef.current?.click();
+  };
+
+  // lógica de pegar a imagem
+  const handleFileChange = (e: any) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setImage(e.target.files[0]);
+    }
+  };
+
+  const handleCurriculo = (e: any) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setCurriculo(e.target.files[0]);
+    }
+  };
+
+  const formDataCurriculo = new FormData();
+  if (curriculo) {
+    formDataCurriculo.append("file", curriculo);
+  }
+
+  const formData = new FormData();
+  if (image) {
+    formData.append("file", image);
+  }
+
   const handleSubmitCandidate = (data: ICandidateComplete) => {
     data.linguagens = arrLanguages;
-    console.log(data);
     putCandidate(data);
+    if (image) postImage(formData, state.email);
+    if (curriculo) postCurriculo(formDataCurriculo, state.email);
     setArrLanguages([]);
     reset();
   };
   // Nome da página
   useEffect(() => {
     document.title = `Editar candidato`;
+    getCandidateImage(state.email).then((response) => setImageUser(response));
+    getCurriculo(state.email).then((response) => setCurriculoGet(response));
   }, []);
 
   // lógica de adicionar languages
@@ -110,25 +151,30 @@ export const UpdateCandidate: React.FC = () => {
           width="100%"
           alignItems="center"
           justifyContent="space-between"
-          flexDirection={mdDown ? "column" : "row"}
+          flexDirection="column"
         >
           <Avatar
             id="avatar-register-candidate"
             alt="Remy Sharp"
-            src="Foto perfil"
+            src={
+              image
+                ? URL.createObjectURL(image)
+                : imageUser
+                ? `data:image/png;base64,${imageUser}`
+                : ""
+            }
             sx={{ width: 80, height: 80, m: "auto" }}
+            onClick={handleClickFile}
           />
-          <TextField
-            id="input-avatar-register-candidate"
+          <Button sx={{ margin: "1rem 0" }} onClick={handleClickFile}>
+            Escolher foto
+          </Button>
+          <input
+            id="input-file-register-candidate"
+            style={{ display: "none" }}
+            ref={inputRef}
             type="file"
-            label="Foto"
-            sx={{
-              width: `${mdDown ? "100%" : "80%"}`,
-              marginTop: `${mdDown ? "20px" : "0"}`,
-            }}
-            InputLabelProps={{
-              shrink: true,
-            }}
+            onChange={handleFileChange}
           />
         </Box>
         {/* first column */}
@@ -202,15 +248,28 @@ export const UpdateCandidate: React.FC = () => {
           </Box>
           {/* cv box */}
           <Box sx={{ width: "100%", mt: "1rem" }}>
-            <TextField
-              id="input-cv-register-candidate"
-              type="file"
-              label="CV"
-              sx={{ width: "100%" }}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
+            {curriculoGet ? (
+              <a
+                download="file.pdf"
+                href={"data:application/octet-stream;base64," + curriculoGet}
+                title="Download Curriculo"
+              >
+                <Button variant="outlined" sx={{ width: "100%" }}>
+                  Baixar CV
+                </Button>
+              </a>
+            ) : (
+              <TextField
+                id="input-cv-register-candidate"
+                type="file"
+                label="CV"
+                sx={{ width: "100%" }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange={handleCurriculo}
+              />
+            )}
           </Box>
           {/* email box */}
           <Box sx={{ width: "100%", mt: "1rem" }}>

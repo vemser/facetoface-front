@@ -9,6 +9,7 @@ import "./global.css";
 import {
   AuthProvider,
   CandidateProvider,
+  InterviewProvider,
   SideBarProvider,
 } from "./shared/contexts";
 import { UserProvider } from "./shared/contexts/userContext";
@@ -24,12 +25,14 @@ root.render(
           <SideBarProvider>
             <CandidateProvider>
               <UserProvider>
-                <Box
-                  minHeight="100vh"
-                  bgcolor={LightTheme.palette.background.default}
-                >
-                  <AppRoutes />
-                </Box>
+                <InterviewProvider>
+                  <Box
+                    minHeight="100vh"
+                    bgcolor={LightTheme.palette.background.default}
+                  >
+                    <AppRoutes />
+                  </Box>
+                </InterviewProvider>
               </UserProvider>
             </CandidateProvider>
           </SideBarProvider>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Avatar,
   Divider,
@@ -29,14 +29,24 @@ interface IProps {
 }
 
 export const SideBar: React.FC<IProps> = ({ children }) => {
-  const { user, isAdmin, isGestor, isInstructor } = useAuth();
-
+  const {
+    user,
+    isAdmin,
+    isGestor,
+    isInstructor,
+    imageProfile,
+    getImageProfile,
+    handleLogout,
+  } = useAuth();
+  const { isOpen, toggleOpen } = useSideBar();
   const navigate = useNavigate();
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("sm"));
-  const { handleLogout } = useAuth();
 
-  const { isOpen, toggleOpen } = useSideBar();
+  useEffect(() => {
+    getImageProfile(user.email);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -73,7 +83,7 @@ export const SideBar: React.FC<IProps> = ({ children }) => {
             />
             <Avatar
               alt="foto de perfil"
-              src=""
+              src={imageProfile ? `data:image/png;base64,${imageProfile}` : ""}
               sx={{ height: theme.spacing(12), width: theme.spacing(12) }}
             />
             <Typography

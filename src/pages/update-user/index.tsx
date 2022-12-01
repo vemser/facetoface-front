@@ -12,13 +12,13 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaUser } from "../../shared/schemas/register-user.schema";
 import { IUserComplete } from "../../shared/interfaces";
 import { ErrorMessage } from "../../shared/components";
-import { UserContext } from "../../shared/contexts/userContext";
+import { UserContext, useUser } from "../../shared/contexts/userContext";
 import { useLocation } from "react-router-dom";
 
 interface IProps {
@@ -26,16 +26,22 @@ interface IProps {
 }
 
 export const UpdateUser: React.FC = () => {
+  const { getUserImage, postImage } = useUser();
   const { putUser } = useContext(UserContext);
   const { state } = useLocation();
   const [roles, setRoles] = useState<IProps[]>(state.perfis);
   const [errorRole, setErrorRole] = React.useState(false);
+  const [imageUser, setImageUser] = useState<string | null>(null);
 
   let admin = state.perfis.find((item: any) => item.nome === "ROLE_ADMIN");
   let gestao = state.perfis.find((item: any) => item.nome === "ROLE_GESTAO");
   let instrutor = state.perfis.find(
     (item: any) => item.nome === "ROLE_INSTRUTOR"
   );
+
+  const [image, setImage] = useState(null);
+  const [imageUpload, setImageUpload] = useState(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
@@ -56,11 +62,28 @@ export const UpdateUser: React.FC = () => {
     },
   });
 
+  const handleClickFile = () => {
+    inputRef.current?.click();
+  };
+
+  // lógica de pegar a imagem
+  const handleFileChange = (e: any) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setImage(e.target.files[0]);
+    }
+  };
+
+  const formData = new FormData();
+  if (image) {
+    formData.append("file", image);
+  }
+
   const handleSubmitUser = (data: IUserComplete) => {
     if (roles.length === 0) setErrorRole(true);
     else {
       data.perfis = roles;
       putUser(data);
+      if (image) postImage(formData, state.email);
     }
   };
 
@@ -77,6 +100,7 @@ export const UpdateUser: React.FC = () => {
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
 
   useEffect(() => {
+    getUserImage(state.email).then((response) => setImageUser(response));
     document.title = `Editar usuário`;
   }, []);
 
@@ -85,7 +109,6 @@ export const UpdateUser: React.FC = () => {
       display="flex"
       width="100%"
       minHeight="100%"
-      paddingTop={4}
       justifyContent="center"
       alignItems="center"
     >
@@ -98,33 +121,39 @@ export const UpdateUser: React.FC = () => {
           flexDirection: "column",
           alignItems: "center",
           flexWrap: "wrap",
+          padding: "5% 0",
         }}
       >
         {/* ------------- Box 1 ------------------ */}
         <Box
           display="flex"
-          flexDirection={mdDown ? "column" : "row"}
           width="100%"
-          gap={3}
           alignItems="center"
-          mb={3}
+          justifyContent="space-between"
+          flexDirection="column"
         >
           <Avatar
             id="foto-editar-usuario"
             alt="foto"
-            src=""
-            sx={{ width: 100, height: 100 }}
+            src={
+              imageUser
+                ? `data:image/png;base64,${imageUser}`
+                : image
+                ? URL.createObjectURL(image)
+                : ""
+            }
+            sx={{ width: 80, height: 80 }}
+            onClick={handleClickFile}
           />
-          <TextField
-            id="up-foto-editar-usuario"
+          <Button sx={{ margin: "1rem 0" }} onClick={handleClickFile}>
+            Escolher foto
+          </Button>
+          <input
+            id="input-file-register-candidate"
+            style={{ display: "none" }}
+            ref={inputRef}
             type="file"
-            label="Foto"
-            sx={{
-              width: "100%",
-            }}
-            InputLabelProps={{
-              shrink: true,
-            }}
+            onChange={handleFileChange}
           />
         </Box>
 
@@ -234,7 +263,7 @@ export const UpdateUser: React.FC = () => {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          defaultChecked={gestao}
+                          defaultChecked={gestao ? true : false}
                           value="ROLE_GESTAO"
                           onChange={handleChange}
                         />
@@ -244,7 +273,7 @@ export const UpdateUser: React.FC = () => {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          defaultChecked={instrutor}
+                          defaultChecked={instrutor ? true : false}
                           value="ROLE_INSTRUTOR"
                           onChange={handleChange}
                         />
@@ -254,7 +283,7 @@ export const UpdateUser: React.FC = () => {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          defaultChecked={admin}
+                          defaultChecked={admin ? true : false}
                           value="ROLE_ADMIN"
                           onChange={handleChange}
                         />
@@ -275,8 +304,8 @@ export const UpdateUser: React.FC = () => {
           width="100%"
           alignItems="center"
           justifyContent="center"
-          paddingBottom={4}
-          mt={4}
+          paddingBottom="5%"
+          mt={3}
         >
           <Button
             id="button-submit-editar-usuario"

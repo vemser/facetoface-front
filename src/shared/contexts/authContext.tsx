@@ -2,8 +2,10 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import alertError from "../alerts/error";
 import { api } from "../api";
+import nProgress from "nprogress";
 
 interface IAuthContext {
+  imageProfile: File | null;
   token: string | null;
   user: any;
   isAdmin: boolean;
@@ -11,6 +13,7 @@ interface IAuthContext {
   isInstructor: boolean;
   handleSignIn: (login: { email: string; senha: string }) => Promise<void>;
   handleLogout: () => void;
+  getImageProfile: (email: string) => Promise<void>;
 }
 
 interface IChildren {
@@ -20,6 +23,7 @@ interface IChildren {
 const AuthContext = createContext({} as IAuthContext);
 
 export const AuthProvider: React.FC<IChildren> = ({ children }) => {
+  const [imageProfile, setImageProfile] = useState(null);
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
@@ -28,6 +32,7 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    nProgress.start();
     let storageToken = localStorage.getItem("token");
     let storageUser = localStorage.getItem("user");
     if (storageToken && storageUser) {
@@ -36,10 +41,12 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
       setToken(storageToken);
       setUser(storageUser);
     }
+    nProgress.done();
   }, []);
 
   const handleSignIn = async (login: { email: string; senha: string }) => {
     try {
+      nProgress.start();
       const responseToken = await api.post("/auth/fazer-login", login);
       api.defaults.headers["Authorization"] = `Bearer ${responseToken.data}`;
       const responseUser = await api.get("usuario/logado");
@@ -52,10 +59,12 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
     } catch (err) {
       alertError("Senha ou email incorretos!");
     } finally {
+      nProgress.done();
     }
   };
 
   const handleGetRoles = (user: any) => {
+    nProgress.start();
     let admin = user.perfis.find((item: any) => item.nome === "ROLE_ADMIN");
     if (admin) setIsAdmin(true);
     let gestao = user.perfis.find((item: any) => item.nome === "ROLE_GESTAO");
@@ -64,9 +73,11 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
       (item: any) => item.nome === "ROLE_INSTRUTOR"
     );
     if (instrutor) setIsInstructor(true);
+    nProgress.done();
   };
 
   const handleLogout = () => {
+    nProgress.start();
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setToken(null);
@@ -75,11 +86,24 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
     setIsGestor(false);
     setIsInstructor(false);
     navigate("/");
+    nProgress.done();
+  };
+
+  const getImageProfile = async (email: string) => {
+    nProgress.start();
+    try {
+      const { data } = await api.get(`usuario/recuperar-imagem?email=${email}`);
+      setImageProfile(data);
+    } catch (err) {
+      alertError("Ops, algo deu errado!");
+    }
+    nProgress.done();
   };
 
   return (
     <AuthContext.Provider
       value={{
+        imageProfile,
         token,
         user,
         isAdmin,
@@ -87,6 +111,7 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
         isInstructor,
         handleSignIn,
         handleLogout,
+        getImageProfile,
       }}
     >
       {children}
