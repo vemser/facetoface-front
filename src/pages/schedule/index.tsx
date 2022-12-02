@@ -1,15 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Typography, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useInterview } from "../../shared/contexts";
+import { useAuth, useInterview } from "../../shared/contexts";
 import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import "./index.css";
+import { useNavigate } from "react-router-dom";
 
 export const Schedule: React.FC = () => {
-  const { getByMonthYear, schedules, schedulesFormated } = useInterview();
-  const { getInterview, lista } = useInterview();
+  const { getByMonthYear, schedules, schedulesFormated, getInterview, lista } =
+    useInterview();
+  const { isAdmin } = useAuth();
+  const [dataAtual, setDataAtual] = useState<Date | null>(null);
+  const navigate = useNavigate();
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -53,10 +57,16 @@ export const Schedule: React.FC = () => {
             events={schedulesFormated}
             datesSet={(arg) => {
               let date = new Date(arg.startStr);
+              setDataAtual(date);
               getByMonthYear(date.getMonth() + 2, date.getFullYear());
             }}
             locale="pt-br"
             buttonText={{ today: "Hoje" }}
+            eventClick={(info) => {
+              navigate("/update-interview", {
+                state: info.event.extendedProps.state,
+              });
+            }}
           />
         </Box>
       </Box>
@@ -81,10 +91,27 @@ export const Schedule: React.FC = () => {
             <Typography pl="1rem">Outro</Typography>
           </Box>
         </Box>
-        <Box width="45%" display="flex" flexDirection="column">
+        <Box width="45%" display="flex" flexDirection="column" gap="1rem">
           <Typography>Editar Calenário</Typography>
-          <Button>Cadastrar Nova Entrevista</Button>
-          <Button>Atualizar Agenda</Button>
+          {!isAdmin && (
+            <Button onClick={() => navigate("/register-interview")}>
+              Cadastrar Nova Entrevista
+            </Button>
+          )}
+
+          <Button
+            sx={{ width: "100%" }}
+            variant="outlined"
+            onClick={() => {
+              if (dataAtual)
+                getByMonthYear(
+                  dataAtual.getMonth() + 2,
+                  dataAtual.getFullYear()
+                );
+            }}
+          >
+            Atualizar Agenda
+          </Button>
         </Box>
       </Box>
     </Box>

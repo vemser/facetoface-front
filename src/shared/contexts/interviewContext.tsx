@@ -6,7 +6,7 @@ import alertSuccess from "../alerts/sucess";
 import { api } from "../api";
 import { IInterview } from "../interfaces";
 import { useAuth } from "./authContext";
-
+import nProgress from "nprogress";
 interface IInterviewContext {
   lista: IInterview[];
   schedules: any;
@@ -14,6 +14,7 @@ interface IInterviewContext {
   postInterview: (interview: any) => Promise<void>;
   getInterview: () => Promise<void>;
   getByMonthYear: (month: number, year: number) => Promise<void>;
+  updateInterview: (interview: any, id: number) => Promise<void>;
 }
 
 interface IChildren {
@@ -47,6 +48,7 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
 
   const getInterview = async () => {
     try {
+      nProgress.start();
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
       const { data } = await api.get<IInterview[]>("entrevista");
 
@@ -58,11 +60,13 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
       }
       alertError(message);
     } finally {
+      nProgress.done();
     }
   };
 
   const getByMonthYear = async (month: number, year: number) => {
     try {
+      nProgress.start();
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
       const { data } = await api.get(
         `entrevista/listar-por-mes?pagina=0&tamanho=10&mes=${month}&ano=${year}`
@@ -71,14 +75,41 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
         return {
           date: item.dataEntrevista,
           title: item.candidatoDTO.nomeCompleto,
-          color: "red",
+          color: "yellow",
+          state: item,
         };
       });
 
       setSchedulesFormated(result);
       setSchedules(data);
     } catch (err) {
-      alertError("Ops! algo deu errado!");
+      let message = "Ops, algo deu errado!";
+      if (axios.isAxiosError(err) && err?.response) {
+        message = err.response.data.message;
+      }
+      alertError(message);
+    } finally {
+      nProgress.done();
+    }
+  };
+
+  const updateInterview = async (interview: any, id: number) => {
+    try {
+      nProgress.start();
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      await api.put(
+        `entrevista/atualizar-entrevista/${id}?legenda=PENDENTE`,
+        interview
+      );
+      alertSuccess("Update feito com sucesso!");
+    } catch (err) {
+      let message = "Ops, algo deu errado!";
+      if (axios.isAxiosError(err) && err?.response) {
+        message = err.response.data.message;
+      }
+      alertError(message);
+    } finally {
+      nProgress.done();
     }
   };
 
@@ -91,6 +122,7 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
         lista,
         schedules,
         schedulesFormated,
+        updateInterview,
       }}
     >
       {children}
