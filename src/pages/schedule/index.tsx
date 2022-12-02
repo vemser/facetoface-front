@@ -10,7 +10,7 @@ import "./index.css";
 
 export const Schedule: React.FC = () => {
   const { getByMonthYear, schedulesFormated } = useInterview();
-  const { isAdmin } = useAuth();
+  const { isAdmin, isGestor, isInstructor } = useAuth();
   const [dataAtual, setDataAtual] = useState<Date | null>(null);
   const navigate = useNavigate();
   const theme = useTheme();
@@ -103,13 +103,17 @@ export const Schedule: React.FC = () => {
           <Typography id="subtitle-editar-calendario-schedules">
             Editar Calenário
           </Typography>
-          {!isAdmin && (
+          {!isAdmin || isGestor || isInstructor ? (
             <Button
               id="button-register-interview-schedules"
+              sx={{ width: "100%" }}
+              variant="outlined"
               onClick={() => navigate("/register-interview")}
             >
               Cadastrar Nova Entrevista
             </Button>
+          ) : (
+            ""
           )}
 
           <Button

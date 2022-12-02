@@ -45,7 +45,7 @@ export const RegisterInterview: React.FC = () => {
       estado: data.estado,
       observacoes: "teste",
     };
-    console.log(dataFinal);
+
     postInterview(dataFinal);
     setValue("nomeCompleto", "");
     setValue("cidade", "");
@@ -54,6 +54,7 @@ export const RegisterInterview: React.FC = () => {
   };
 
   const email = watch("email");
+  const watchAll = watch();
 
   useEffect(() => {
     setValue("nomeCompleto", candidateByEmail?.nomeCompleto);
@@ -61,9 +62,9 @@ export const RegisterInterview: React.FC = () => {
     setValue("estado", candidateByEmail?.estado);
   }, [getByEmailInterview]);
 
-  // Nome da página
+  // Reseta os campos
   useEffect(() => {
-    document.title = `Cadastro de entrevista`;
+    reset();
   }, []);
 
   return (
@@ -98,12 +99,12 @@ export const RegisterInterview: React.FC = () => {
               sx={{ width: "100%" }}
               {...register("email")}
               error={errors.email ? true : false}
+              focused={watchAll.email ? true : false}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
                       onClick={() => {
-                        console.log(email);
                         getByEmailInterview(email);
                       }}
                     >
@@ -124,6 +125,7 @@ export const RegisterInterview: React.FC = () => {
               label="Data da entrevista"
               type="date"
               error={errors.dateInterview ? true : false}
+              focused={watchAll.dateInterview ? true : false}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -143,6 +145,7 @@ export const RegisterInterview: React.FC = () => {
               label="Cidade"
               {...register("cidade")}
               error={errors.cidade ? true : false}
+              focused={watchAll.cidade ? true : false}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -165,6 +168,7 @@ export const RegisterInterview: React.FC = () => {
               sx={{ width: "100%" }}
               label="Nome"
               error={errors.nomeCompleto ? true : false}
+              focused={watchAll.nomeCompleto ? true : false}
               {...register("nomeCompleto")}
               InputLabelProps={{
                 shrink: true,
@@ -182,6 +186,7 @@ export const RegisterInterview: React.FC = () => {
               InputLabelProps={{
                 shrink: true,
               }}
+              focused={watchAll.scheduleInterview ? true : false}
               sx={{ width: "100%" }}
               {...register("scheduleInterview")}
               error={errors.scheduleInterview ? true : false}
@@ -199,6 +204,7 @@ export const RegisterInterview: React.FC = () => {
               label="Estado"
               sx={{ width: "100%" }}
               {...register("estado")}
+              focused={watchAll.estado ? true : false}
               error={errors.estado ? true : false}
               InputLabelProps={{
                 shrink: true,
@@ -218,6 +224,7 @@ export const RegisterInterview: React.FC = () => {
             sx={{ width: "100%" }}
             minRows={3}
             placeholder="Digite alguma observação..."
+            focused={watchAll.observacoes ? true : false}
             InputLabelProps={{
               shrink: true,
             }}
