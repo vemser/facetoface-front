@@ -9,3 +9,4 @@ export * from "./update-candidate";
 export * from "./update-user";
 export * from "./detail-interview";
 export * from "./change-password";
+export * from "./detail-candidate";

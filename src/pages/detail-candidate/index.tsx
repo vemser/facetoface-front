@@ -1,11 +1,21 @@
-import { Button, Typography } from "@mui/material";
+import { Avatar, Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useCandidate } from "../../shared/contexts";
 
 export const DetailCandidate: React.FC = () => {
+  const { getCandidateImage, getCurriculo } = useCandidate();
   const { state } = useLocation();
   const navigate = useNavigate();
+  const [curriculoGet, setCurriculoGet] = useState(null);
+  const [imageUser, setImageUser] = useState<string | null>(null);
+
+  // Nome da página
+  useEffect(() => {
+    getCandidateImage(state.email).then((response) => setImageUser(response));
+    getCurriculo(state.email).then((response) => setCurriculoGet(response));
+  }, []);
 
   return (
     <Box
@@ -22,40 +32,67 @@ export const DetailCandidate: React.FC = () => {
         bgcolor="#fff"
         gap="1rem"
         borderRadius="10px"
+        width="50%"
       >
+        <Avatar
+          id="avatar-register-candidate"
+          alt="Foto perfil"
+          src={imageUser ? `data:image/png;base64,${imageUser}` : ""}
+          sx={{ width: 80, height: 80, m: "auto" }}
+        />
         <Typography>
-          <span style={{ fontWeight: "bold" }}>Candidato: </span>
-          {state.candidatoDTO.nomeCompleto}
+          <span style={{ fontWeight: "bold" }}>Nome: </span>
+          {state.nomeCompleto}
         </Typography>
         <Typography>
           <span style={{ fontWeight: "bold" }}>Email: </span>
-          {state.candidatoDTO.email}
+          {state.email}
         </Typography>
         <Typography>
           <span style={{ fontWeight: "bold" }}>Trilha: </span>
-          {state.candidatoDTO.trilha.nome}
+          {state.trilha.nome}
         </Typography>
         <Typography>
           <span style={{ fontWeight: "bold" }}>Cidade: </span>
-          {state.candidatoDTO.cidade} - {state.candidatoDTO.estado}
+          {state.cidade} - {state.estado}
         </Typography>
         <hr />
         <Typography>
-          <span style={{ fontWeight: "bold" }}>Entrevistador: </span>
-          {state.usuarioDTO.nomeCompleto}
+          <span style={{ fontWeight: "bold" }}>Edição: </span>
+          {state.edicao.nome}
         </Typography>
         <Typography>
-          <span style={{ fontWeight: "bold" }}>Email: </span>
-          {state.usuarioDTO.email}
+          <span style={{ fontWeight: "bold" }}>Nota da prova: </span>
+          {state.notaProva}
         </Typography>
         <Typography>
-          <span style={{ fontWeight: "bold" }}>Data: </span>
+          <span style={{ fontWeight: "bold" }}>genero: </span>
+          {state.genero}
+        </Typography>
+        <Typography>
+          <span style={{ fontWeight: "bold" }}>Observações: </span>
+          {state.observacoes ? state.observacoes : "Nenhum observação"}
         </Typography>
         <hr />
         <Box display="flex" justifyContent="space-between">
-          <Button onClick={() => navigate("/schedule")}>Voltar</Button>
+          <Button onClick={() => navigate("/")}>Voltar</Button>
+          {curriculoGet && (
+            <a
+              download="file.pdf"
+              href={"data:application/octet-stream;base64," + curriculoGet}
+              title="Download Curriculo"
+            >
+              <Button variant="outlined" sx={{ width: "100%" }}>
+                Baixar CV
+              </Button>
+            </a>
+          )}
           <Button
-            onClick={() => navigate("/update-interview", { state: state })}
+            onClick={() =>
+              navigate("/update-candidate/" + state.idCandidate, {
+                state: state,
+              })
+            }
           >
             Editar
           </Button>

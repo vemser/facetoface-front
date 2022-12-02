@@ -4,6 +4,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   ChangePassword,
+  DetailCandidate,
   DetailInterview,
   Home,
   RecoverPassword,
@@ -57,7 +58,8 @@ export const AppRoutes: React.FC = () => {
             <Route path="/update-interview" element={<UpdateInterview />} />
             <Route path="/detail-interview" element={<DetailInterview />} />
             <Route path="/change-password" element={<ChangePassword />} />
-            <Route path="/confirm-interview" element={<ConfirmInterview />} />
+            <Route path="/detail-candidate/:id" element={<DetailCandidate />} />
+            {/* <Route path="/confirm-interview" element={<ConfirmInterview />} /> */}
 
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
