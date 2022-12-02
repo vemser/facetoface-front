@@ -16,6 +16,7 @@ import {
 import { SideBar } from "../shared/components";
 import { useAuth } from "../shared/contexts";
 import "nprogress/nprogress.css";
+import { ChangePassword } from "../pages/change-password";
 
 export const AppRoutes: React.FC = () => {
   const { token, loadingAuth } = useAuth();
@@ -27,7 +28,9 @@ export const AppRoutes: React.FC = () => {
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route path="/recover-password" element={<RecoverPassword />} />
+          <Route path="/change-password" element={<ChangePassword />} />
           <Route path="*" element={<Navigate to="/" />} />
+
         </Routes>
       </>
     );

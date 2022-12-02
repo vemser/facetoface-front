@@ -10,6 +10,7 @@ import {
   AuthProvider,
   CandidateProvider,
   InterviewProvider,
+  PasswordProvider,
   SideBarProvider,
 } from "./shared/contexts";
 import { UserProvider } from "./shared/contexts/userContext";
@@ -26,12 +27,14 @@ root.render(
             <CandidateProvider>
               <UserProvider>
                 <InterviewProvider>
+                  <PasswordProvider>
                   <Box
                     minHeight="100vh"
                     bgcolor={LightTheme.palette.background.default}
                   >
                     <AppRoutes />
                   </Box>
+                  </PasswordProvider>
                 </InterviewProvider>
               </UserProvider>
             </CandidateProvider>
