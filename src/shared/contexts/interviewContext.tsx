@@ -118,7 +118,10 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
   const confirmInterview = async (token: string) => {
     try {
       nProgress.start();
-      await api.put(`auth/confirmar-entrevista?${token}`);
+      await api.put(
+        `auth/confirmar-entrevista?tokenEntrevista=${token}`,
+        token
+      );
       navigate("/");
       alertSuccess("Entrevista confirmada!");
     } catch (err) {
