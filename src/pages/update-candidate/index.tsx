@@ -108,9 +108,9 @@ export const UpdateCandidate: React.FC = () => {
     setArrLanguages([]);
     reset();
   };
+
   // Nome da página
   useEffect(() => {
-    document.title = `Editar candidato`;
     getCandidateImage(state.email).then((response) => setImageUser(response));
     getCurriculo(state.email).then((response) => setCurriculoGet(response));
   }, []);
