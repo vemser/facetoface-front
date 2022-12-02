@@ -72,7 +72,8 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
         `candidato/${candidato.idCandidato}?genero=${candidato.genero}`,
         candidato
       );
-      alertSuccess("Candidato cadastrado com sucesso!");
+      
+      alertSuccess("Candidato editado com sucesso!");
       navigate("/");
     } catch (err) {
       alertError("Ops! algo deu errado na atualização!");
