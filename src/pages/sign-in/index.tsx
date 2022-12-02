@@ -95,6 +95,7 @@ export const SignIn: React.FC = () => {
               type="text"
               {...register("email")}
               error={errors.email && true}
+              focused={userWatcher ? true : false}
             />
           </Box>
           <ErrorMessage id="errors-user-sign-in" width="auto" marginLeft="auto">
@@ -121,6 +122,7 @@ export const SignIn: React.FC = () => {
               type={showPassword ? "text" : "password"}
               {...register("senha")}
               error={errors.senha && true}
+              focused={passwordWatcher ? true : false}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">

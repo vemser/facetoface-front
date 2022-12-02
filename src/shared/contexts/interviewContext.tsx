@@ -118,7 +118,9 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
     try {
       nProgress.start();
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
-      await api.put(`auth/confirmar-entrevista/${token}`);
+      await api.put(`auth/confirmar-entrevista/${token}`, token);
+      navigate("/");
+      alertSuccess("Entrevista confirmada!");
     } catch (err) {
       let message = "Ops, algo deu errado!";
       if (axios.isAxiosError(err) && err?.response) {
