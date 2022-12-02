@@ -18,6 +18,7 @@ import { useAuth } from "../shared/contexts";
 import "nprogress/nprogress.css";
 //import { ChangePassword } from "../pages/change-password";
 import { UpdateInterview } from "../pages/update-interview";
+import { RecoverPasswordToken } from "../shared/components/recover-password";
 
 export const AppRoutes: React.FC = () => {
   const { token, loadingAuth } = useAuth();
@@ -28,6 +29,7 @@ export const AppRoutes: React.FC = () => {
         <ToastContainer />
         <Routes>
           <Route path="/" element={<SignIn />} />
+          <Route path="/recover-password" element={<RecoverPasswordToken />} />
           <Route path="/recover-password" element={<RecoverPassword />} />
           {/* <Route path="/change-password" element={<ChangePassword />} /> */}
           <Route path="*" element={<Navigate to="/" />} />

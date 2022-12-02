@@ -121,7 +121,6 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
         `usuario/findbynomecompleto?nomeCompleto=${name}&pagina=${page}&tamanho=${size}`
       );
       setUsers(data);
-      alertSuccess("Usuário encontrado!");
       navigate("/");
     } catch (err) {
       alertError("Ops! algo deu errado na busca!");
@@ -161,8 +160,9 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
       return data;
     } catch (err) {
       //alertError("Ops, algo deu errado!");
+    } finally {
+      nProgress.done();
     }
-    nProgress.done();
   };
 
   return (

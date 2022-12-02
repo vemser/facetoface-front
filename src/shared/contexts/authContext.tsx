@@ -97,9 +97,10 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
       const { data } = await api.get(`usuario/recuperar-imagem?email=${email}`);
       setImageProfile(data);
     } catch (err) {
-      alertError("Ops, algo deu errado!");
+      console.log("error");
+    } finally {
+      nProgress.done();
     }
-    nProgress.done();
   };
 
   return (

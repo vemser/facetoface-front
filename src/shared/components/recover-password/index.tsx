@@ -17,5 +17,19 @@ export const RecoverPasswordToken: React.FC = () => {
     }
   }, [token]);
 
-  return <Box width="100vw" height="100vh"></Box>;
+  return (
+    <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      width="100vw"
+      height="100vh"
+      bgcolor="#1e62fe"
+    >
+      <img
+        src={require("../../assets/logo/vem-ser-white.png")}
+        style={{ width: "50%" }}
+      />
+    </Box>
+  );
 };
