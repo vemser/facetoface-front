@@ -15,6 +15,7 @@ interface IInterviewContext {
   getInterview: () => Promise<void>;
   getByMonthYear: (month: number, year: number) => Promise<void>;
   updateInterview: (interview: any, id: number) => Promise<void>;
+  confirmInterview: (token: string) => Promise<void>;
 }
 
 interface IChildren {
@@ -113,6 +114,22 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
     }
   };
 
+  const confirmInterview = async (token: string) => {
+    try {
+      nProgress.start();
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      await api.put(`auth/confirmar-entrevista/${token}`);
+    } catch (err) {
+      let message = "Ops, algo deu errado!";
+      if (axios.isAxiosError(err) && err?.response) {
+        message = err.response.data.message;
+      }
+      alertError(message);
+    } finally {
+      nProgress.done();
+    }
+  };
+
   return (
     <InterviewContext.Provider
       value={{
@@ -123,32 +140,13 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
         schedules,
         schedulesFormated,
         updateInterview,
+        confirmInterview,
       }}
     >
       {children}
     </InterviewContext.Provider>
   );
 };
-//   const postInterview = async (interview: any) => {
-//     try {
-//       api.defaults.headers["Authorization"] = `Bearer ${token}`;
-//       await api.post("entrevista/marcar-entrevista", interview);
-//       alertSuccess("Entrevista cadastrada com sucesso!");
-//       navigate("/");
-//     } catch (err) {
-//       alertError("Ops, algo deu errado!");
-//     } finally {
-//     }
-//   };
-
-//   return (
-//     <InterviewContext.Provider
-//       value={{ postInterview, getByMonthYear, schedules }}
-//     >
-//       {children}
-//     </InterviewContext.Provider>
-//   );
-// };
 
 export const useInterview = () => {
   return useContext(InterviewContext);

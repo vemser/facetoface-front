@@ -23,6 +23,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
+import KeyIcon from "@mui/icons-material/Key";
 
 interface IProps {
   children: React.ReactNode;
@@ -68,7 +69,7 @@ export const SideBar: React.FC<IProps> = ({ children }) => {
         >
           <Box
             width="100%"
-            height={theme.spacing(40)}
+            height={theme.spacing(30)}
             display="flex"
             flexDirection="column"
             gap="0.5rem"
@@ -79,7 +80,7 @@ export const SideBar: React.FC<IProps> = ({ children }) => {
               id="logo-vem-ser-blue-sign-in"
               src={require("../../assets/logo/vem-ser-blue.png")}
               alt="logo vem ser"
-              style={{ width: "180px", marginBottom: "2rem" }}
+              style={{ width: "180px" }}
             />
             <Avatar
               alt="foto de perfil"
@@ -96,7 +97,10 @@ export const SideBar: React.FC<IProps> = ({ children }) => {
                 textAlign: "center",
               }}
             >
-              {user?.nomeCompleto}
+              <span style={{ color: "#1e62fe", fontWeight: "bold" }}>
+                Olá,{" "}
+              </span>
+              {user?.nomeCompleto.split(" ")[0]}
             </Typography>
           </Box>
 
@@ -150,6 +154,12 @@ export const SideBar: React.FC<IProps> = ({ children }) => {
               ) : (
                 ""
               )}
+              <ListItemButton onClick={() => navigate("/change-password")}>
+                <ListItemIcon>
+                  <KeyIcon />
+                </ListItemIcon>
+                <ListItemText primary="Alterar senha" />
+              </ListItemButton>
               {/* item */}
               <ListItemButton onClick={handleLogout}>
                 <ListItemIcon>

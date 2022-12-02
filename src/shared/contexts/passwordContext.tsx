@@ -4,27 +4,38 @@ import { useNavigate } from "react-router-dom";
 import alertError from "../alerts/error";
 import alertSuccess from "../alerts/sucess";
 import { api } from "../api";
+import { useAuth } from "./authContext";
+import nProgress from "nprogress";
 
 interface IPasswordContext {
   postRecoverPassword: (email: string) => Promise<void>;
   postToken: (token: string) => Promise<void>;
+  changePassword: ({
+    oldPassword,
+    newPassword,
+  }: IChangePassword) => Promise<void>;
 }
 
 interface IChildren {
   children: React.ReactNode;
 }
 
+interface IChangePassword {
+  oldPassword: string;
+  newPassword: string;
+}
+
 const PasswordContext = createContext({} as IPasswordContext);
 
 export const PasswordProvider: React.FC<IChildren> = ({ children }) => {
+  const { token } = useAuth();
   const navigate = useNavigate();
-  // post socicitar token
+
+  // envia o pedido de recuperação de senha
   const postRecoverPassword = async (email: string) => {
     try {
-      const { data } = await api.post(
-        `auth/solicitar-troca-senha?email=${email}`,
-        email
-      );
+      nProgress.start();
+      await api.post(`auth/solicitar-troca-senha?email=${email}`, email);
       navigate("/");
       alertSuccess("Solicitação enviada para seu E-mail!");
     } catch (err) {
@@ -34,12 +45,14 @@ export const PasswordProvider: React.FC<IChildren> = ({ children }) => {
       }
       alertError(message);
     } finally {
-      // adicionar loading
+      nProgress.done();
     }
   };
 
+  // envia o token de validação de e-mail
   const postToken = async (token: string) => {
     try {
+      nProgress.start();
       await api.post(
         `http://vemser-dbc.dbccompany.com.br:39000/vemser/facetoface-back/auth/trocar-senha?token=${token}`,
         token
@@ -52,7 +65,30 @@ export const PasswordProvider: React.FC<IChildren> = ({ children }) => {
       }
       alertError(message);
     } finally {
-      // adicionar loading
+      nProgress.done();
+    }
+  };
+
+  // troca a senha antiga pela nova
+  const changePassword = async ({
+    oldPassword,
+    newPassword,
+  }: IChangePassword) => {
+    try {
+      nProgress.start();
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      await api.put(
+        `usuario/trocar-senha-usuario-logado?senhaAtual=${oldPassword}&senhaNova=${newPassword}`
+      );
+      alertSuccess("Senha alterada!");
+    } catch (err) {
+      let message = "Ops, algo deu errado!";
+      if (axios.isAxiosError(err) && err?.response) {
+        message = err.response.data.message;
+      }
+      alertError(message);
+    } finally {
+      nProgress.done();
     }
   };
 
@@ -61,6 +97,7 @@ export const PasswordProvider: React.FC<IChildren> = ({ children }) => {
       value={{
         postRecoverPassword,
         postToken,
+        changePassword,
       }}
     >
       {children}

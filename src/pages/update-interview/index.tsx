@@ -1,14 +1,5 @@
-import React, { useEffect } from "react";
-import {
-  Box,
-  Button,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Typography,
-  useTheme,
-} from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
+import React from "react";
+import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { IInterview } from "../../shared/interfaces";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -21,16 +12,15 @@ import { useLocation } from "react-router-dom";
 
 export const UpdateInterview: React.FC = () => {
   const { state } = useLocation();
-  console.log(state);
-  const { postInterview, updateInterview } = useInterview();
+  const { updateInterview } = useInterview();
   const { user } = useAuth();
-  const { getByEmailInterview, candidateByEmail } = useCandidate();
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
     setValue,
+    watch,
   } = useForm<IInterview>({
     resolver: yupResolver(schemaInterview),
     defaultValues: {
@@ -43,6 +33,13 @@ export const UpdateInterview: React.FC = () => {
   });
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
+
+  // monitora os campos
+  const watchEmail = watch("email");
+  const watchNome = watch("nomeCompleto");
+  const watchCidade = watch("cidade");
+  const watchEstado = watch("estado");
+  const watchObservacoes = watch("observacoes");
 
   const handleSubmitInterview = (data: IInterview) => {
     let newDate = new Date(
@@ -61,11 +58,6 @@ export const UpdateInterview: React.FC = () => {
     setValue("estado", "");
     reset();
   };
-
-  // Nome da página
-  useEffect(() => {
-    document.title = `Cadastro de entrevista`;
-  }, []);
 
   return (
     <Box
@@ -99,6 +91,10 @@ export const UpdateInterview: React.FC = () => {
               sx={{ width: "100%" }}
               {...register("email")}
               error={errors.email ? true : false}
+              inputProps={{
+                className: "teste",
+              }}
+              focused={watchEmail ? true : false}
             />
             <ErrorMessage id="error-email-register-interview" width="100%">
               {errors.email?.message}
@@ -133,6 +129,7 @@ export const UpdateInterview: React.FC = () => {
               InputLabelProps={{
                 shrink: true,
               }}
+              focused={watchCidade ? true : false}
             />
             <ErrorMessage id="error-city-register-interview" width="100%">
               {errors.cidade?.message}
@@ -156,6 +153,7 @@ export const UpdateInterview: React.FC = () => {
               InputLabelProps={{
                 shrink: true,
               }}
+              focused={watchNome ? true : false}
             />
             <ErrorMessage id="error-candidate-register-interview" width="100%">
               {errors.nomeCompleto?.message}
@@ -190,6 +188,7 @@ export const UpdateInterview: React.FC = () => {
               InputLabelProps={{
                 shrink: true,
               }}
+              focused={watchEstado ? true : false}
             />
             <ErrorMessage id="error-state-register-interview" width="100%">
               {errors.estado?.message}
@@ -210,6 +209,7 @@ export const UpdateInterview: React.FC = () => {
             }}
             {...register("observacoes")}
             error={errors.observacoes ? true : false}
+            focused={watchObservacoes ? true : false}
           />
           <ErrorMessage id="error-observation-register-interview" width="100%">
             {errors.observacoes?.message}
