@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../contexts/userContext";
 import { IUserComplete } from "../../interfaces";
@@ -9,8 +9,20 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 export const ListUsers: React.FC = () => {
   const navigate = useNavigate();
   const { users, deleteUser } = useUser();
+  const [listaOrdenada, setListaOrdenada] = useState([]);
   const firtsBreakpoint = useMediaQuery("(max-width:1100px)");
   const secondBreakpoint = useMediaQuery("(max-width:800px)");
+
+  const ordenarPorNome = () => {
+    if (listaOrdenada.length === 0) {
+      let lista = users.elementos.sort((a: IUserComplete, b: IUserComplete) => {
+        if (a.nomeCompleto < b.nomeCompleto) return -1;
+        if (a.nomeCompleto > b.nomeCompleto) return 1;
+        return 0;
+      });
+      setListaOrdenada(lista);
+    } else setListaOrdenada([]);
+  };
 
   return (
     <Box display="flex" flexDirection="column" width="100%">
@@ -23,7 +35,13 @@ export const ListUsers: React.FC = () => {
         <Typography width="5%" fontSize={firtsBreakpoint ? "13px" : "15px"}>
           Código
         </Typography>
-        <Typography width="25%" fontSize={firtsBreakpoint ? "13px" : "15px"}>
+        <Typography
+          onClick={ordenarPorNome}
+          width="25%"
+          fontSize={firtsBreakpoint ? "13px" : "15px"}
+          color={listaOrdenada.length > 0 ? "#1e62fe" : ""}
+          sx={{ cursor: "pointer" }}
+        >
           Nome
         </Typography>
         <Typography width="25%" fontSize={firtsBreakpoint ? "13px" : "15px"}>
@@ -43,22 +61,38 @@ export const ListUsers: React.FC = () => {
         </Typography>
       </Box>
       <Box display="flex" flexDirection="column" width="100%">
-        {users?.elementos &&
-          users.elementos?.map((item: IUserComplete) => {
-            if (item.ativo !== "F")
-              return (
-                <ItemUser
-                  key={item.idUsuario}
-                  props={item}
-                  onDelete={() => deleteUser(item.idUsuario)}
-                  onUpdate={() =>
-                    navigate("/update-user/" + item.idUsuario, {
-                      state: item,
-                    })
-                  }
-                />
-              );
-          })}
+        {listaOrdenada.length > 0
+          ? listaOrdenada.map((item: IUserComplete) => {
+              if (item.ativo !== "F")
+                return (
+                  <ItemUser
+                    key={item.idUsuario}
+                    props={item}
+                    onDelete={() => deleteUser(item.idUsuario)}
+                    onUpdate={() =>
+                      navigate("/update-user/" + item.idUsuario, {
+                        state: item,
+                      })
+                    }
+                  />
+                );
+            })
+          : users?.elementos &&
+            users.elementos?.map((item: IUserComplete) => {
+              if (item.ativo !== "F")
+                return (
+                  <ItemUser
+                    key={item.idUsuario}
+                    props={item}
+                    onDelete={() => deleteUser(item.idUsuario)}
+                    onUpdate={() =>
+                      navigate("/update-user/" + item.idUsuario, {
+                        state: item,
+                      })
+                    }
+                  />
+                );
+            })}
       </Box>
     </Box>
   );
