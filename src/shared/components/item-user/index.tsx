@@ -37,7 +37,7 @@ export const ItemUser: React.FC<IProps> = ({ props, onDelete, onUpdate }) => {
       </Typography>
 
       <Typography fontSize={firtsBreakpoint ? "12px" : "15px"} width="25%">
-        {name[0]} {name[1]}...
+        {props.nomeCompleto}
       </Typography>
 
       <Typography

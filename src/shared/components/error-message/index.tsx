@@ -19,7 +19,7 @@ export const ErrorMessage: React.FC<IProps> = ({
       id={id}
       sx={{ width: width }}
       variant="subtitle1"
-      color="red"
+      color="error"
       marginLeft={marginLeft ? marginLeft : "0"}
     >
       {children}

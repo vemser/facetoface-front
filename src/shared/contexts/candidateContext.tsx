@@ -179,16 +179,16 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
     try {
       nProgress.start();
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
-      if (nome && !trilha) {
-        const { data } = await api.get(
-          `candidato/listar-candidato-cadastro-por-nome-ou-por-trilha?nomeCompleto=${nome}&pagina=0&tamanho=10`
-        );
-      } else if (!nome && trilha) {
-        const { data } = await api.get(
-          `candidato/listar-candidato-cadastro-por-nome-ou-por-trilha?pagina=0&tamanho=10&nomeTrilha=${trilha}`
-        );
-        setCandidates(data);
-      }
+      // if (nome && !trilha) {
+      //   const { data } = await api.get(
+      //     `candidato/listar-candidato-cadastro-por-nome-ou-por-trilha?nomeCompleto=${nome}&pagina=0&tamanho=10`
+      //   );
+      // } else if (!nome && trilha) {
+      const { data } = await api.get(
+        `candidato/listar-candidato-cadastro-por-nome-ou-por-trilha?pagina=0&tamanho=10&nomeTrilha=${trilha}`
+      );
+      setCandidates(data);
+      //}
     } catch (err) {
     } finally {
       nProgress.done();
