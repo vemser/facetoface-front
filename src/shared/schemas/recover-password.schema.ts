@@ -1,6 +1,5 @@
 import { string, object, number } from "yup";
 
-
 export const schemaPassword = object({
 email: string()
     .email("E-mail inválido!")
