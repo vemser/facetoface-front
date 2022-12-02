@@ -78,7 +78,7 @@ export const ListCandidates: React.FC = () => {
                     props={item}
                     onDelete={() => deleteCandidate(item.idCandidato)}
                     onUpdate={() =>
-                      navigate("/update-candidate" + item.idCandidato, {
+                      navigate("/update-candidate/" + item.idCandidato, {
                         state: item,
                       })
                     }
@@ -100,7 +100,7 @@ export const ListCandidates: React.FC = () => {
                     props={item}
                     onDelete={() => deleteCandidate(item.idCandidato)}
                     onUpdate={() =>
-                      navigate("/update-candidate" + item.idCandidato, {
+                      navigate("/update-candidate/" + item.idCandidato, {
                         state: item,
                       })
                     }
