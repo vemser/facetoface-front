@@ -24,38 +24,47 @@ export const DetailCandidate: React.FC = () => {
         borderRadius="10px"
       >
         <Typography>
-          <span style={{ fontWeight: "bold" }}>Candidato: </span>
-          {state.candidatoDTO.nomeCompleto}
+          <span style={{ fontWeight: "bold" }}>Nome: </span>
+          {state.nomeCompleto}
         </Typography>
         <Typography>
           <span style={{ fontWeight: "bold" }}>Email: </span>
-          {state.candidatoDTO.email}
+          {state.email}
         </Typography>
         <Typography>
           <span style={{ fontWeight: "bold" }}>Trilha: </span>
-          {state.candidatoDTO.trilha.nome}
+          {state.trilha.nome}
         </Typography>
         <Typography>
           <span style={{ fontWeight: "bold" }}>Cidade: </span>
-          {state.candidatoDTO.cidade} - {state.candidatoDTO.estado}
+          {state.cidade} - {state.estado}
         </Typography>
         <hr />
         <Typography>
-          <span style={{ fontWeight: "bold" }}>Entrevistador: </span>
-          {state.usuarioDTO.nomeCompleto}
+          <span style={{ fontWeight: "bold" }}>Edição: </span>
+          {state.edicao.nome}
         </Typography>
         <Typography>
-          <span style={{ fontWeight: "bold" }}>Email: </span>
-          {state.usuarioDTO.email}
+          <span style={{ fontWeight: "bold" }}>Nota da prova: </span>
+          {state.notaProva}
         </Typography>
         <Typography>
-          <span style={{ fontWeight: "bold" }}>Data: </span>
+          <span style={{ fontWeight: "bold" }}>genero: </span>
+          {state.genero}
+        </Typography>
+        <Typography>
+          <span style={{ fontWeight: "bold" }}>Observações: </span>
+          {state.observacoes ? state.observacoes : "Nenhum observação"}
         </Typography>
         <hr />
         <Box display="flex" justifyContent="space-between">
-          <Button onClick={() => navigate("/schedule")}>Voltar</Button>
+          <Button onClick={() => navigate("/")}>Voltar</Button>
           <Button
-            onClick={() => navigate("/update-interview", { state: state })}
+            onClick={() =>
+              navigate("/update-candidate/" + state.idCandidate, {
+                state: state,
+              })
+            }
           >
             Editar
           </Button>

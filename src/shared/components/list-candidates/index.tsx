@@ -78,10 +78,15 @@ export const ListCandidates: React.FC = () => {
                     props={item}
                     onDelete={() => deleteCandidate(item.idCandidato)}
                     onUpdate={() =>
-                      navigate("/update-candidate/" + item.idCandidato, {
+                      navigate("/update-candidate" + item.idCandidato, {
                         state: item,
                       })
                     }
+                    onDetail={() => {
+                      navigate("/detail-candidate/" + item.idCandidato, {
+                        state: item,
+                      });
+                    }}
                     onInterview={() => navigate("/register-interview")}
                   />
                 );
@@ -95,10 +100,15 @@ export const ListCandidates: React.FC = () => {
                     props={item}
                     onDelete={() => deleteCandidate(item.idCandidato)}
                     onUpdate={() =>
-                      navigate("/update-candidate/" + item.idCandidato, {
+                      navigate("/update-candidate" + item.idCandidato, {
                         state: item,
                       })
                     }
+                    onDetail={() => {
+                      navigate("/detail-candidate/" + item.idCandidato, {
+                        state: item,
+                      });
+                    }}
                     onInterview={() => navigate("/register-interview")}
                   />
                 );

@@ -11,18 +11,18 @@ interface IProps {
   onDelete: any;
   onUpdate: any;
   onInterview: any;
+  onDetail: () => void;
 }
 
 export const ItemCandidate: React.FC<IProps> = ({
   props,
   onDelete,
   onUpdate,
+  onDetail,
   onInterview,
 }) => {
   const firtsBreakpoint = useMediaQuery("(max-width:1100px)");
   const secondBreakpoint = useMediaQuery("(max-width:800px)");
-
-  let name = props.nomeCompleto.split(" ");
 
   return (
     <Box
@@ -59,12 +59,6 @@ export const ItemCandidate: React.FC<IProps> = ({
         </Typography>
       )}
 
-      {/* {!firtsBreakpoint && (
-        <Typography fontSize={firtsBreakpoint ? "12px" : "15px"} width="15%">
-          {props.genero}
-        </Typography>
-      )} */}
-
       <Typography width="5%" fontSize={firtsBreakpoint ? "13px" : "15px"}>
         {props.notaProva}
       </Typography>
@@ -87,7 +81,7 @@ export const ItemCandidate: React.FC<IProps> = ({
         justifyContent="center"
         flexDirection={secondBreakpoint ? "column" : "row"}
       >
-        <IconButton onClick={onUpdate}>
+        <IconButton onClick={onDetail}>
           <StickyNote2Icon
             sx={{
               fontSize: `${firtsBreakpoint ? "18px" : "25px"}`,
