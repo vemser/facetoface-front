@@ -20,6 +20,7 @@ import { useUser } from "../../shared/contexts/userContext";
 import { ListUsers } from "../../shared/components/list-users";
 
 export const Home: React.FC = () => {
+  const [page, setPage] = useState<number>(0);
   const [optionSelected, setOptionSelected] = useState<boolean>(true);
   const [search, setSearch] = useState<string>("");
   const [trilha, setTrilha] = useState<string>("");
@@ -35,9 +36,13 @@ export const Home: React.FC = () => {
     getUsers();
   }, []);
 
-  const togglePage = () => {
-    if (candidates.quantidadePaginas !== candidates.paginas + 1)
-      getCandidates(candidates.paginas + 1, 10);
+  const togglePage = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+    if (optionSelected) {
+      getCandidates(value - 1, 10);
+    } else {
+      getUsers(value - 1, 10);
+    }
   };
 
   const toggleSearch = async () => {
@@ -186,7 +191,7 @@ export const Home: React.FC = () => {
                 ? candidates.quantidadePaginas
                 : users.quantidadePaginas
             }
-            page={optionSelected ? candidates.pagina : users.pagina}
+            page={optionSelected ? candidates.pagina + 1 : users.pagina + 1}
             onChange={togglePage}
           />
         </Box>

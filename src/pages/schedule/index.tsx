@@ -49,6 +49,8 @@ export const Schedule: React.FC = () => {
           Agenda de Entrevistas
         </Typography>
       </Box>
+
+      {/* calendário */}
       <Box width="100%">
         <Box width="100%" sx={{ paddingBottom: "5%" }}>
           <FullCalendar
@@ -61,7 +63,6 @@ export const Schedule: React.FC = () => {
               getByMonthYear(date.getMonth() + 2, date.getFullYear());
             }}
             locale="pt-br"
-            buttonText={{ today: "Hoje" }}
             eventClick={(info) => {
               navigate("/detail-interview", {
                 state: info.event.extendedProps.state,
