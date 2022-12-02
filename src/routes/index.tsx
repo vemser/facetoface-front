@@ -22,7 +22,7 @@ import { UpdateInterview } from "../pages/update-interview";
 import { RecoverPasswordToken } from "../shared/components/recover-password";
 
 export const AppRoutes: React.FC = () => {
-  const { token, loadingAuth } = useAuth();
+  const { token } = useAuth();
 
   if (!token)
     return (

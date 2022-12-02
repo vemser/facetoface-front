@@ -13,7 +13,7 @@ export const ConfirmInterview: React.FC = () => {
     if (token) {
       localStorage.setItem("ConfirmInterview", token);
       confirmInterview(token);
-      navigate("/");
+      //navigate("/");
     }
   }, [token]);
 
