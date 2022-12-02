@@ -23,6 +23,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
+import KeyIcon from "@mui/icons-material/Key";
 
 interface IProps {
   children: React.ReactNode;
@@ -150,6 +151,12 @@ export const SideBar: React.FC<IProps> = ({ children }) => {
               ) : (
                 ""
               )}
+              <ListItemButton onClick={() => navigate("/change-password")}>
+                <ListItemIcon>
+                  <KeyIcon />
+                </ListItemIcon>
+                <ListItemText primary="Alterar senha" />
+              </ListItemButton>
               {/* item */}
               <ListItemButton onClick={handleLogout}>
                 <ListItemIcon>

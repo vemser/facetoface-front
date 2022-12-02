@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
+  ChangePassword,
   DetailInterview,
   Home,
   RecoverPassword,
@@ -14,10 +15,9 @@ import {
   UpdateCandidate,
   UpdateUser,
 } from "../pages";
-import { SideBar } from "../shared/components";
+import { ConfirmInterview, SideBar } from "../shared/components";
 import { useAuth } from "../shared/contexts";
 import "nprogress/nprogress.css";
-//import { ChangePassword } from "../pages/change-password";
 import { UpdateInterview } from "../pages/update-interview";
 import { RecoverPasswordToken } from "../shared/components/recover-password";
 
@@ -35,7 +35,8 @@ export const AppRoutes: React.FC = () => {
             path="/recover-password-token"
             element={<RecoverPasswordToken />}
           />
-          {/* <Route path="/change-password" element={<ChangePassword />} /> */}
+          <Route path="/confirm-interview" element={<ConfirmInterview />} />
+
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </>
@@ -55,6 +56,8 @@ export const AppRoutes: React.FC = () => {
             <Route path="/register-interview" element={<RegisterInterview />} />
             <Route path="/update-interview" element={<UpdateInterview />} />
             <Route path="/detail-interview" element={<DetailInterview />} />
+            <Route path="/confirm-interview" element={<ConfirmInterview />} />
+            <Route path="/change-password" element={<ChangePassword />} />
 
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

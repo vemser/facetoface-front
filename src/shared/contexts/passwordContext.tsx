@@ -8,10 +8,19 @@ import { api } from "../api";
 interface IPasswordContext {
   postRecoverPassword: (email: string) => Promise<void>;
   postToken: (token: string) => Promise<void>;
+  changePassword: ({
+    oldPassword,
+    newPassword,
+  }: IChangePassword) => Promise<void>;
 }
 
 interface IChildren {
   children: React.ReactNode;
+}
+
+interface IChangePassword {
+  oldPassword: string;
+  newPassword: string;
 }
 
 const PasswordContext = createContext({} as IPasswordContext);
@@ -56,11 +65,31 @@ export const PasswordProvider: React.FC<IChildren> = ({ children }) => {
     }
   };
 
+  const changePassword = async ({
+    oldPassword,
+    newPassword,
+  }: IChangePassword) => {
+    try {
+      await api.put(
+        `usuario/trocar-senha-usuario-logado?senhaAtual=${oldPassword}&senhaNova=${newPassword}`
+      );
+      alertSuccess("Senha alterada!");
+    } catch (err) {
+      let message = "Ops, algo deu errado!";
+      if (axios.isAxiosError(err) && err?.response) {
+        message = err.response.data.message;
+      }
+      alertError(message);
+    } finally {
+    }
+  };
+
   return (
     <PasswordContext.Provider
       value={{
         postRecoverPassword,
         postToken,
+        changePassword,
       }}
     >
       {children}
