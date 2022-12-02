@@ -18,6 +18,7 @@ import { UserProvider } from "./shared/contexts/userContext";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
     <BrowserRouter>
@@ -28,12 +29,12 @@ root.render(
               <UserProvider>
                 <InterviewProvider>
                   <PasswordProvider>
-                  <Box
-                    minHeight="100vh"
-                    bgcolor={LightTheme.palette.background.default}
-                  >
-                    <AppRoutes />
-                  </Box>
+                    <Box
+                      minHeight="100vh"
+                      bgcolor={LightTheme.palette.background.default}
+                    >
+                      <AppRoutes />
+                    </Box>
                   </PasswordProvider>
                 </InterviewProvider>
               </UserProvider>
