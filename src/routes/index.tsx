@@ -30,7 +30,10 @@ export const AppRoutes: React.FC = () => {
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route path="/recover-password" element={<RecoverPassword />} />
-          <Route path="/recover-password" element={<RecoverPasswordToken />} />
+          <Route
+            path="/recover-password-token"
+            element={<RecoverPasswordToken />}
+          />
           {/* <Route path="/change-password" element={<ChangePassword />} /> */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
