@@ -1,5 +1,6 @@
 .fc-direction-ltr .fc-daygrid-event.fc-event-end {
   font-size: 10px;
+  z-index: 10;
 }
 
 .fc-direction-ltr .fc-daygrid-event.fc-event-end:hover {

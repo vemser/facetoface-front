@@ -5,14 +5,15 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useAuth, useInterview } from "../../shared/contexts";
 import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
-import "./index.css";
 import { useNavigate } from "react-router-dom";
+import "./index.css";
 
 export const Schedule: React.FC = () => {
   const { getByMonthYear, schedules, schedulesFormated, getInterview, lista } =
     useInterview();
   const { isAdmin } = useAuth();
   const [dataAtual, setDataAtual] = useState<Date | null>(null);
+  const [entrevistaSelecionada, setEntrevistaSelecionada] = useState("");
   const navigate = useNavigate();
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
@@ -48,7 +49,6 @@ export const Schedule: React.FC = () => {
           Agenda de Entrevistas
         </Typography>
       </Box>
-
       <Box width="100%">
         <Box width="100%" sx={{ paddingBottom: "5%" }}>
           <FullCalendar
@@ -63,7 +63,7 @@ export const Schedule: React.FC = () => {
             locale="pt-br"
             buttonText={{ today: "Hoje" }}
             eventClick={(info) => {
-              navigate("/update-interview", {
+              navigate("/detail-interview", {
                 state: info.event.extendedProps.state,
               });
             }}

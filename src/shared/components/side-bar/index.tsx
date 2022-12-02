@@ -68,7 +68,7 @@ export const SideBar: React.FC<IProps> = ({ children }) => {
         >
           <Box
             width="100%"
-            height={theme.spacing(40)}
+            height={theme.spacing(30)}
             display="flex"
             flexDirection="column"
             gap="0.5rem"
@@ -79,7 +79,7 @@ export const SideBar: React.FC<IProps> = ({ children }) => {
               id="logo-vem-ser-blue-sign-in"
               src={require("../../assets/logo/vem-ser-blue.png")}
               alt="logo vem ser"
-              style={{ width: "180px", marginBottom: "2rem" }}
+              style={{ width: "180px" }}
             />
             <Avatar
               alt="foto de perfil"
