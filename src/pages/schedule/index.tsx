@@ -3,17 +3,15 @@ import { Button, Typography, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useAuth, useInterview } from "../../shared/contexts";
-import FullCalendar from "@fullcalendar/react"; // must go before plugins
-import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
 
 export const Schedule: React.FC = () => {
-  const { getByMonthYear, schedules, schedulesFormated, getInterview, lista } =
-    useInterview();
-  const { isAdmin } = useAuth();
+  const { getByMonthYear, schedulesFormated } = useInterview();
+  const { isAdmin, isGestor, isInstructor } = useAuth();
   const [dataAtual, setDataAtual] = useState<Date | null>(null);
-  const [entrevistaSelecionada, setEntrevistaSelecionada] = useState("");
   const navigate = useNavigate();
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
@@ -41,6 +39,7 @@ export const Schedule: React.FC = () => {
         padding="2rem "
       >
         <Typography
+          id="title-schedules"
           color="primary"
           variant="h3"
           fontSize={mdDown ? "1.5rem" : "3rem"}
@@ -51,7 +50,7 @@ export const Schedule: React.FC = () => {
       </Box>
 
       {/* calendário */}
-      <Box width="100%">
+      <Box width="100%" id="container-calendar-schedules">
         <Box width="100%" sx={{ paddingBottom: "5%" }}>
           <FullCalendar
             plugins={[dayGridPlugin]}
@@ -74,33 +73,51 @@ export const Schedule: React.FC = () => {
 
       <Box width="100%" display="flex" justifyContent="space-evenly" mb="5%">
         <Box width="45%" display="flex" flexDirection="column">
-          <Typography>Legenda</Typography>
+          <Typography id="subtitle-legenda-schedules">Legenda</Typography>
           <Box width="100%" display="flex" mt="1rem">
             <Box width="50px" height="100%" bgcolor="green"></Box>
-            <Typography pl="1rem">Confirmada</Typography>
+            <Typography pl="1rem" id="text-confirmada-schedules">
+              Confirmada
+            </Typography>
           </Box>
           <Box width="100%" display="flex" mt="1rem">
             <Box width="50px" height="100%" bgcolor="yellow"></Box>
-            <Typography pl="1rem">Pendente</Typography>
+            <Typography pl="1rem" id="text-pendente-schedules">
+              Pendente
+            </Typography>
           </Box>
           <Box width="100%" display="flex" mt="1rem">
             <Box width="50px" height="100%" bgcolor="red"></Box>
-            <Typography pl="1rem">Cancelada</Typography>
+            <Typography pl="1rem" id="text-cancelada-schedules">
+              Cancelada
+            </Typography>
           </Box>
           <Box width="100%" display="flex" mt="1rem">
             <Box width="50px" height="100%" bgcolor="gray"></Box>
-            <Typography pl="1rem">Outro</Typography>
+            <Typography pl="1rem" id="text-outro-schedules">
+              Outro
+            </Typography>
           </Box>
         </Box>
         <Box width="45%" display="flex" flexDirection="column" gap="1rem">
-          <Typography>Editar Calenário</Typography>
-          {!isAdmin && (
-            <Button onClick={() => navigate("/register-interview")}>
+          <Typography id="subtitle-editar-calendario-schedules">
+            Editar Calenário
+          </Typography>
+          {!isAdmin || isGestor || isInstructor ? (
+            <Button
+              id="button-register-interview-schedules"
+              sx={{ width: "100%" }}
+              variant="outlined"
+              onClick={() => navigate("/register-interview")}
+            >
               Cadastrar Nova Entrevista
             </Button>
+          ) : (
+            ""
           )}
 
           <Button
+            id="update-calendar-schedules"
             sx={{ width: "100%" }}
             variant="outlined"
             onClick={() => {

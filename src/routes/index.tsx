@@ -56,8 +56,8 @@ export const AppRoutes: React.FC = () => {
             <Route path="/register-interview" element={<RegisterInterview />} />
             <Route path="/update-interview" element={<UpdateInterview />} />
             <Route path="/detail-interview" element={<DetailInterview />} />
-            <Route path="/confirm-interview" element={<ConfirmInterview />} />
             <Route path="/change-password" element={<ChangePassword />} />
+            <Route path="/confirm-interview" element={<ConfirmInterview />} />
 
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

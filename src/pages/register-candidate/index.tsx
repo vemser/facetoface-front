@@ -15,7 +15,7 @@ import {
   TextField,
   useTheme,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { TagLanguages, ErrorMessage } from "../../shared/components";
@@ -38,10 +38,12 @@ export const RegisterCandidate: React.FC = () => {
     watch,
     reset,
   } = useForm<ICandidate>({ resolver: yupResolver(schemaCandidate) });
-  const { postCandidate, postImage } = useCandidate();
+  const { postCandidate, postImage, postCurriculo } = useCandidate();
   const [arrLanguages, setArrLanguages] = useState<ILanguages[]>([]);
   const [language, setLanguage] = useState<string>("");
   const [image, setImage] = useState(null);
+  const [curriculo, setCurriculo] = useState(null);
+  const [curriculoError, setCurriculoError] = useState(false);
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
   const inputRef = useRef<HTMLInputElement>(null);
@@ -49,16 +51,28 @@ export const RegisterCandidate: React.FC = () => {
   const edicao = watch("edicao.nome");
 
   const handleSubmitCandidate = (data: ICandidate) => {
-    data.linguagens = arrLanguages;
-    postCandidate(data);
-    postImage(formData, data.email);
-    setArrLanguages([]);
-    reset();
+    if (curriculo) {
+      data.linguagens = arrLanguages;
+      postCandidate(data);
+      postCurriculo(formDataCurriculo, data.email);
+      if (image) postImage(formData, data.email);
+      setArrLanguages([]);
+      reset();
+    } else setCurriculoError(true);
   };
-  // Nome da página
-  useEffect(() => {
-    document.title = `Cadastro de candidato`;
-  }, []);
+
+  // pegar curriculo
+  const handleCurriculo = (e: any) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setCurriculo(e.target.files[0]);
+      setCurriculoError(false);
+    }
+  };
+
+  const formDataCurriculo = new FormData();
+  if (curriculo) {
+    formDataCurriculo.append("file", curriculo);
+  }
 
   // lógica de adicionar languages
   const handleAddLanguages = () => {
@@ -211,7 +225,11 @@ export const RegisterCandidate: React.FC = () => {
               InputLabelProps={{
                 shrink: true,
               }}
+              onChange={handleCurriculo}
             />
+            <ErrorMessage id="error-cv-register-candidate" width={"100%"}>
+              {curriculoError ? "CV é obrigatório!" : ""}
+            </ErrorMessage>
           </Box>
           {/* email box */}
           <Box sx={{ width: "100%", mt: "1rem" }}>
@@ -431,6 +449,9 @@ export const RegisterCandidate: React.FC = () => {
               sx={{
                 width: "200px",
                 borderRadius: 100,
+              }}
+              onClick={() => {
+                if (!curriculo) setCurriculoError(true);
               }}
             >
               Enviar
