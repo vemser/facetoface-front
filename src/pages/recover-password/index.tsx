@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import React, { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { schemaPassword} from "../../shared/schemas";
+import { schemaPassword } from "../../shared/schemas";
 import { useChangePassword } from "../../shared/contexts/passwordContext";
 import { useNavigate } from "react-router-dom";
 import { ErrorMessage } from "../../shared/components";

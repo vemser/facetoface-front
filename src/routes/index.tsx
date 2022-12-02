@@ -16,7 +16,7 @@ import {
 import { SideBar } from "../shared/components";
 import { useAuth } from "../shared/contexts";
 import "nprogress/nprogress.css";
-import { ChangePassword } from "../pages/change-password";
+//import { ChangePassword } from "../pages/change-password";
 import { UpdateInterview } from "../pages/update-interview";
 
 export const AppRoutes: React.FC = () => {
@@ -29,7 +29,7 @@ export const AppRoutes: React.FC = () => {
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route path="/recover-password" element={<RecoverPassword />} />
-          <Route path="/change-password" element={<ChangePassword />} />
+          {/* <Route path="/change-password" element={<ChangePassword />} /> */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </>
