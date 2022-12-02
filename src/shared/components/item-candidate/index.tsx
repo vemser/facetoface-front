@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Typography, Button, IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import StickyNote2Icon from "@mui/icons-material/StickyNote2";
 import { ICandidateComplete } from "../../interfaces";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
@@ -32,8 +33,12 @@ export const ItemCandidate: React.FC<IProps> = ({
       justifyContent="space-between"
       sx={{ borderBottom: "1px solid #bdbdbd", padding: ".5rem 0" }}
     >
-      <Typography fontSize={firtsBreakpoint ? "12px" : "15px"} width="25%">
-        {name[0]} {name[1]}...
+      <Typography fontSize={firtsBreakpoint ? "12px" : "15px"} width="5%">
+        {props.idCandidato}
+      </Typography>
+
+      <Typography fontSize={firtsBreakpoint ? "12px" : "15px"} width="20%">
+        {props.nomeCompleto}
       </Typography>
 
       <Typography
@@ -54,11 +59,11 @@ export const ItemCandidate: React.FC<IProps> = ({
         </Typography>
       )}
 
-      {!firtsBreakpoint && (
+      {/* {!firtsBreakpoint && (
         <Typography fontSize={firtsBreakpoint ? "12px" : "15px"} width="15%">
           {props.genero}
         </Typography>
-      )}
+      )} */}
 
       <Typography width="5%" fontSize={firtsBreakpoint ? "13px" : "15px"}>
         {props.notaProva}
@@ -77,11 +82,18 @@ export const ItemCandidate: React.FC<IProps> = ({
         </Button>
       </Box>
       <Box
-        width="11%"
+        width="14%"
         display="flex"
         justifyContent="center"
         flexDirection={secondBreakpoint ? "column" : "row"}
       >
+        <IconButton onClick={onUpdate}>
+          <StickyNote2Icon
+            sx={{
+              fontSize: `${firtsBreakpoint ? "18px" : "25px"}`,
+            }}
+          />
+        </IconButton>
         <IconButton onClick={onUpdate}>
           <EditIcon
             sx={{

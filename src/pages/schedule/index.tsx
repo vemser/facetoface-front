@@ -75,25 +75,25 @@ export const Schedule: React.FC = () => {
         <Box width="45%" display="flex" flexDirection="column">
           <Typography id="subtitle-legenda-schedules">Legenda</Typography>
           <Box width="100%" display="flex" mt="1rem">
-            <Box width="50px" height="100%" bgcolor="green"></Box>
+            <Box width="50px" height="100%" bgcolor="#4caf50"></Box>
             <Typography pl="1rem" id="text-confirmada-schedules">
               Confirmada
             </Typography>
           </Box>
           <Box width="100%" display="flex" mt="1rem">
-            <Box width="50px" height="100%" bgcolor="yellow"></Box>
+            <Box width="50px" height="100%" bgcolor="#ffeb3b"></Box>
             <Typography pl="1rem" id="text-pendente-schedules">
               Pendente
             </Typography>
           </Box>
           <Box width="100%" display="flex" mt="1rem">
-            <Box width="50px" height="100%" bgcolor="red"></Box>
+            <Box width="50px" height="100%" bgcolor="#f6685e"></Box>
             <Typography pl="1rem" id="text-cancelada-schedules">
               Cancelada
             </Typography>
           </Box>
           <Box width="100%" display="flex" mt="1rem">
-            <Box width="50px" height="100%" bgcolor="gray"></Box>
+            <Box width="50px" height="100%" bgcolor="#999"></Box>
             <Typography pl="1rem" id="text-outro-schedules">
               Outro
             </Typography>
