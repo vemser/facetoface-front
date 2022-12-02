@@ -105,7 +105,7 @@ export const RecoverPassword: React.FC = () => {
 							textAlign="center"
 						>
 							<TextField
-								id="texto-info-recover"
+								id="input-email-recover"
 								label="E-mail"
 								variant="outlined"
 								type="text"
@@ -121,7 +121,7 @@ export const RecoverPassword: React.FC = () => {
 						</Box>
 
 						<Button
-							id="button-recover"
+							id="button-submit-recover"
 							variant="contained"
 							color="primary"
 							type="submit"
