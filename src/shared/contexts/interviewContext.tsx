@@ -72,6 +72,7 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
       const { data } = await api.get(
         `entrevista/listar-por-mes?pagina=0&tamanho=10&mes=${month}&ano=${year}`
       );
+      console.log(data);
       let result = data.elementos.map((item: any) => {
         return {
           date: item.dataEntrevista,
@@ -117,7 +118,7 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
   const confirmInterview = async (token: string) => {
     try {
       nProgress.start();
-      await api.put(`auth/confirmar-entrevista/${token}`, token);
+      await api.put(`auth/confirmar-entrevista?${token}`);
       navigate("/");
       alertSuccess("Entrevista confirmada!");
     } catch (err) {
