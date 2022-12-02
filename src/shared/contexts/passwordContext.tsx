@@ -8,6 +8,7 @@ import { api } from "../api";
 
 interface IPasswordContext {
   postRecoverPassword: (email: string) => Promise<void>
+  postToken: (token: string) => Promise<void>
 }
 
 interface IChildren {
@@ -36,10 +37,26 @@ export const PasswordProvider: React.FC<IChildren> = ({ children }) => {
     }
   };
 
+  const postToken = async (token: string) => {
+    try {
+     await api.post(`http://vemser-dbc.dbccompany.com.br:39000/vemser/facetoface-back/auth/trocar-senha?token=${token}`, token);
+      alertSuccess("Senha enviada com sucesso!");
+    } catch (err) {
+      let message = "Ops, algo deu errado!";
+      if (axios.isAxiosError(err) && err?.response) {
+        message = err.response.data.message;
+      }
+      alertError(message);
+    } finally {
+      // adicionar loading
+    }
+  };
+
   return (
     <PasswordContext.Provider
     value={{
       postRecoverPassword,
+      postToken
     }}
   >
     {children}
