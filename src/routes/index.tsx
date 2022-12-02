@@ -16,9 +16,11 @@ import {
 import { SideBar } from "../shared/components";
 import { useAuth } from "../shared/contexts";
 import "nprogress/nprogress.css";
+//import { ChangePassword } from "../pages/change-password";
+import { UpdateInterview } from "../pages/update-interview";
 
 export const AppRoutes: React.FC = () => {
-  const { token } = useAuth();
+  const { token, loadingAuth } = useAuth();
 
   if (!token)
     return (
@@ -27,6 +29,7 @@ export const AppRoutes: React.FC = () => {
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route path="/recover-password" element={<RecoverPassword />} />
+          {/* <Route path="/change-password" element={<ChangePassword />} /> */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </>
@@ -44,6 +47,7 @@ export const AppRoutes: React.FC = () => {
             <Route path="/update-candidate/:id" element={<UpdateCandidate />} />
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/register-interview" element={<RegisterInterview />} />
+            <Route path="/update-interview" element={<UpdateInterview />} />
 
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

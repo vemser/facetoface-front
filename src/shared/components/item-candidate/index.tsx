@@ -9,12 +9,14 @@ interface IProps {
   props: ICandidateComplete;
   onDelete: any;
   onUpdate: any;
+  onInterview: any;
 }
 
 export const ItemCandidate: React.FC<IProps> = ({
   props,
   onDelete,
   onUpdate,
+  onInterview,
 }) => {
   const firtsBreakpoint = useMediaQuery("(max-width:1100px)");
   const secondBreakpoint = useMediaQuery("(max-width:800px)");
@@ -69,6 +71,7 @@ export const ItemCandidate: React.FC<IProps> = ({
             borderRadius: "100px",
             fontSize: `${firtsBreakpoint ? "9px" : "12px"}`,
           }}
+          onClick={onInterview}
         >
           Marcar
         </Button>

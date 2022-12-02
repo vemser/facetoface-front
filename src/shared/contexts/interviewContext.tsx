@@ -6,13 +6,15 @@ import alertSuccess from "../alerts/sucess";
 import { api } from "../api";
 import { IInterview } from "../interfaces";
 import { useAuth } from "./authContext";
-
+import nProgress from "nprogress";
 interface IInterviewContext {
   lista: IInterview[];
   schedules: any;
+  schedulesFormated: any;
   postInterview: (interview: any) => Promise<void>;
   getInterview: () => Promise<void>;
-  getByMonthYear: (day: number, year: number) => Promise<void>;
+  getByMonthYear: (month: number, year: number) => Promise<void>;
+  updateInterview: (interview: any, id: number) => Promise<void>;
 }
 
 interface IChildren {
@@ -26,6 +28,7 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
   const [lista, setLista] = useState<IInterview[]>([]);
   const navigate = useNavigate();
   const [schedules, setSchedules] = useState([]);
+  const [schedulesFormated, setSchedulesFormated] = useState([]);
 
   const postInterview = async (interview: any) => {
     try {
@@ -45,6 +48,7 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
 
   const getInterview = async () => {
     try {
+      nProgress.start();
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
       const { data } = await api.get<IInterview[]>("entrevista");
 
@@ -56,18 +60,56 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
       }
       alertError(message);
     } finally {
+      nProgress.done();
     }
   };
 
-  const getByMonthYear = async (day: number, year: number) => {
+  const getByMonthYear = async (month: number, year: number) => {
     try {
+      nProgress.start();
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
       const { data } = await api.get(
-        `entrevista/listar-por-mes?pagina=0&tamanho=10&mes=${day}&ano=${year}`
+        `entrevista/listar-por-mes?pagina=0&tamanho=10&mes=${month}&ano=${year}`
       );
+      let result = data.elementos.map((item: any) => {
+        return {
+          date: item.dataEntrevista,
+          title: item.candidatoDTO.nomeCompleto,
+          color: "yellow",
+          state: item,
+        };
+      });
+
+      setSchedulesFormated(result);
       setSchedules(data);
     } catch (err) {
-      alertError("Ops! algo deu errado!");
+      let message = "Ops, algo deu errado!";
+      if (axios.isAxiosError(err) && err?.response) {
+        message = err.response.data.message;
+      }
+      alertError(message);
+    } finally {
+      nProgress.done();
+    }
+  };
+
+  const updateInterview = async (interview: any, id: number) => {
+    try {
+      nProgress.start();
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      await api.put(
+        `entrevista/atualizar-entrevista/${id}?legenda=PENDENTE`,
+        interview
+      );
+      alertSuccess("Update feito com sucesso!");
+    } catch (err) {
+      let message = "Ops, algo deu errado!";
+      if (axios.isAxiosError(err) && err?.response) {
+        message = err.response.data.message;
+      }
+      alertError(message);
+    } finally {
+      nProgress.done();
     }
   };
 
@@ -79,6 +121,8 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
         getByMonthYear,
         lista,
         schedules,
+        schedulesFormated,
+        updateInterview,
       }}
     >
       {children}
