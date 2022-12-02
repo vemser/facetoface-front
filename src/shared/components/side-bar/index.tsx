@@ -97,7 +97,10 @@ export const SideBar: React.FC<IProps> = ({ children }) => {
                 textAlign: "center",
               }}
             >
-              {user?.nomeCompleto}
+              <span style={{ color: "#1e62fe", fontWeight: "bold" }}>
+                Olá,{" "}
+              </span>
+              {user?.nomeCompleto.split(" ")[0]}
             </Typography>
           </Box>
 

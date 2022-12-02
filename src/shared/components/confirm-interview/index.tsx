@@ -26,6 +26,7 @@ export const ConfirmInterview: React.FC = () => {
       height="100vh"
       bgcolor="#1e62fe"
     >
+      {/* eslint-disable-next-line jsx-a11y/alt-text */}
       <img
         src={require("../../assets/logo/vem-ser-white.png")}
         style={{ width: "50%" }}

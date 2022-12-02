@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 import { useForm } from "react-hook-form";
 import { IInterview } from "../../shared/interfaces";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -13,9 +12,8 @@ import { useLocation } from "react-router-dom";
 
 export const UpdateInterview: React.FC = () => {
   const { state } = useLocation();
-  const { postInterview, updateInterview } = useInterview();
+  const { updateInterview } = useInterview();
   const { user } = useAuth();
-  const { getByEmailInterview, candidateByEmail } = useCandidate();
   const {
     register,
     handleSubmit,
@@ -36,6 +34,7 @@ export const UpdateInterview: React.FC = () => {
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
 
+  // monitora os campos
   const watchEmail = watch("email");
   const watchNome = watch("nomeCompleto");
   const watchCidade = watch("cidade");
