@@ -157,7 +157,6 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
       const { data } = await api.get(`usuario/recuperar-imagem?email=${email}`);
       return data;
     } catch (err) {
-      console.log(err);
     } finally {
       nProgress.done();
     }

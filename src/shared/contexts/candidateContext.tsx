@@ -10,6 +10,7 @@ import alertError from "../alerts/error";
 import alertSuccess from "../alerts/sucess";
 import { useAuth } from "./authContext";
 import nProgress from "nprogress";
+import axios from "axios";
 
 interface ICandidateContext {
   candidates: any;
@@ -24,16 +25,21 @@ interface ICandidateContext {
   postImage: (file: any, email: string) => Promise<void>;
   postCurriculo: (file: any, email: string) => Promise<void>;
   getCurriculo: (email: string) => Promise<any>;
-  getListarPorNomeOuTrilha: (trilha: string) => Promise<void>;
+  getListarPorNomeOuTrilhaOuEdicao: ({
+    trilha,
+    nome,
+    edicao,
+  }: IGetTrilhaNomeEdicao) => Promise<void>;
 }
 
 interface IChildren {
   children: React.ReactNode;
 }
 
-interface IGetTrilhaNome {
-  nome?: string;
-  trilha?: string;
+interface IGetTrilhaNomeEdicao {
+  nome?: string | null;
+  trilha?: string | null;
+  edicao?: string | null;
 }
 
 const CandidateContext = createContext({} as ICandidateContext);
@@ -75,7 +81,11 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
       alertSuccess("Candidato cadastrado com sucesso!");
       navigate("/");
     } catch (err) {
-      alertError("Ops! algo deu errado na atualização!");
+      let message = "Ops, algo deu errado!";
+      if (axios.isAxiosError(err) && err?.response) {
+        message = err.response.data.message;
+      }
+      alertError(message);
     } finally {
       // adicionar loading
       nProgress.done();
@@ -175,15 +185,21 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
     }
   };
 
-  const getListarPorNomeOuTrilha = async (trilha: string) => {
+  const getListarPorNomeOuTrilhaOuEdicao = async ({
+    trilha,
+    nome,
+    edicao,
+  }: IGetTrilhaNomeEdicao) => {
     try {
       nProgress.start();
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      let string = `${nome != null ? `nomeCompleto=${nome}&` : ""}${
+        trilha != null ? `nomeTrilha=${trilha}&` : ""
+      }${edicao != null ? `nomeEdicao=${edicao}` : ""}`;
       const { data } = await api.get(
-        `candidato/listar-candidato-cadastro-por-nome-ou-por-trilha?pagina=0&tamanho=10&nomeTrilha=${trilha}`
+        `candidato/listar-candidato-cadastro-por-nome-ou-por-trilha?pagina=0&tamanho=10&${string}`
       );
       setCandidates(data);
-      //}
     } catch (err) {
     } finally {
       nProgress.done();
@@ -235,7 +251,7 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
         postImage,
         postCurriculo,
         getCurriculo,
-        getListarPorNomeOuTrilha,
+        getListarPorNomeOuTrilhaOuEdicao,
       }}
     >
       {children}
