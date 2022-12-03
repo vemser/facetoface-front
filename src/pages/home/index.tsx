@@ -219,19 +219,14 @@ export const Home: React.FC = () => {
               </Select>
             </FormControl>
           </Box>
+          {search || trilha || edicao ? (
+            <Button variant="outlined" onClick={resetSearch}>
+              Reset
+            </Button>
+          ) : (
+            ""
+          )}
         </Box>
-
-        {search || trilha || edicao ? (
-          <Button
-            variant="outlined"
-            sx={{ marginTop: `${mdDown ? "1rem" : "0"}` }}
-            onClick={resetSearch}
-          >
-            Reset
-          </Button>
-        ) : (
-          ""
-        )}
       </Box>
       {isAdmin && (
         <Box

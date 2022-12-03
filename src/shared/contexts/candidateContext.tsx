@@ -78,7 +78,7 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
         `candidato/${candidato.idCandidato}?genero=${candidato.genero}`,
         candidato
       );
-      
+
       alertSuccess("Candidato editado com sucesso!");
       navigate("/");
     } catch (err) {
@@ -194,11 +194,12 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
     try {
       nProgress.start();
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
-      let string = `${nome != null ? `nomeCompleto=${nome}&` : ""}${
-        trilha != null ? `nomeTrilha=${trilha}&` : ""
-      }${edicao != null ? `nomeEdicao=${edicao}` : ""}`;
+      let string = `${nome != null ? `&nomeCompleto=${nome}` : ""}${
+        trilha != null ? `&nomeTrilha=${trilha}` : ""
+      }${edicao != null ? `&nomeEdicao=${edicao}` : ""}`;
+      console.log(string);
       const { data } = await api.get(
-        `candidato/listar-candidato-cadastro-por-nome-ou-por-trilha?pagina=0&tamanho=10&${string}`
+        `candidato/listar-candidato-cadastro-por-nome-ou-por-trilha?pagina=0&tamanho=10${string}`
       );
       setCandidates(data);
     } catch (err) {
