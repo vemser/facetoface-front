@@ -27,12 +27,12 @@ export const DetailCandidate: React.FC = () => {
     >
       <Box
         display="flex"
-        padding="3rem 5rem"
         flexDirection="column"
+        alignItems="center"
         bgcolor="#fff"
-        gap="1rem"
         borderRadius="10px"
-        width="50%"
+        width="70%"
+        padding=" 30px 0"
       >
         <Avatar
           id="avatar-register-candidate"
@@ -40,6 +40,13 @@ export const DetailCandidate: React.FC = () => {
           src={imageUser ? `data:image/png;base64,${imageUser}` : ""}
           sx={{ width: 80, height: 80, m: "auto" }}
         />
+        <Box 
+        display="flex"
+        gap={10}
+        margin="40px"
+        >
+        <Box
+        >
         <Typography>
           <span style={{ fontWeight: "bold" }}>Nome: </span>
           {state.nomeCompleto}
@@ -56,7 +63,9 @@ export const DetailCandidate: React.FC = () => {
           <span style={{ fontWeight: "bold" }}>Cidade: </span>
           {state.cidade} - {state.estado}
         </Typography>
-        <hr />
+
+        </Box>
+        <Box>
         <Typography>
           <span style={{ fontWeight: "bold" }}>Edição: </span>
           {state.edicao.nome}
@@ -73,9 +82,11 @@ export const DetailCandidate: React.FC = () => {
           <span style={{ fontWeight: "bold" }}>Observações: </span>
           {state.observacoes ? state.observacoes : "Nenhum observação"}
         </Typography>
-        <hr />
-        <Box display="flex" justifyContent="space-between">
-          <Button onClick={() => navigate("/")}>Voltar</Button>
+        </Box>
+        </Box>
+        
+        <Box display="flex" justifyContent="space-between" gap={2}>
+          <Button variant="outlined" onClick={() => navigate("/")}>Voltar</Button>
           {curriculoGet && (
             <a
               download="file.pdf"
@@ -88,6 +99,7 @@ export const DetailCandidate: React.FC = () => {
             </a>
           )}
           <Button
+          variant="outlined"
             onClick={() =>
               navigate("/update-candidate/" + state.idCandidate, {
                 state: state,
