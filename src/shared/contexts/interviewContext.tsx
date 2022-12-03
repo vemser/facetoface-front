@@ -14,8 +14,13 @@ interface IInterviewContext {
   postInterview: (interview: any) => Promise<void>;
   getInterview: () => Promise<void>;
   getByMonthYear: (month: number, year: number) => Promise<void>;
-  updateInterview: (interview: any, id: number) => Promise<void>;
+  updateInterview: (
+    interview: any,
+    id: number,
+    legenda: string
+  ) => Promise<void>;
   confirmInterview: (token: string) => Promise<void>;
+  deletarEntrevista: (id: number) => Promise<void>;
 }
 
 interface IChildren {
@@ -103,15 +108,20 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
     }
   };
 
-  const updateInterview = async (interview: any, id: number) => {
+  const updateInterview = async (
+    interview: any,
+    id: number,
+    legenda: string
+  ) => {
     try {
       nProgress.start();
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
       await api.put(
-        `entrevista/atualizar-entrevista/${id}?legenda=PENDENTE`,
+        `entrevista/atualizar-entrevista/${id}?legenda=${legenda}`,
         interview
       );
       alertSuccess("Update feito com sucesso!");
+      navigate("/schedule");
     } catch (err) {
       let message = "Ops, algo deu errado!";
       if (axios.isAxiosError(err) && err?.response) {
@@ -144,6 +154,23 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
     }
   };
 
+  const deletarEntrevista = async (id: number) => {
+    try {
+      nProgress.start();
+      await api.delete(`entrevista/${id}`);
+      navigate("/");
+      alertSuccess("Entrevista deletada!");
+    } catch (err) {
+      let message = "Ops, algo deu errado!";
+      if (axios.isAxiosError(err) && err?.response) {
+        message = err.response.data.message;
+      }
+      alertError(message);
+    } finally {
+      nProgress.done();
+    }
+  };
+
   return (
     <InterviewContext.Provider
       value={{
@@ -155,6 +182,7 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
         schedulesFormated,
         updateInterview,
         confirmInterview,
+        deletarEntrevista,
       }}
     >
       {children}

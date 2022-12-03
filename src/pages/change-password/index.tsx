@@ -1,10 +1,19 @@
-import React from "react";
-import { Box, Typography, TextField, Button } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useChangePassword } from "../../shared/contexts";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SenhaForteSchema } from "../../shared/schemas";
 import { ErrorMessage } from "../../shared/components";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 interface IChangePassword {
   oldPassword: string;
@@ -21,6 +30,11 @@ export const ChangePassword: React.FC = () => {
 
   const handleSubmitChange = (data: IChangePassword) => {
     changePassword(data);
+  };
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -45,12 +59,22 @@ export const ChangePassword: React.FC = () => {
           alt="logo faceToface"
           style={{ width: "200px" }}
         />
-        <Typography>Mudar a senha!</Typography>
+        <Typography>Alterar senha!</Typography>
         <TextField
           id="input-password-actual-change-password"
           label="Senha atual..."
           sx={{ width: "100%" }}
           {...register("oldPassword")}
+          type={showPassword ? "text" : "password"}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={handleClickShowPassword}>
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
         <ErrorMessage id="error-actual-password-change-password" width="100%">
           {errors.oldPassword?.message}
@@ -60,6 +84,7 @@ export const ChangePassword: React.FC = () => {
           label="Senha nova..."
           sx={{ width: "100%" }}
           {...register("newPassword")}
+          type={showPassword ? "text" : "password"}
         />
         <ErrorMessage id="error-new-password-change-password" width="100%">
           {errors.newPassword?.message}

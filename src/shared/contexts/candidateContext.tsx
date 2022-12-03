@@ -62,7 +62,11 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
       alertSuccess("Candidato cadastrado com sucesso!");
       navigate("/");
     } catch (err) {
-      alertError("Ops! algo deu errado no cadastro!");
+      let message = "Ops, algo deu errado!";
+      if (axios.isAxiosError(err) && err?.response) {
+        message = err.response.data.message;
+      }
+      alertError(message);
     } finally {
       // adicionar loading
       nProgress.done();
@@ -78,7 +82,7 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
         `candidato/${candidato.idCandidato}?genero=${candidato.genero}`,
         candidato
       );
-      
+
       alertSuccess("Candidato editado com sucesso!");
       navigate("/");
     } catch (err) {
@@ -102,7 +106,11 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
       await getCandidates();
       alertSuccess("Candidato deletado com sucesso!");
     } catch (err) {
-      alertError("Ops! algo deu errado na exclusão!");
+      let message = "Ops, algo deu errado!";
+      if (axios.isAxiosError(err) && err?.response) {
+        message = err.response.data.message;
+      }
+      alertError(message);
     } finally {
       // adicionar loading
       nProgress.done();
@@ -119,7 +127,11 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
       );
       setCandidates(data);
     } catch (err) {
-      alertError("Ops! algo deu na busca por candidatos!");
+      let message = "Ops, algo deu errado!";
+      if (axios.isAxiosError(err) && err?.response) {
+        message = err.response.data.message;
+      }
+      alertError(message);
     } finally {
       // adicionar loading
       nProgress.done();
@@ -142,7 +154,11 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
       alertSuccess("Candidato encontrado!");
       navigate("/");
     } catch (err) {
-      alertError("Ops! algo deu errado na busca!");
+      let message = "Ops, algo deu errado!";
+      if (axios.isAxiosError(err) && err?.response) {
+        message = err.response.data.message;
+      }
+      alertError(message);
     } finally {
       nProgress.done();
     }
@@ -156,7 +172,11 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
       const { data } = await api.get(`candidato/findbyemails/${email}`);
       setCandidateByEmail(data);
     } catch (err) {
-      alertError("Ops! algo deu errado na busca!");
+      let message = "Ops, algo deu errado!";
+      if (axios.isAxiosError(err) && err?.response) {
+        message = err.response.data.message;
+      }
+      alertError(message);
     } finally {
       nProgress.done();
     }
@@ -168,7 +188,11 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
       await api.put(`candidato/upload-foto?email=${email}`, file);
     } catch (err) {
-      alertError("Ops, algo deu errado no upload de imagem!");
+      let message = "Ops, algo deu errado!";
+      if (axios.isAxiosError(err) && err?.response) {
+        message = err.response.data.message;
+      }
+      alertError(message);
     } finally {
       nProgress.done();
     }
@@ -180,7 +204,11 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
       await api.put(`candidato/upload-curriculo?email=${email}`, file);
     } catch (err) {
-      alertError("Ops, algo deu errado no upload do curriculo!");
+      let message = "Ops, algo deu errado!";
+      if (axios.isAxiosError(err) && err?.response) {
+        message = err.response.data.message;
+      }
+      alertError(message);
     } finally {
       nProgress.done();
     }
@@ -194,14 +222,20 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
     try {
       nProgress.start();
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
-      let string = `${nome != null ? `nomeCompleto=${nome}&` : ""}${
-        trilha != null ? `nomeTrilha=${trilha}&` : ""
-      }${edicao != null ? `nomeEdicao=${edicao}` : ""}`;
+      let string = `${nome != null ? `&nomeCompleto=${nome}` : ""}${
+        trilha != null ? `&nomeTrilha=${trilha}` : ""
+      }${edicao != null ? `&nomeEdicao=${edicao}` : ""}`;
+      console.log(string);
       const { data } = await api.get(
-        `candidato/listar-candidato-cadastro-por-nome-ou-por-trilha?pagina=0&tamanho=10&${string}`
+        `candidato/listar-candidato-cadastro-por-nome-ou-por-trilha?pagina=0&tamanho=10${string}`
       );
       setCandidates(data);
     } catch (err) {
+      let message = "Ops, algo deu errado!";
+      if (axios.isAxiosError(err) && err?.response) {
+        message = err.response.data.message;
+      }
+      alertError(message);
     } finally {
       nProgress.done();
     }

@@ -2,8 +2,10 @@ import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useInterview } from "../../shared/contexts";
 
 export const DetailInterview: React.FC = () => {
+  const { deletarEntrevista } = useInterview();
   const { state } = useLocation();
   const navigate = useNavigate();
 
@@ -54,9 +56,16 @@ export const DetailInterview: React.FC = () => {
           <span style={{ fontWeight: "bold" }}>Data: </span>
           {date.toLocaleDateString()} - {date.toLocaleTimeString()}
         </Typography>
+        <Typography>
+          <span style={{ fontWeight: "bold" }}>Observacoes: </span>
+          {state.observacoes}
+        </Typography>
         <hr />
         <Box display="flex" justifyContent="space-between">
           <Button onClick={() => navigate("/schedule")}>Voltar</Button>
+          <Button onClick={() => deletarEntrevista(state.idEntrevista)}>
+            Cancelar
+          </Button>
           <Button
             onClick={() => navigate("/update-interview", { state: state })}
           >
