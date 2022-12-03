@@ -172,7 +172,6 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
       const { data } = await api.get(`usuario/email?email=${email}`);
       setUserByEmail(data);
-      console.log(data);
     } catch (err) {
     } finally {
       nProgress.done();

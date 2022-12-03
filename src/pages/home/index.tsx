@@ -121,7 +121,7 @@ export const Home: React.FC = () => {
             variant="outlined"
             label={"Pesquisar por nome"}
             sx={{ width: `${mdDown ? "250px" : "300px"}` }}
-            value={search}
+            value={search ? search : ""}
             onChange={(e) => setSearch(e.target.value)}
             InputProps={{
               endAdornment: (
@@ -177,9 +177,6 @@ export const Home: React.FC = () => {
                 onChange={trocaEdicao}
                 value={edicao ? edicao : ""}
               >
-                <MenuItem id="selected-edicao" value={""} selected>
-                  Selecione uma edição
-                </MenuItem>
                 <MenuItem id="edicao-1" value="1ª Edição">
                   1ª edição
                 </MenuItem>

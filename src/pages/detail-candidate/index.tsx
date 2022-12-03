@@ -1,4 +1,10 @@
-import { Avatar, Button, Typography, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -34,7 +40,7 @@ export const DetailCandidate: React.FC = () => {
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
-        bgcolor="red"
+        bgcolor="#fff"
         borderRadius="10px"
         width="70%"
         padding=" 30px 0"
@@ -45,58 +51,54 @@ export const DetailCandidate: React.FC = () => {
           src={imageUser ? `data:image/png;base64,${imageUser}` : ""}
           sx={{ width: 80, height: 80, m: "auto" }}
         />
-        <Box 
-        display="flex"
-        flexDirection={mdDown ? "column" : "row"}
-        gap={mdDown ? 0 : 10}
-        margin={mdDown ? 1 : 4}
-        >
         <Box
+          display="flex"
+          flexDirection={mdDown ? "column" : "row"}
+          gap={mdDown ? 0 : 10}
+          margin={mdDown ? 1 : 4}
         >
-        <Typography>
-          <span style={{ fontWeight: "bold" }}>Nome: </span>
-          {state.nomeCompleto}
-        </Typography>
-        <Typography>
-          <span style={{ fontWeight: "bold" }}>Email: </span>
-          {state.email}
-        </Typography>
-        <Typography>
-          <span style={{ fontWeight: "bold" }}>Trilha: </span>
-          {state.trilha.nome}
-        </Typography>
-        <Typography>
-          <span style={{ fontWeight: "bold" }}>Cidade: </span>
-          {state.cidade} - {state.estado}
-        </Typography>
+          <Box>
+            <Typography>
+              <span style={{ fontWeight: "bold" }}>Nome: </span>
+              {state.nomeCompleto}
+            </Typography>
+            <Typography>
+              <span style={{ fontWeight: "bold" }}>Email: </span>
+              {state.email}
+            </Typography>
+            <Typography>
+              <span style={{ fontWeight: "bold" }}>Trilha: </span>
+              {state.trilha.nome}
+            </Typography>
+            <Typography>
+              <span style={{ fontWeight: "bold" }}>Cidade: </span>
+              {state.cidade} - {state.estado}
+            </Typography>
+          </Box>
+          <Box>
+            <Typography>
+              <span style={{ fontWeight: "bold" }}>Edição: </span>
+              {state.edicao.nome}
+            </Typography>
+            <Typography>
+              <span style={{ fontWeight: "bold" }}>Nota da prova: </span>
+              {state.notaProva}
+            </Typography>
+            <Typography>
+              <span style={{ fontWeight: "bold" }}>genero: </span>
+              {state.genero}
+            </Typography>
+            <Typography>
+              <span style={{ fontWeight: "bold" }}>Observações: </span>
+              {state.observacoes ? state.observacoes : "Nenhum observação"}
+            </Typography>
+          </Box>
+        </Box>
 
-        </Box>
-        <Box>
-        <Typography>
-          <span style={{ fontWeight: "bold" }}>Edição: </span>
-          {state.edicao.nome}
-        </Typography>
-        <Typography>
-          <span style={{ fontWeight: "bold" }}>Nota da prova: </span>
-          {state.notaProva}
-        </Typography>
-        <Typography>
-          <span style={{ fontWeight: "bold" }}>genero: </span>
-          {state.genero}
-        </Typography>
-        <Typography>
-          <span style={{ fontWeight: "bold" }}>Observações: </span>
-          {state.observacoes ? state.observacoes : "Nenhum observação"}
-        </Typography>
-        </Box>
-        
-        </Box>
-        
-        <Box 
-          display="flex" 
-          justifyContent="space-between" 
-          gap={mdDown ? 1 : 2}>
-          <Button variant="outlined" onClick={() => navigate("/")}>Voltar</Button>
+        <Box display="flex" justifyContent="space-between" gap={mdDown ? 1 : 2}>
+          <Button variant="outlined" onClick={() => navigate("/")}>
+            Voltar
+          </Button>
           {curriculoGet && (
             <a
               download="file.pdf"
@@ -109,7 +111,7 @@ export const DetailCandidate: React.FC = () => {
             </a>
           )}
           <Button
-          variant="outlined"
+            variant="outlined"
             onClick={() =>
               navigate("/update-candidate/" + state.idCandidate, {
                 state: state,
