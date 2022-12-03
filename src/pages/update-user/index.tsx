@@ -40,13 +40,13 @@ export const UpdateUser: React.FC = () => {
   );
 
   const [image, setImage] = useState(null);
-  const [imageUpload, setImageUpload] = useState(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<IUserComplete>({
     resolver: yupResolver(schemaUser),
     defaultValues: {
@@ -61,6 +61,8 @@ export const UpdateUser: React.FC = () => {
       idUsuario: state.idUsuario,
     },
   });
+
+  const watchAll = watch();
 
   const handleClickFile = () => {
     inputRef.current?.click();
@@ -172,6 +174,7 @@ export const UpdateUser: React.FC = () => {
                 label="Nome completo"
                 sx={{ width: "100%" }}
                 {...register("nomeCompleto")}
+                focused={watchAll.nomeCompleto ? true : false}
               />
               <ErrorMessage id="error-name-editar-usuario" width="100%">
                 {errors.nomeCompleto?.message}
@@ -184,6 +187,7 @@ export const UpdateUser: React.FC = () => {
                 label="Cidade"
                 sx={{ width: "100%" }}
                 {...register("cidade")}
+                focused={watchAll.cidade ? true : false}
               />
               <ErrorMessage id="error-cidade-editar-usuario" width="100%">
                 {errors.cidade?.message}
@@ -236,6 +240,7 @@ export const UpdateUser: React.FC = () => {
                   label="Email"
                   sx={{ width: "100%" }}
                   {...register("email")}
+                  focused={watchAll.email ? true : false}
                 />
                 <ErrorMessage id="error-email-editar-usuario" width="100%">
                   {errors.email?.message}
@@ -249,6 +254,7 @@ export const UpdateUser: React.FC = () => {
                 label="Estado"
                 sx={{ width: "100%" }}
                 {...register("estado")}
+                focused={watchAll.estado ? true : false}
               />
               <ErrorMessage id="error-state-editar-usuario" width="100%">
                 {errors.estado?.message}

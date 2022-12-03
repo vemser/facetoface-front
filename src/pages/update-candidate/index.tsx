@@ -42,6 +42,7 @@ export const UpdateCandidate: React.FC = () => {
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm<ICandidateComplete>({
     resolver: yupResolver(schemaCandidateComplete),
     defaultValues: {
@@ -72,6 +73,8 @@ export const UpdateCandidate: React.FC = () => {
   const [language, setLanguage] = useState<string>("");
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
+
+  const watchAll = watch();
 
   const handleClickFile = () => {
     inputRef.current?.click();
@@ -192,6 +195,7 @@ export const UpdateCandidate: React.FC = () => {
               sx={{ width: "100%" }}
               {...register("nomeCompleto")}
               error={errors.nomeCompleto ? true : false}
+              focused={watchAll.nomeCompleto ? true : false}
             />
             <ErrorMessage id="error-name-register-candidate" width={"100%"}>
               {errors.nomeCompleto?.message}
@@ -203,6 +207,7 @@ export const UpdateCandidate: React.FC = () => {
               id="input-genre-register-candidate"
               sx={{ width: "100%" }}
               error={errors.genero ? true : false}
+              focused={watchAll.genero ? true : false}
             >
               <FormLabel id="label-genre-register-candidate">Gênero</FormLabel>
               <RadioGroup row defaultValue={state.genero}>
