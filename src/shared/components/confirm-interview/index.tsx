@@ -1,11 +1,10 @@
 import { Box } from "@mui/system";
 import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useInterview } from "../../contexts";
 
 export const ConfirmInterview: React.FC = () => {
   const { confirmInterview } = useInterview();
-  const navigate = useNavigate();
   const { search } = useLocation();
   const token = search.split("=")[1];
 
@@ -14,8 +13,8 @@ export const ConfirmInterview: React.FC = () => {
       localStorage.setItem("ConfirmInterview", token);
       console.log(token);
       confirmInterview(token);
-      //navigate("/");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   return (

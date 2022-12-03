@@ -16,6 +16,7 @@ import {
   UpdateCandidate,
   UpdateMyProfile,
   UpdateUser,
+  DetailUser,
 } from "../pages";
 import { ConfirmInterview, SideBar } from "../shared/components";
 import { useAuth } from "../shared/contexts";
@@ -38,7 +39,6 @@ export const AppRoutes: React.FC = () => {
             element={<RecoverPasswordToken />}
           />
           <Route path="/confirm-interview" element={<ConfirmInterview />} />
-
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </>
@@ -61,6 +61,7 @@ export const AppRoutes: React.FC = () => {
             <Route path="/change-password" element={<ChangePassword />} />
             <Route path="/detail-candidate/:id" element={<DetailCandidate />} />
             <Route path="/update-my-profile" element={<UpdateMyProfile />} />
+            <Route path="/detail-user/:id" element={<DetailUser />} />
             {/* <Route path="/confirm-interview" element={<ConfirmInterview />} /> */}
 
             <Route path="*" element={<Navigate to="/" />} />

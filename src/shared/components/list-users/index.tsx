@@ -11,7 +11,6 @@ export const ListUsers: React.FC = () => {
   const { users, deleteUser } = useUser();
   const [listaOrdenada, setListaOrdenada] = useState([]);
   const firtsBreakpoint = useMediaQuery("(max-width:1100px)");
-  const secondBreakpoint = useMediaQuery("(max-width:800px)");
 
   const ordenarPorNome = () => {
     if (listaOrdenada.length === 0) {
@@ -47,16 +46,10 @@ export const ListUsers: React.FC = () => {
         <Typography width="25%" fontSize={firtsBreakpoint ? "13px" : "15px"}>
           E-mail
         </Typography>
-        {!secondBreakpoint && (
-          <Typography width="15%" fontSize={firtsBreakpoint ? "13px" : "15px"}>
-            Gênero
-          </Typography>
-        )}
-
         <Typography width="19%" fontSize={firtsBreakpoint ? "13px" : "15px"}>
           Roles
         </Typography>
-        <Typography width="11%" fontSize={firtsBreakpoint ? "13px" : "15px"}>
+        <Typography width="16%" fontSize={firtsBreakpoint ? "13px" : "15px"}>
           Ações
         </Typography>
       </Box>
@@ -84,6 +77,11 @@ export const ListUsers: React.FC = () => {
                   <ItemUser
                     key={item.idUsuario}
                     props={item}
+                    onDetail={() =>
+                      navigate("/detail-user/" + item.idUsuario, {
+                        state: item,
+                      })
+                    }
                     onDelete={() => deleteUser(item.idUsuario)}
                     onUpdate={() =>
                       navigate("/update-user/" + item.idUsuario, {

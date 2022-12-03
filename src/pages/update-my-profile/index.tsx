@@ -19,7 +19,7 @@ import { schemaUser } from "../../shared/schemas/register-user.schema";
 import { IUserComplete } from "../../shared/interfaces";
 import { ErrorMessage } from "../../shared/components";
 import { UserContext, useUser } from "../../shared/contexts/userContext";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface IProps {
   nome: string;
@@ -30,20 +30,6 @@ export const UpdateMyProfile: React.FC = () => {
   const { getUserImage, postImage, getUserByEmail } = useUser();
   const { putUser } = useContext(UserContext);
   const { state } = useLocation();
-  const [roles, setRoles] = useState<IProps[]>(state.perfis);
-  const [errorRole, setErrorRole] = React.useState(false);
-  const [imageUser, setImageUser] = useState<string | null>(null);
-
-  let admin = state.perfis.find((item: any) => item.nome === "ROLE_ADMIN");
-  let gestao = state.perfis.find((item: any) => item.nome === "ROLE_GESTAO");
-  let instrutor = state.perfis.find(
-    (item: any) => item.nome === "ROLE_INSTRUTOR"
-  );
-
-  const [image, setImage] = useState(null);
-  const [imageUpload, setImageUpload] = useState(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-
   const {
     register,
     handleSubmit,
@@ -62,6 +48,18 @@ export const UpdateMyProfile: React.FC = () => {
       idUsuario: state.idUsuario,
     },
   });
+  const [roles, setRoles] = useState<IProps[]>(state.perfis);
+  const [errorRole, setErrorRole] = React.useState(false);
+  const [imageUser, setImageUser] = useState<string | null>(null);
+
+  let admin = state.perfis.find((item: any) => item.nome === "ROLE_ADMIN");
+  let gestao = state.perfis.find((item: any) => item.nome === "ROLE_GESTAO");
+  let instrutor = state.perfis.find(
+    (item: any) => item.nome === "ROLE_INSTRUTOR"
+  );
+
+  const [image, setImage] = useState(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleClickFile = () => {
     inputRef.current?.click();
@@ -103,7 +101,7 @@ export const UpdateMyProfile: React.FC = () => {
 
   useEffect(() => {
     getUserImage(state.email).then((response) => setImageUser(response));
-    document.title = `Editar usuário`;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -259,7 +257,7 @@ export const UpdateMyProfile: React.FC = () => {
 
             <Box>
               <Box sx={{ width: "100%" }}>
-                <FormControl>
+                <FormControl disabled>
                   <FormLabel id="label-tipo-editar-usuario">Tipo</FormLabel>
                   <RadioGroup row>
                     <FormControlLabel

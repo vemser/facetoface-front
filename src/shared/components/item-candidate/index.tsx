@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, Button, IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -23,12 +23,14 @@ export const ItemCandidate: React.FC<IProps> = ({
 }) => {
   const firtsBreakpoint = useMediaQuery("(max-width:1100px)");
   const secondBreakpoint = useMediaQuery("(max-width:800px)");
+  const [trilha, setTrilha] = useState<any>("");
 
   useEffect(() => {
     let trilhaNome = props.trilha.nome;
     let trilha = props.trilha;
-    if (!trilhaNome) console.log("não existe");
-    else console.log(trilhaNome);
+    if (!trilhaNome) setTrilha(trilha);
+    else setTrilha(trilhaNome);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -62,7 +64,7 @@ export const ItemCandidate: React.FC<IProps> = ({
 
       {!secondBreakpoint && (
         <Typography fontSize={firtsBreakpoint ? "11px" : "14px"} width="10%">
-          {props.trilha.nome}
+          {trilha}
         </Typography>
       )}
 
