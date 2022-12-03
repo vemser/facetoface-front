@@ -135,27 +135,27 @@ export const Home: React.FC = () => {
           />
           <Box display={optionSelected ? "flex" : "none"}>
             <FormControl
-              id="input-edition-register-candidate"
+              id="input-trilha-register-candidate"
               sx={{ width: "100%" }}
             >
-              <InputLabel id="label-edition-register-candidate">
+              <InputLabel id="label-trilha-register-candidate">
                 Filtrar por Trilha
               </InputLabel>
               <Select
                 placeholder="Filtrar por Trilha"
-                id="select-edition"
+                id="select-trilha"
                 sx={{ width: `${mdDown ? "250px" : "300px"}` }}
                 label="Filtrar por Trilha"
                 onChange={trocaTrilha}
                 value={trilha ? trilha : ""}
               >
-                <MenuItem id="selected" value={"QA"}>
+                <MenuItem id="select-qa" value={"QA"}>
                   QA
                 </MenuItem>
-                <MenuItem id="selected" value={"FRONTEND"}>
+                <MenuItem id="select-frontend" value={"FRONTEND"}>
                   FRONTEND
                 </MenuItem>
-                <MenuItem id="selected" value={"BACKEND"}>
+                <MenuItem id="select-backend" value={"BACKEND"}>
                   BACKEND
                 </MenuItem>
               </Select>
@@ -163,21 +163,21 @@ export const Home: React.FC = () => {
           </Box>
           <Box display={optionSelected ? "flex" : "none"}>
             <FormControl
-              id="input-edition-register-candidate"
+              id="input-edicao-register-candidate"
               sx={{ width: "100%" }}
             >
-              <InputLabel id="label-edition-register-candidate">
+              <InputLabel id="label-edicao-register-candidate">
                 Filtrar por Edição
               </InputLabel>
               <Select
-                placeholder="Filtrar por Trilha"
-                id="select-edition"
+                placeholder="Filtrar por Edição"
+                id="select-edicao"
                 sx={{ width: `${mdDown ? "250px" : "300px"}` }}
                 label="Filtrar por Trilha"
                 onChange={trocaEdicao}
                 value={edicao ? edicao : ""}
               >
-                <MenuItem id="selected" value={""} selected>
+                <MenuItem id="selected-edicao" value={""} selected>
                   Selecione uma edição
                 </MenuItem>
                 <MenuItem id="edicao-1" value="1ª Edição">
@@ -221,7 +221,7 @@ export const Home: React.FC = () => {
           </Box>
         </Box>
 
-        {search || trilha ? (
+        {search || trilha || edicao ? (
           <Button
             variant="outlined"
             sx={{ marginTop: `${mdDown ? "1rem" : "0"}` }}
