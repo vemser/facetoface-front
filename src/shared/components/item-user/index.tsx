@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, Button, IconButton } from "@mui/material";
+import { Box, Typography, IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IUserComplete } from "../../interfaces";
@@ -14,8 +14,6 @@ interface IProps {
 export const ItemUser: React.FC<IProps> = ({ props, onDelete, onUpdate }) => {
   const firtsBreakpoint = useMediaQuery("(max-width:1100px)");
   const secondBreakpoint = useMediaQuery("(max-width:800px)");
-
-  let name = props.nomeCompleto.split(" ");
 
   let admin = props.perfis.find((item: any) => item.nome === "ROLE_ADMIN");
   let gestao = props.perfis.find((item: any) => item.nome === "ROLE_GESTAO");

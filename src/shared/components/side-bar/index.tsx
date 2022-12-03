@@ -24,6 +24,8 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import KeyIcon from "@mui/icons-material/Key";
+import EditIcon from "@mui/icons-material/Edit";
+import { useUser } from "../../contexts/userContext";
 
 interface IProps {
   children: React.ReactNode;
@@ -40,12 +42,14 @@ export const SideBar: React.FC<IProps> = ({ children }) => {
     handleLogout,
   } = useAuth();
   const { isOpen, toggleOpen } = useSideBar();
+  const { getUserByEmail, userByEmail } = useUser();
   const navigate = useNavigate();
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     getImageProfile(user.email);
+    getUserByEmail(user.email);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -154,11 +158,15 @@ export const SideBar: React.FC<IProps> = ({ children }) => {
               ) : (
                 ""
               )}
-              <ListItemButton onClick={() => navigate("/change-password")}>
+              <ListItemButton
+                onClick={() =>
+                  navigate("/update-my-profile", { state: userByEmail })
+                }
+              >
                 <ListItemIcon>
-                  <KeyIcon />
+                  <EditIcon />
                 </ListItemIcon>
-                <ListItemText primary="Alterar senha" />
+                <ListItemText primary="Editar meu perfil" />
               </ListItemButton>
               {/* item */}
               <ListItemButton onClick={handleLogout}>
