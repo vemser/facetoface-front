@@ -108,7 +108,7 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
       nProgress.start();
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
       await api.put(
-        `entrevista/atualizar-entrevista/${id}?legenda=PENDENTE`,
+        `entrevista/atualizar-entrevista/${id}?legenda=${interview.legenda}`,
         interview
       );
       alertSuccess("Update feito com sucesso!");
