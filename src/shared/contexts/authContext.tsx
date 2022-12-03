@@ -6,7 +6,6 @@ import nProgress from "nprogress";
 import axios from "axios";
 
 interface IAuthContext {
-  loadingAuth: boolean;
   imageProfile: File | null;
   token: string | null;
   user: any;
@@ -25,7 +24,6 @@ interface IChildren {
 const AuthContext = createContext({} as IAuthContext);
 
 export const AuthProvider: React.FC<IChildren> = ({ children }) => {
-  const [loadingAuth, setLoadingAuth] = useState<boolean>(false);
   const [imageProfile, setImageProfile] = useState(null);
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
@@ -35,7 +33,6 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setLoadingAuth(true);
     let storageToken = localStorage.getItem("token");
     let storageUser = localStorage.getItem("user");
     if (storageToken && storageUser) {
@@ -44,7 +41,6 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
       setToken(storageToken);
       setUser(storageUser);
     }
-    setLoadingAuth(false);
   }, []);
 
   const handleSignIn = async (login: { email: string; senha: string }) => {
@@ -83,6 +79,7 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
     nProgress.start();
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    setImageProfile(null);
     setToken(null);
     setUser(null);
     setIsAdmin(false);
@@ -98,7 +95,11 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
       const { data } = await api.get(`usuario/recuperar-imagem?email=${email}`);
       setImageProfile(data);
     } catch (err) {
-      console.log("error");
+      let message = "Ops, algo deu errado!";
+      if (axios.isAxiosError(err) && err?.response) {
+        message = err.response.data.message;
+      }
+      alertError(message);
     } finally {
       nProgress.done();
     }
@@ -107,7 +108,6 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        loadingAuth,
         imageProfile,
         token,
         user,
