@@ -8,7 +8,7 @@ export const schemaUser = object({
       /[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/,
       "Nome completo não pode conter caracteres epeciais"
     )
-    .matches(/[A-Z][a-z]* [A-Z][a-z]*/, "Por favor insira o sobrenome!"),
+    .matches(/[A-Za-z]*  *[A-Za-z]/, "Por favor insira o sobrenome!"),
   genero: string().required("Gênero é obrigatório!").nullable(),
   cidade: string()
     .required("Cidade é obrigatório!")

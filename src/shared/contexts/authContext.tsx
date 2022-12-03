@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import alertError from "../alerts/error";
 import { api } from "../api";
 import nProgress from "nprogress";
+import axios from "axios";
 
 interface IAuthContext {
   loadingAuth: boolean;
@@ -59,7 +60,11 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
       setToken(responseToken.data);
       navigate("/");
     } catch (err) {
-      alertError("Senha ou email incorretos!");
+      let message = "Ops, algo deu errado!";
+      if (axios.isAxiosError(err) && err?.response) {
+        message = err.response.data.message;
+      }
+      alertError(message);
     } finally {
       nProgress.done();
     }

@@ -1,4 +1,4 @@
-import { Avatar, Button, Typography } from "@mui/material";
+import { Avatar, Button, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -10,6 +10,10 @@ export const DetailCandidate: React.FC = () => {
   const navigate = useNavigate();
   const [curriculoGet, setCurriculoGet] = useState(null);
   const [imageUser, setImageUser] = useState<string | null>(null);
+
+  //Medias Query
+  const theme = useTheme();
+  const mdDown = useMediaQuery(theme.breakpoints.down("md"));
 
   // Nome da página
   useEffect(() => {
@@ -28,8 +32,9 @@ export const DetailCandidate: React.FC = () => {
       <Box
         display="flex"
         flexDirection="column"
+        justifyContent="center"
         alignItems="center"
-        bgcolor="#fff"
+        bgcolor="red"
         borderRadius="10px"
         width="70%"
         padding=" 30px 0"
@@ -42,8 +47,9 @@ export const DetailCandidate: React.FC = () => {
         />
         <Box 
         display="flex"
-        gap={10}
-        margin="40px"
+        flexDirection={mdDown ? "column" : "row"}
+        gap={mdDown ? 0 : 10}
+        margin={mdDown ? 1 : 4}
         >
         <Box
         >
@@ -83,9 +89,13 @@ export const DetailCandidate: React.FC = () => {
           {state.observacoes ? state.observacoes : "Nenhum observação"}
         </Typography>
         </Box>
+        
         </Box>
         
-        <Box display="flex" justifyContent="space-between" gap={2}>
+        <Box 
+          display="flex" 
+          justifyContent="space-between" 
+          gap={mdDown ? 1 : 2}>
           <Button variant="outlined" onClick={() => navigate("/")}>Voltar</Button>
           {curriculoGet && (
             <a
