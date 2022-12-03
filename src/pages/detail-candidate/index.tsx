@@ -57,7 +57,7 @@ export const DetailCandidate: React.FC = () => {
           gap={mdDown ? 0 : 10}
           margin={mdDown ? 4 : 4}
         >
-          <Box>
+          <Box display="flex" flexDirection="column" gap={1}>
             <Typography>
               <span style={{ fontWeight: "bold" }}>Nome: </span>
               {state.nomeCompleto}
@@ -75,7 +75,7 @@ export const DetailCandidate: React.FC = () => {
               {state.cidade} - {state.estado}
             </Typography>
           </Box>
-          <Box>
+          <Box display="flex" flexDirection="column" gap={1}>
             <Typography>
               <span style={{ fontWeight: "bold" }}>Edição: </span>
               {state.edicao.nome}
