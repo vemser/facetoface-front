@@ -221,7 +221,7 @@ export const Home: React.FC = () => {
           </Box>
         </Box>
 
-        {search || trilha ? (
+        {search || trilha || edicao ? (
           <Button
             variant="outlined"
             sx={{ marginTop: `${mdDown ? "1rem" : "0"}` }}

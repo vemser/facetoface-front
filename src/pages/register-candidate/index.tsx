@@ -143,6 +143,7 @@ export const RegisterCandidate: React.FC = () => {
             style={{ display: "none" }}
             ref={inputRef}
             type="file"
+            accept="./jpg"
             onChange={handleFileChange}
           />
         </Box>
