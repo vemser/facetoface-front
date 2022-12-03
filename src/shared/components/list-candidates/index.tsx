@@ -40,9 +40,9 @@ export const ListCandidates: React.FC = () => {
 
         <Typography
           width="20%"
-          onClick={ordenarPorNome}
+          // onClick={ordenarPorNome}
           fontSize={firtsBreakpoint ? "13px" : "15px"}
-          sx={{ cursor: "pointer" }}
+          // sx={{ cursor: "pointer" }}
           color={listaOrdenada.length > 0 ? "#1e62fe" : ""}
         >
           Nome

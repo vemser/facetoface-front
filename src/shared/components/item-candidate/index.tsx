@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Typography, Button, IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -23,6 +23,13 @@ export const ItemCandidate: React.FC<IProps> = ({
 }) => {
   const firtsBreakpoint = useMediaQuery("(max-width:1100px)");
   const secondBreakpoint = useMediaQuery("(max-width:800px)");
+
+  useEffect(() => {
+    let trilhaNome = props.trilha.nome;
+    let trilha = props.trilha;
+    if (!trilhaNome) console.log("não existe");
+    else console.log(trilhaNome);
+  }, []);
 
   return (
     <Box

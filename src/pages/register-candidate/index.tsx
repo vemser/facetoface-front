@@ -41,20 +41,21 @@ export const RegisterCandidate: React.FC = () => {
   const { postCandidate, postImage, postCurriculo } = useCandidate();
   const [arrLanguages, setArrLanguages] = useState<ILanguages[]>([]);
   const [language, setLanguage] = useState<string>("");
-  const [image, setImage] = useState(null);
-  const [curriculo, setCurriculo] = useState(null);
-  const [curriculoError, setCurriculoError] = useState(false);
+  const [image, setImage] = useState<File | null>(null);
+  const [curriculo, setCurriculo] = useState<File | null>(null);
+  const [curriculoError, setCurriculoError] = useState<boolean>(false);
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
   const inputRef = useRef<HTMLInputElement>(null);
 
   const edicao = watch("edicao.nome");
+  const watchAll = watch();
 
-  const handleSubmitCandidate = (data: ICandidate) => {
+  const handleSubmitCandidate = async (data: ICandidate) => {
     if (curriculo) {
       data.linguagens = arrLanguages;
-      postCandidate(data);
-      postCurriculo(formDataCurriculo, data.email);
+      await postCandidate(data);
+      await postCurriculo(formDataCurriculo, data.email);
       if (image) postImage(formData, data.email);
       setArrLanguages([]);
       reset();
@@ -132,7 +133,7 @@ export const RegisterCandidate: React.FC = () => {
             id="avatar-register-candidate"
             alt="Remy Sharp"
             src={image ? URL.createObjectURL(image) : ""}
-            sx={{ width: 80, height: 80, m: "auto" }}
+            sx={{ width: 80, height: 80, m: "auto", cursor: "pointer" }}
             onClick={handleClickFile}
           />
           <Button sx={{ margin: "1rem 0" }} onClick={handleClickFile}>
@@ -162,6 +163,7 @@ export const RegisterCandidate: React.FC = () => {
               sx={{ width: "100%" }}
               {...register("nomeCompleto")}
               error={errors.nomeCompleto ? true : false}
+              focused={watchAll.nomeCompleto ? true : false}
             />
             <ErrorMessage id="error-name-register-candidate" width={"100%"}>
               {errors.nomeCompleto?.message}
@@ -211,6 +213,7 @@ export const RegisterCandidate: React.FC = () => {
               sx={{ width: "100%" }}
               {...register("cidade")}
               error={errors.cidade ? true : false}
+              focused={watchAll.cidade ? true : false}
             />
             <ErrorMessage id="erros-city-register-candidate" width={"100%"}>
               {errors.cidade?.message}
@@ -227,6 +230,7 @@ export const RegisterCandidate: React.FC = () => {
                 shrink: true,
               }}
               onChange={handleCurriculo}
+              focused={curriculo ? true : false}
             />
             <ErrorMessage id="error-cv-register-candidate" width={"100%"}>
               {curriculoError ? "CV é obrigatório!" : ""}
@@ -240,6 +244,7 @@ export const RegisterCandidate: React.FC = () => {
               sx={{ width: "100%" }}
               {...register("email")}
               error={errors.email ? true : false}
+              focused={watchAll.email ? true : false}
             />
             <ErrorMessage id="error-email-register-candidate" width={"100%"}>
               {errors.email?.message}
@@ -259,6 +264,7 @@ export const RegisterCandidate: React.FC = () => {
               }}
               {...register("observacoes")}
               error={errors.observacoes ? true : false}
+              focused={watchAll.observacoes ? true : false}
             />
             <ErrorMessage
               id="error-observation-register-candidate"
@@ -283,6 +289,7 @@ export const RegisterCandidate: React.FC = () => {
               sx={{ width: "100%" }}
               error={errors.estado ? true : false}
               {...register("estado")}
+              focused={watchAll.estado ? true : false}
             />
             <ErrorMessage id="error-state-register-candidate" width={"100%"}>
               {errors.estado?.message}
@@ -331,6 +338,7 @@ export const RegisterCandidate: React.FC = () => {
             <FormControl
               id="input-edition-register-candidate"
               sx={{ width: "100%" }}
+              focused={edicao ? true : false}
             >
               <InputLabel id="label-edition-register-candidate">
                 Edição vem ser
