@@ -74,10 +74,18 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
       );
       console.log(data);
       let result = data.elementos.map((item: any) => {
+        let cor =
+          item.legenda === "PENDENTE"
+            ? "#ffeb3b"
+            : item.legenda === "CONFIRMADA"
+            ? "#4caf50"
+            : item.legenda === "CANCELADA"
+            ? "#f6685e"
+            : "#999";
         return {
           date: item.dataEntrevista,
           title: item.candidatoDTO.nomeCompleto,
-          color: "yellow",
+          color: cor,
           state: item,
         };
       });
@@ -115,6 +123,7 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
     }
   };
 
+  // envia o token para confirmar
   const confirmInterview = async (token: string) => {
     try {
       nProgress.start();

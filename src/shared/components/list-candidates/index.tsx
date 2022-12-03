@@ -5,7 +5,6 @@ import { useCandidate } from "../../contexts";
 import { ICandidateComplete } from "../../interfaces";
 import { ItemCandidate } from "../item-candidate";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
 export const ListCandidates: React.FC = () => {
   const navigate = useNavigate();
@@ -78,7 +77,7 @@ export const ListCandidates: React.FC = () => {
                     props={item}
                     onDelete={() => deleteCandidate(item.idCandidato)}
                     onUpdate={() =>
-                      navigate("/update-candidate" + item.idCandidato, {
+                      navigate("/update-candidate/" + item.idCandidato, {
                         state: item,
                       })
                     }
@@ -100,7 +99,7 @@ export const ListCandidates: React.FC = () => {
                     props={item}
                     onDelete={() => deleteCandidate(item.idCandidato)}
                     onUpdate={() =>
-                      navigate("/update-candidate" + item.idCandidato, {
+                      navigate("/update-candidate/" + item.idCandidato, {
                         state: item,
                       })
                     }

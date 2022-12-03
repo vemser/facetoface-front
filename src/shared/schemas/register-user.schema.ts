@@ -1,13 +1,40 @@
 import { string, object } from "yup";
 
 export const schemaUser = object({
-  nomeCompleto: string().required("Nome completo é obrigatório!").matches(/^([^0-9]*)$/, "Números não são permitidos!").matches(/[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/, "Nome completo não pode conter caracteres epeciais").matches(/[A-Z][a-z]* [A-Z][a-z]*/, "Por favor insira o sobrenome!"),
+  nomeCompleto: string()
+    .required("Nome completo é obrigatório!")
+    .matches(/^([^0-9]*)$/, "Números não são permitidos!")
+    .matches(
+      /[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/,
+      "Nome completo não pode conter caracteres epeciais"
+    )
+    .matches(/[a-z] [a-z]/, "Por favor insira o sobrenome!"),
+  nomeCompleto: string()
+    .required("Nome completo é obrigatório!")
+    .matches(/^([^0-9]*)$/, "Números não são permitidos!")
+    .matches(
+      /[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/,
+      "Nome completo não pode conter caracteres epeciais"
+    )
+    .matches(/[A-Z][a-z]* [A-Z][a-z]*/, "Por favor insira o sobrenome!"),
   genero: string().required("Gênero é obrigatório!").nullable(),
-  cidade: string().required("Cidade é obrigatório!").matches(/^([^0-9]*)$/, "Números não são permitidos!").matches(/[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/, "Cidade não pode conter caracteres epeciais"),
-  estado: string().required("Estado é obrigatório!").matches(/^([^0-9]*)$/, "Números não são permitidos!").matches(/[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/, "Estado não pode conter caracteres epeciais"),
+  cidade: string()
+    .required("Cidade é obrigatório!")
+    .matches(/^([^0-9]*)$/, "Números não são permitidos!")
+    .matches(
+      /[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/,
+      "Cidade não pode conter caracteres epeciais"
+    ),
+  estado: string()
+    .required("Estado é obrigatório!")
+    .matches(/^([^0-9]*)$/, "Números não são permitidos!")
+    .matches(
+      /[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/,
+      "Estado não pode conter caracteres epeciais"
+    ),
   email: string()
     .email("E-mail inválido!")
-    .required("Email não pode ser vazio!")
+    .required("Email é obrigatório!")
     .matches(
       /^[a-z0-9.]+@dbccompany\.com\.br$/,
       "O e-mail deve ser @dbccompany.com.br"
