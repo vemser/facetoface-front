@@ -13,18 +13,18 @@ export const ListCandidates: React.FC = () => {
   const firtsBreakpoint = useMediaQuery("(max-width:1100px)");
   const secondBreakpoint = useMediaQuery("(max-width:800px)");
 
-  const ordenarPorNome = () => {
-    if (listaOrdenada.length === 0) {
-      let lista = candidates.elementos.sort(
-        (a: ICandidateComplete, b: ICandidateComplete) => {
-          if (a.nomeCompleto < b.nomeCompleto) return -1;
-          if (a.nomeCompleto > b.nomeCompleto) return 1;
-          return 0;
-        }
-      );
-      setListaOrdenada(lista);
-    } else setListaOrdenada([]);
-  };
+  // const ordenarPorNome = () => {
+  //   if (listaOrdenada.length === 0) {
+  //     let lista = candidates.elementos.sort(
+  //       (a: ICandidateComplete, b: ICandidateComplete) => {
+  //         if (a.nomeCompleto < b.nomeCompleto) return -1;
+  //         if (a.nomeCompleto > b.nomeCompleto) return 1;
+  //         return 0;
+  //       }
+  //     );
+  //     setListaOrdenada(lista);
+  //   } else setListaOrdenada([]);
+  // };
 
   return (
     <Box display="flex" flexDirection="column" width="100%">

@@ -57,7 +57,6 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
       nProgress.start();
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
       const { data } = await api.get<IInterview[]>("entrevista");
-
       setLista(data);
     } catch (err) {
       let message = "Ops, algo deu errado!";
@@ -94,7 +93,6 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
           state: item,
         };
       });
-
       setSchedulesFormated(result);
       setSchedules(data);
     } catch (err) {

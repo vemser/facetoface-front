@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import {
   Avatar,
   Box,
@@ -40,7 +40,10 @@ export const RegisterUser: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<IUser>({ resolver: yupResolver(schemaUser) });
+
+  const watchAll = watch();
 
   const handleSubmitUser = (data: IUser) => {
     if (roles.length === 0) setErrorRole(true);
@@ -76,10 +79,6 @@ export const RegisterUser: React.FC = () => {
       setRoles(result);
     } else setRoles([...roles, { nome: event.target.value }]);
   };
-
-  useEffect(() => {
-    document.title = `Cadastro de usuário`;
-  }, []);
 
   return (
     <Box
@@ -143,6 +142,7 @@ export const RegisterUser: React.FC = () => {
                 label="Nome completo"
                 sx={{ width: "100%" }}
                 {...register("nomeCompleto")}
+                focused={watchAll.nomeCompleto ? true : false}
               />
               <ErrorMessage id="error-name-register-user" width="100%">
                 {errors.nomeCompleto?.message}
@@ -155,6 +155,7 @@ export const RegisterUser: React.FC = () => {
                 label="Cidade"
                 sx={{ width: "100%" }}
                 {...register("cidade")}
+                focused={watchAll.cidade ? true : false}
               />
               <ErrorMessage id="error-cidade-register-user" width="100%">
                 {errors.cidade?.message}
@@ -208,6 +209,7 @@ export const RegisterUser: React.FC = () => {
                   label="Email"
                   sx={{ width: "100%" }}
                   {...register("email")}
+                  focused={watchAll.email ? true : false}
                 />
                 <ErrorMessage id="error-email-register-user" width="100%">
                   {errors.email?.message}
@@ -221,6 +223,7 @@ export const RegisterUser: React.FC = () => {
                 label="Estado"
                 sx={{ width: "100%" }}
                 {...register("estado")}
+                focused={watchAll.estado ? true : false}
               />
               <ErrorMessage id="error-state-register-user" width="100%">
                 {errors.estado?.message}

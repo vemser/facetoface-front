@@ -4,16 +4,22 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IUserComplete } from "../../interfaces";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import StickyNote2Icon from "@mui/icons-material/StickyNote2";
 
 interface IProps {
   props: IUserComplete;
   onDelete?: any;
   onUpdate?: any;
+  onDetail?: any;
 }
 
-export const ItemUser: React.FC<IProps> = ({ props, onDelete, onUpdate }) => {
+export const ItemUser: React.FC<IProps> = ({
+  props,
+  onDelete,
+  onUpdate,
+  onDetail,
+}) => {
   const firtsBreakpoint = useMediaQuery("(max-width:1100px)");
-  const secondBreakpoint = useMediaQuery("(max-width:800px)");
 
   let admin = props.perfis.find((item: any) => item.nome === "ROLE_ADMIN");
   let gestao = props.perfis.find((item: any) => item.nome === "ROLE_GESTAO");
@@ -50,19 +56,20 @@ export const ItemUser: React.FC<IProps> = ({ props, onDelete, onUpdate }) => {
         {props.email}
       </Typography>
 
-      {!secondBreakpoint && (
-        <Typography fontSize={firtsBreakpoint ? "12px" : "15px"} width="15%">
-          {props.genero}
-        </Typography>
-      )}
-
       <Typography fontSize={firtsBreakpoint ? "11px" : "14px"} width="19%">
         {admin && " (Admin) "}
         {gestao && " (Gestão) "}
         {instrutor && " (Intrutor) "}
       </Typography>
 
-      <Box width="11%" display="flex" justifyContent="center">
+      <Box width="16%" display="flex" justifyContent="center">
+        <IconButton onClick={onDetail}>
+          <StickyNote2Icon
+            sx={{
+              fontSize: `${firtsBreakpoint ? "18px" : "25px"}`,
+            }}
+          />
+        </IconButton>
         <IconButton onClick={onUpdate}>
           <EditIcon
             sx={{

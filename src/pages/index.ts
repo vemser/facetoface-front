@@ -11,3 +11,4 @@ export * from "./detail-interview";
 export * from "./change-password";
 export * from "./detail-candidate";
 export * from "./update-my-profile";
+export * from "./detail-user";
