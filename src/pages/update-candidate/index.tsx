@@ -384,16 +384,40 @@ export const UpdateCandidate: React.FC = () => {
                 error={errors.edicao ? true : false}
                 {...register("edicao.nome")}
               >
-                <MenuItem id="edicao-9" value="EDICAO9">
+                <MenuItem id="edicao-1" value="1ª Edição">
+                  1ª edição
+                </MenuItem>
+                <MenuItem id="edicao-2" value="2ª Edição">
+                  2ª edição
+                </MenuItem>
+                <MenuItem id="edicao-3" value="3ª Edição">
+                  3ª edição
+                </MenuItem>
+                <MenuItem id="edicao-4" value="4ª Edição">
+                  4ª edição
+                </MenuItem>
+                <MenuItem id="edicao-5" value="5ª Edição">
+                  5ª edição
+                </MenuItem>
+                <MenuItem id="edicao-6" value="6ª Edição">
+                  6ª edição
+                </MenuItem>
+                <MenuItem id="edicao-7" value="7ª Edição">
+                  7ª edição
+                </MenuItem>
+                <MenuItem id="edicao-8" value="8ª Edição">
+                  8ª edição
+                </MenuItem>
+                <MenuItem id="edicao-9" value="9ª Edição">
                   9ª edição
                 </MenuItem>
-                <MenuItem id="edicao-10" value="EDICAO10">
+                <MenuItem id="edicao-10" value="10ª Edição">
                   10ª edição
                 </MenuItem>
-                <MenuItem id="edicao-11" value="EDICAO11">
+                <MenuItem id="edicao-11" value="11ª Edição">
                   11ª edição
                 </MenuItem>
-                <MenuItem id="edicao-12" value="EDICAO12">
+                <MenuItem id="edicao-12" value="12ª Edição">
                   12ª edição
                 </MenuItem>
               </Select>
