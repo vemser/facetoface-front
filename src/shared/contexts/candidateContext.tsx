@@ -68,7 +68,6 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
       }
       alertError(message);
     } finally {
-      // adicionar loading
       nProgress.done();
     }
   };
@@ -92,7 +91,6 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
       }
       alertError(message);
     } finally {
-      // adicionar loading
       nProgress.done();
     }
   };
@@ -112,7 +110,6 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
       }
       alertError(message);
     } finally {
-      // adicionar loading
       nProgress.done();
     }
   };
@@ -125,7 +122,16 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
       const { data } = await api.get(
         `candidato?pagina=${page}&tamanho=${size}`
       );
-      setCandidates(data);
+      let listaOrdenada = data.elementos.sort(
+        (a: ICandidateComplete, b: ICandidateComplete) => {
+          if (a.notaProva > b.notaProva) return -1;
+          if (a.notaProva < b.notaProva) return 1;
+          return 0;
+        }
+      );
+      let resultado = data;
+      resultado.elementos = listaOrdenada;
+      setCandidates(resultado);
     } catch (err) {
       let message = "Ops, algo deu errado!";
       if (axios.isAxiosError(err) && err?.response) {
@@ -225,11 +231,22 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
       let string = `${nome != null ? `&nomeCompleto=${nome}` : ""}${
         trilha != null ? `&nomeTrilha=${trilha}` : ""
       }${edicao != null ? `&nomeEdicao=${edicao}` : ""}`;
-      console.log(string);
+
       const { data } = await api.get(
         `candidato/listar-candidato-cadastro-por-nome-ou-por-trilha?pagina=0&tamanho=10${string}`
       );
-      setCandidates(data);
+
+      let listaOrdenada = data.elementos.sort(
+        (a: ICandidateComplete, b: ICandidateComplete) => {
+          if (a.notaProva > b.notaProva) return -1;
+          if (a.notaProva < b.notaProva) return 1;
+          return 0;
+        }
+      );
+      let resultado = data;
+      resultado.elementos = listaOrdenada;
+
+      setCandidates(resultado);
     } catch (err) {
       let message = "Ops, algo deu errado!";
       if (axios.isAxiosError(err) && err?.response) {
@@ -244,13 +261,11 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
   const getCandidateImage = async (email: string) => {
     try {
       nProgress.start();
-      console.log(email);
       const { data } = await api.get(
         `candidato/recuperar-imagem?email=${email}`
       );
       return data;
     } catch (err) {
-      console.log(err);
     } finally {
       nProgress.done();
     }
@@ -259,13 +274,11 @@ export const CandidateProvider: React.FC<IChildren> = ({ children }) => {
   const getCurriculo = async (email: string) => {
     try {
       nProgress.start();
-      console.log(email);
       const { data } = await api.get(
         `candidato/recuperar-curriculo?email=${email}`
       );
       return data;
     } catch (err) {
-      console.log(err);
     } finally {
       nProgress.done();
     }

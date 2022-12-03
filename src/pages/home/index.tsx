@@ -35,6 +35,7 @@ export const Home: React.FC = () => {
   useEffect(() => {
     getCandidates();
     getUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const togglePage = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -62,9 +63,7 @@ export const Home: React.FC = () => {
   };
 
   const trocaTrilha = (e: any) => {
-    //getListarPorNomeOuTrilha(e.target.value);
     setTrilha(e.target.value);
-
     getListarPorNomeOuTrilhaOuEdicao({
       trilha: e.target.value,
       edicao: edicao,
@@ -117,7 +116,7 @@ export const Home: React.FC = () => {
         >
           <TextField
             id="input-search-home"
-            type={optionSelected ? "email" : "text"}
+            type={optionSelected ? "text" : "text"}
             variant="outlined"
             label={"Pesquisar por nome"}
             sx={{ width: `${mdDown ? "250px" : "300px"}` }}
@@ -236,7 +235,7 @@ export const Home: React.FC = () => {
             id="button-candidates-home"
             variant={optionSelected ? "contained" : "outlined"}
             sx={{ borderRadius: "100px" }}
-            onClick={() => setOptionSelected(!optionSelected)}
+            onClick={() => setOptionSelected(true)}
           >
             Candidatos
           </Button>
@@ -244,7 +243,7 @@ export const Home: React.FC = () => {
             id="button-users-home"
             variant={!optionSelected ? "contained" : "outlined"}
             sx={{ borderRadius: "100px" }}
-            onClick={() => setOptionSelected(!optionSelected)}
+            onClick={() => setOptionSelected(false)}
           >
             Usuários
           </Button>
