@@ -17,8 +17,10 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { ErrorMessage } from "../../shared/components";
 import { useAuth, useCandidate } from "../../shared/contexts";
 import { useInterview } from "../../shared/contexts/interviewContext";
+import { useLocation } from "react-router-dom";
 
 export const RegisterInterview: React.FC = () => {
+  const { state } = useLocation();
   const { postInterview } = useInterview();
   const { user } = useAuth();
   const { getByEmailInterview, candidateByEmail } = useCandidate();
@@ -29,7 +31,15 @@ export const RegisterInterview: React.FC = () => {
     reset,
     setValue,
     watch,
-  } = useForm<IInterview>({ resolver: yupResolver(schemaInterview) });
+  } = useForm<IInterview>({
+    resolver: yupResolver(schemaInterview),
+    defaultValues: {
+      email: state?.email,
+      cidade: state?.cidade,
+      estado: state?.estado,
+      nomeCompleto: state?.nomeCompleto,
+    },
+  });
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
 

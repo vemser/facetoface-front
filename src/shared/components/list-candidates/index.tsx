@@ -108,7 +108,9 @@ export const ListCandidates: React.FC = () => {
                         state: item,
                       });
                     }}
-                    onInterview={() => navigate("/register-interview")}
+                    onInterview={() =>
+                      navigate("/register-interview", { state: item })
+                    }
                   />
                 );
             })}

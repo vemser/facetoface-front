@@ -14,6 +14,7 @@ import {
   Schedule,
   SignIn,
   UpdateCandidate,
+  UpdateMyProfile,
   UpdateUser,
 } from "../pages";
 import { ConfirmInterview, SideBar } from "../shared/components";
@@ -59,6 +60,7 @@ export const AppRoutes: React.FC = () => {
             <Route path="/detail-interview" element={<DetailInterview />} />
             <Route path="/change-password" element={<ChangePassword />} />
             <Route path="/detail-candidate/:id" element={<DetailCandidate />} />
+            <Route path="/update-my-profile" element={<UpdateMyProfile />} />
             {/* <Route path="/confirm-interview" element={<ConfirmInterview />} /> */}
 
             <Route path="*" element={<Navigate to="/" />} />

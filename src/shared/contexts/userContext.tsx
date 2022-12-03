@@ -10,6 +10,7 @@ import axios from "axios";
 
 interface IUserContext {
   users: any;
+  userByEmail: never[];
   postUser: (usuario: IUser, file?: File) => Promise<void>;
   putUser: (usuario: IUserComplete) => Promise<void>;
   deleteUser: (id: number) => void;
@@ -17,6 +18,7 @@ interface IUserContext {
   getByName: (name: string, page?: number, size?: number) => Promise<void>;
   postImage: (file: any, email: string) => Promise<void>;
   getUserImage: (email: string) => Promise<any>;
+  getUserByEmail: (email: string) => Promise<void>;
 }
 
 interface IChildren {
@@ -28,6 +30,7 @@ export const UserContext = createContext({} as IUserContext);
 export const UserProvider: React.FC<IChildren> = ({ children }) => {
   const { token } = useAuth();
   const [users, setUsers] = useState([]);
+  const [userByEmail, setUserByEmail] = useState([]);
   const navigate = useNavigate();
 
   // get all users
@@ -154,8 +157,22 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
   const getUserImage = async (email: string) => {
     try {
       nProgress.start();
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
       const { data } = await api.get(`usuario/recuperar-imagem?email=${email}`);
       return data;
+    } catch (err) {
+    } finally {
+      nProgress.done();
+    }
+  };
+
+  const getUserByEmail = async (email: string) => {
+    try {
+      nProgress.start();
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      const { data } = await api.get(`usuario/email?email=${email}`);
+      setUserByEmail(data);
+      console.log(data);
     } catch (err) {
     } finally {
       nProgress.done();
@@ -173,6 +190,8 @@ export const UserProvider: React.FC<IChildren> = ({ children }) => {
         getByName,
         postImage,
         getUserImage,
+        userByEmail,
+        getUserByEmail,
       }}
     >
       {children}
