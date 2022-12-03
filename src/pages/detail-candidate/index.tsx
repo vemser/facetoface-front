@@ -29,11 +29,10 @@ export const DetailCandidate: React.FC = () => {
         display="flex"
         flexDirection="column"
         alignItems="center"
-        bgcolor="red"
+        bgcolor="#fff"
         borderRadius="10px"
         width="70%"
-        
-        
+        padding=" 30px 0"
       >
         <Avatar
           id="avatar-register-candidate"
@@ -45,10 +44,8 @@ export const DetailCandidate: React.FC = () => {
         display="flex"
         gap={10}
         margin="40px"
-        
         >
         <Box
-         
         >
         <Typography>
           <span style={{ fontWeight: "bold" }}>Nome: </span>
@@ -87,7 +84,6 @@ export const DetailCandidate: React.FC = () => {
         </Typography>
         </Box>
         </Box>
-        
         
         <Box display="flex" justifyContent="space-between" gap={2}>
           <Button variant="outlined" onClick={() => navigate("/")}>Voltar</Button>
