@@ -55,9 +55,9 @@ export const DetailCandidate: React.FC = () => {
           display="flex"
           flexDirection={mdDown ? "column" : "row"}
           gap={mdDown ? 0 : 10}
-          margin={mdDown ? 1 : 4}
+          margin={mdDown ? 4 : 4}
         >
-          <Box>
+          <Box display="flex" flexDirection="column" gap={1}>
             <Typography>
               <span style={{ fontWeight: "bold" }}>Nome: </span>
               {state.nomeCompleto}
@@ -75,7 +75,7 @@ export const DetailCandidate: React.FC = () => {
               {state.cidade} - {state.estado}
             </Typography>
           </Box>
-          <Box>
+          <Box display="flex" flexDirection="column" gap={1}>
             <Typography>
               <span style={{ fontWeight: "bold" }}>Edição: </span>
               {state.edicao.nome}
@@ -94,8 +94,12 @@ export const DetailCandidate: React.FC = () => {
             </Typography>
           </Box>
         </Box>
-
-        <Box display="flex" justifyContent="space-between" gap={mdDown ? 1 : 2}>
+        <Box
+          display="flex"
+          flexWrap="wrap"
+          justifyContent="center"
+          gap={mdDown ? 1 : 2}
+        >
           <Button variant="outlined" onClick={() => navigate("/")}>
             Voltar
           </Button>
