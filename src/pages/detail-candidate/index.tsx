@@ -55,7 +55,7 @@ export const DetailCandidate: React.FC = () => {
           display="flex"
           flexDirection={mdDown ? "column" : "row"}
           gap={mdDown ? 0 : 10}
-          margin={mdDown ? 1 : 4}
+          margin={mdDown ? 4 : 4}
         >
           <Box>
             <Typography>
@@ -94,8 +94,12 @@ export const DetailCandidate: React.FC = () => {
             </Typography>
           </Box>
         </Box>
-
-        <Box display="flex" justifyContent="space-between" gap={mdDown ? 1 : 2}>
+        <Box
+          display="flex"
+          flexWrap="wrap"
+          justifyContent="center"
+          gap={mdDown ? 1 : 2}
+        >
           <Button variant="outlined" onClick={() => navigate("/")}>
             Voltar
           </Button>

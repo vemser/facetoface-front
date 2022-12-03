@@ -60,11 +60,7 @@ export const AuthProvider: React.FC<IChildren> = ({ children }) => {
       setToken(responseToken.data);
       navigate("/");
     } catch (err) {
-      let message = "Ops, algo deu errado!";
-      if (axios.isAxiosError(err) && err?.response) {
-        message = err.response.data.message;
-      }
-      alertError(message);
+      alertError("Senha ou email incorretos!");
     } finally {
       nProgress.done();
     }
