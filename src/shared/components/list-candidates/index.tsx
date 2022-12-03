@@ -5,7 +5,6 @@ import { useCandidate } from "../../contexts";
 import { ICandidateComplete } from "../../interfaces";
 import { ItemCandidate } from "../item-candidate";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
 export const ListCandidates: React.FC = () => {
   const navigate = useNavigate();
