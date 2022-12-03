@@ -35,10 +35,6 @@ export const UpdateInterview: React.FC = () => {
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
 
   // monitora os campos
-  const watchEmail = watch("email");
-  const watchNome = watch("nomeCompleto");
-  const watchCidade = watch("cidade");
-  const watchEstado = watch("estado");
   const watchObservacoes = watch("observacoes");
 
   const handleSubmitInterview = (data: IInterview) => {
@@ -52,7 +48,7 @@ export const UpdateInterview: React.FC = () => {
       estado: data.estado,
       observacoes: data.observacoes,
     };
-    updateInterview(dataFinal, state.idEntrevista);
+    updateInterview(dataFinal, state.idEntrevista, state.legenda);
     setValue("nomeCompleto", "");
     setValue("cidade", "");
     setValue("estado", "");
@@ -94,7 +90,7 @@ export const UpdateInterview: React.FC = () => {
               inputProps={{
                 className: "teste",
               }}
-              focused={watchEmail ? true : false}
+              disabled
             />
             <ErrorMessage id="error-email-register-interview" width="100%">
               {errors.email?.message}
@@ -129,7 +125,7 @@ export const UpdateInterview: React.FC = () => {
               InputLabelProps={{
                 shrink: true,
               }}
-              focused={watchCidade ? true : false}
+              disabled
             />
             <ErrorMessage id="error-city-register-interview" width="100%">
               {errors.cidade?.message}
@@ -153,7 +149,7 @@ export const UpdateInterview: React.FC = () => {
               InputLabelProps={{
                 shrink: true,
               }}
-              focused={watchNome ? true : false}
+              disabled
             />
             <ErrorMessage id="error-candidate-register-interview" width="100%">
               {errors.nomeCompleto?.message}
@@ -188,7 +184,7 @@ export const UpdateInterview: React.FC = () => {
               InputLabelProps={{
                 shrink: true,
               }}
-              focused={watchEstado ? true : false}
+              disabled
             />
             <ErrorMessage id="error-state-register-interview" width="100%">
               {errors.estado?.message}

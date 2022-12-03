@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import alertError from "../alerts/error";
 import { api } from "../api";
 import nProgress from "nprogress";
+import axios from "axios";
 
 interface IAuthContext {
   loadingAuth: boolean;

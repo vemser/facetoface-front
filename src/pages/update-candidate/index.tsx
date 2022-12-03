@@ -247,29 +247,34 @@ export const UpdateCandidate: React.FC = () => {
             </ErrorMessage>
           </Box>
           {/* cv box */}
-          <Box sx={{ width: "100%", mt: "1rem" }}>
-            {curriculoGet ? (
-              <a
-                download="file.pdf"
-                href={"data:application/octet-stream;base64," + curriculoGet}
-                title="Download Curriculo"
-              >
-                <Button variant="outlined" sx={{ width: "100%" }}>
-                  Baixar CV
-                </Button>
-              </a>
-            ) : (
-              <TextField
-                id="input-cv-register-candidate"
-                type="file"
-                label="CV"
-                sx={{ width: "100%" }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onChange={handleCurriculo}
-              />
-            )}
+          <Box
+            sx={{
+              display: "flex",
+              width: "100%",
+              mt: "1rem",
+              flexDirection: "column",
+            }}
+          >
+            <a
+              download="file.pdf"
+              href={"data:application/octet-stream;base64," + curriculoGet}
+              title="Download Curriculo"
+              style={{ width: "100%" }}
+            >
+              <Button variant="outlined" sx={{ width: "100%", height: "100%" }}>
+                Baixar CV
+              </Button>
+            </a>
+            <TextField
+              id="input-cv-register-candidate"
+              type="file"
+              label="Atualizar CV"
+              sx={{ width: "100%", mt: "1rem" }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              onChange={handleCurriculo}
+            />
           </Box>
           {/* email box */}
           <Box sx={{ width: "100%", mt: "1rem" }}>
