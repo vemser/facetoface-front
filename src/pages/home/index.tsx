@@ -180,7 +180,7 @@ export const Home: React.FC = () => {
                   1ª edição
                 </MenuItem>
                 <MenuItem id="edicao-2" value="2ª Edição">
-                  1ª edição
+                  2ª edição
                 </MenuItem>
                 <MenuItem id="edicao-3" value="3ª Edição">
                   3ª edição

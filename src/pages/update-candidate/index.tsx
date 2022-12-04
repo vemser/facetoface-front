@@ -39,7 +39,6 @@ export const UpdateCandidate: React.FC = () => {
   const [imageUser, setImageUser] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { state } = useLocation();
-  console.log(state);
   const {
     register,
     handleSubmit,
