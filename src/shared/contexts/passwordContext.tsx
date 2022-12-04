@@ -10,10 +10,7 @@ import nProgress from "nprogress";
 interface IPasswordContext {
   postRecoverPassword: (email: string) => Promise<void>;
   postToken: (token: string) => Promise<void>;
-  changePassword: ({
-    oldPassword,
-    newPassword,
-  }: IChangePassword) => Promise<void>;
+  changePassword: ({ senhaAtual, senhaNova }: IChangePassword) => Promise<void>;
 }
 
 interface IChildren {
@@ -21,8 +18,8 @@ interface IChildren {
 }
 
 interface IChangePassword {
-  oldPassword: string;
-  newPassword: string;
+  senhaAtual: string;
+  senhaNova: string;
 }
 
 const PasswordContext = createContext({} as IPasswordContext);
@@ -70,16 +67,11 @@ export const PasswordProvider: React.FC<IChildren> = ({ children }) => {
   };
 
   // troca a senha antiga pela nova
-  const changePassword = async ({
-    oldPassword,
-    newPassword,
-  }: IChangePassword) => {
+  const changePassword = async (data: IChangePassword) => {
     try {
       nProgress.start();
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
-      await api.put(
-        `usuario/trocar-senha-usuario-logado?senhaAtual=${oldPassword}&senhaNova=${newPassword}`
-      );
+      await api.put(`usuario/trocar-senha-usuario-logado`, data);
       alertSuccess("Senha alterada!");
     } catch (err) {
       let message = "Ops, algo deu errado!";

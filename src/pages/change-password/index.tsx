@@ -19,8 +19,8 @@ import alertError from "../../shared/alerts/error";
 import alertSuccess from "../../shared/alerts/sucess";
 
 interface IChangePassword {
-  oldPassword: string;
-  newPassword: string;
+  senhaAtual: string;
+  senhaNova: string;
 }
 
 export const ChangePassword: React.FC = () => {
@@ -31,12 +31,13 @@ export const ChangePassword: React.FC = () => {
   } = useForm<IChangePassword>({ resolver: yupResolver(SenhaForteSchema) });
   const { changePassword } = useChangePassword();
 
-  const [senhaConf, setSenhaConf] = useState("")
+  const [senhaConf, setSenhaConf] = useState("");
 
   const handleSubmitChange = (data: IChangePassword) => {
-    if(data.newPassword === senhaConf) {
+    console.log(data);
+    if (data.senhaNova === senhaConf) {
       changePassword(data);
-      alertSuccess("Senha alterada com sucesso");
+      //alertSuccess("Senha alterada com sucesso");
     } else {
       alertError("As senhas precisam ser iguais");
     }
@@ -46,12 +47,6 @@ export const ChangePassword: React.FC = () => {
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
-
-  useEffect(() => {
-    console.log(senhaConf)
-    console.log(senhaConf)
-  },[senhaConf])
-  
 
   return (
     <Box
@@ -69,6 +64,7 @@ export const ChangePassword: React.FC = () => {
         padding="5rem"
         bgcolor="#fff"
         borderRadius="20px"
+        alignItems="center"
       >
         <img
           src={require("../../shared/assets/logo/vem-ser-blue.png")}
@@ -80,7 +76,7 @@ export const ChangePassword: React.FC = () => {
           id="input-password-actual-change-password"
           label="Senha atual..."
           sx={{ width: "100%" }}
-          {...register("oldPassword")}
+          {...register("senhaAtual")}
           type={showPassword ? "text" : "password"}
           InputProps={{
             endAdornment: (
@@ -93,24 +89,26 @@ export const ChangePassword: React.FC = () => {
           }}
         />
         <ErrorMessage id="error-actual-password-change-password" width="100%">
-          {errors.oldPassword?.message}
+          {errors.senhaAtual?.message}
         </ErrorMessage>
         <TextField
           id="input-password-new-change-password"
           label="Senha nova..."
           sx={{ width: "100%" }}
-          
-          {...register("newPassword")}
+          {...register("senhaNova")}
           type={showPassword ? "text" : "password"}
         />
+        <ErrorMessage id="error-actual-password-change-password" width="100%">
+          {errors.senhaNova?.message}
+        </ErrorMessage>
         <TextField
-          id="input-password-new-change-password"
+          id="input-password-new-change-confirm-password"
           label="Confimar senha"
           sx={{ width: "100%" }}
-          onChange={e => setSenhaConf(e.target.value)}
+          onChange={(e) => setSenhaConf(e.target.value)}
           type={showPassword ? "text" : "password"}
         />
-        
+
         <Button
           onClick={handleSubmit(handleSubmitChange)}
           variant="contained"
