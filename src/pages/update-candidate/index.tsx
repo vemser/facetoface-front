@@ -31,12 +31,15 @@ interface ILanguages {
 }
 
 export const UpdateCandidate: React.FC = () => {
+  const [trilha, setTrilha] = useState<any>("");
+  const [edicao, setEdicao] = useState<any>("");
   const [image, setImage] = useState(null);
   const [curriculo, setCurriculo] = useState(null);
   const [curriculoGet, setCurriculoGet] = useState(null);
   const [imageUser, setImageUser] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { state } = useLocation();
+  console.log(state);
   const {
     register,
     handleSubmit,
@@ -47,14 +50,14 @@ export const UpdateCandidate: React.FC = () => {
     resolver: yupResolver(schemaCandidateComplete),
     defaultValues: {
       cidade: state.cidade,
-      edicao: state.edicao,
+      edicao: edicao,
       email: state.email,
       estado: state.estado,
       genero: state.genero,
-      linguagens: state.linguagens,
+      linguagens: state.linguagemList ? state.linguagemList : state.linguagens,
       nomeCompleto: state.nomeCompleto,
       observacoes: state.observacoes,
-      trilha: state.trilha,
+      trilha: trilha,
       notaProva: state.notaProva,
       idCandidato: state.idCandidato,
       ativo: state.ativo,
@@ -68,11 +71,23 @@ export const UpdateCandidate: React.FC = () => {
     getCurriculo,
   } = useCandidate();
   const [arrLanguages, setArrLanguages] = useState<ILanguages[]>(
-    state.linguagens
+    state.linguagemList ? state.linguagemList : state.linguagens
   );
   const [language, setLanguage] = useState<string>("");
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
+
+  useEffect(() => {
+    let trilhaNome = state.trilha.nome;
+    let trilha = state.trilha;
+    if (!trilhaNome) setTrilha(trilha);
+    else setTrilha(trilhaNome);
+    let edicaoNome = state.edicao.nome;
+    let edicao = state.edicao;
+    if (!edicaoNome) setEdicao(edicao);
+    else setEdicao(edicaoNome);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const watchAll = watch();
 
