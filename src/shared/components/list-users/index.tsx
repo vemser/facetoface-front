@@ -11,6 +11,7 @@ export const ListUsers: React.FC = () => {
   const { users, deleteUser } = useUser();
   const [listaOrdenada, setListaOrdenada] = useState([]);
   const firtsBreakpoint = useMediaQuery("(max-width:1100px)");
+  const secondBreakpoint = useMediaQuery("(max-width:800px)");
 
   const ordenarPorNome = () => {
     if (listaOrdenada.length === 0) {
@@ -31,25 +32,29 @@ export const ListUsers: React.FC = () => {
         justifyContent="space-between"
         textAlign="center"
       >
-        <Typography width="5%" fontSize={firtsBreakpoint ? "13px" : "15px"}>
+        <Typography width="5%" fontSize={firtsBreakpoint ? "12px" : "15px"}>
           Código
         </Typography>
         <Typography
           onClick={ordenarPorNome}
           width="25%"
-          fontSize={firtsBreakpoint ? "13px" : "15px"}
+          fontSize={firtsBreakpoint ? "12px" : "15px"}
           color={listaOrdenada.length > 0 ? "#1e62fe" : ""}
           sx={{ cursor: "pointer" }}
         >
           Nome
         </Typography>
-        <Typography width="25%" fontSize={firtsBreakpoint ? "13px" : "15px"}>
+        <Typography width="25%" fontSize={firtsBreakpoint ? "12px" : "15px"}>
           E-mail
         </Typography>
-        <Typography width="19%" fontSize={firtsBreakpoint ? "13px" : "15px"}>
-          Roles
-        </Typography>
-        <Typography width="16%" fontSize={firtsBreakpoint ? "13px" : "15px"}>
+        {!secondBreakpoint ? (
+          <Typography width="19%" fontSize={firtsBreakpoint ? "12px" : "15px"}>
+            Roles
+          </Typography>
+        ) : (
+          ""
+        )}
+        <Typography width="16%" fontSize={firtsBreakpoint ? "12px" : "15px"}>
           Ações
         </Typography>
       </Box>

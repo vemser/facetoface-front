@@ -20,6 +20,7 @@ export const ItemUser: React.FC<IProps> = ({
   onDetail,
 }) => {
   const firtsBreakpoint = useMediaQuery("(max-width:1100px)");
+  const secondBreakpoint = useMediaQuery("(max-width:800px)");
 
   let admin = props.perfis.find((item: any) => item.nome === "ROLE_ADMIN");
   let gestao = props.perfis.find((item: any) => item.nome === "ROLE_GESTAO");
@@ -56,13 +57,22 @@ export const ItemUser: React.FC<IProps> = ({
         {props.email}
       </Typography>
 
-      <Typography fontSize={firtsBreakpoint ? "11px" : "14px"} width="19%">
-        {admin && " (Admin) "}
-        {gestao && " (Gestão) "}
-        {instrutor && " (Intrutor) "}
-      </Typography>
+      {!secondBreakpoint ? (
+        <Typography fontSize={firtsBreakpoint ? "11px" : "14px"} width="19%">
+          {admin && " (Admin) "}
+          {gestao && " (Gestão) "}
+          {instrutor && " (Intrutor) "}
+        </Typography>
+      ) : (
+        ""
+      )}
 
-      <Box width="16%" display="flex" justifyContent="center">
+      <Box
+        width="16%"
+        display="flex"
+        justifyContent="center"
+        flexDirection={secondBreakpoint ? "column" : "row"}
+      >
         <IconButton onClick={onDetail}>
           <StickyNote2Icon
             sx={{

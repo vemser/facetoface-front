@@ -33,6 +33,7 @@ export const DetailUser: React.FC = () => {
       justifyContent="center"
       width="100%"
       height="100vh"
+      padding="1rem 0"
     >
       <Box
         display="flex"
@@ -41,8 +42,7 @@ export const DetailUser: React.FC = () => {
         alignItems="center"
         bgcolor="#fff"
         borderRadius="10px"
-        width="70%"
-        padding=" 30px 0"
+        padding=" 30px 1.5rem"
       >
         <Avatar
           id="avatar-register-candidate"

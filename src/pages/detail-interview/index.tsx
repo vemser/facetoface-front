@@ -60,6 +60,10 @@ export const DetailInterview: React.FC = () => {
           <span style={{ fontWeight: "bold" }}>Observacoes: </span>
           {state.observacoes}
         </Typography>
+        <Typography>
+          <span style={{ fontWeight: "bold" }}>status: </span>
+          {state.legenda}
+        </Typography>
         <hr />
         <Box display="flex" justifyContent="space-between">
           <Button onClick={() => navigate("/schedule")}>Voltar</Button>

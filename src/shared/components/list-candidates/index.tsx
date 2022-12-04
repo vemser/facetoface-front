@@ -34,36 +34,39 @@ export const ListCandidates: React.FC = () => {
         justifyContent="space-between"
         textAlign="center"
       >
-        <Typography width="5%" fontSize={firtsBreakpoint ? "13px" : "15px"}>
+        <Typography width="5%" fontSize={firtsBreakpoint ? "12px" : "15px"}>
           Código
         </Typography>
 
         <Typography
           width="20%"
           // onClick={ordenarPorNome}
-          fontSize={firtsBreakpoint ? "13px" : "15px"}
+          fontSize={firtsBreakpoint ? "12px" : "15px"}
           // sx={{ cursor: "pointer" }}
           color={listaOrdenada.length > 0 ? "#1e62fe" : ""}
         >
           Nome
         </Typography>
 
-        <Typography width="25%" fontSize={firtsBreakpoint ? "13px" : "15px"}>
+        <Typography width="25%" fontSize={firtsBreakpoint ? "12px" : "15px"}>
           E-mail
         </Typography>
 
         {!secondBreakpoint && (
-          <Typography width="10%" fontSize={firtsBreakpoint ? "13px" : "15px"}>
+          <Typography width="10%" fontSize={firtsBreakpoint ? "12px" : "15px"}>
             Trilha
           </Typography>
         )}
-        <Typography width="5%" fontSize={firtsBreakpoint ? "13px" : "15px"}>
-          Nota
-        </Typography>
-        <Typography width="15%" fontSize={firtsBreakpoint ? "13px" : "15px"}>
+        {!secondBreakpoint && (
+          <Typography width="5%" fontSize={firtsBreakpoint ? "12px" : "15px"}>
+            Nota
+          </Typography>
+        )}
+
+        <Typography width="15%" fontSize={firtsBreakpoint ? "12px" : "15px"}>
           Entrevista
         </Typography>
-        <Typography width="14%" fontSize={firtsBreakpoint ? "13px" : "15px"}>
+        <Typography width="14%" fontSize={firtsBreakpoint ? "12px" : "15px"}>
           Ações
         </Typography>
       </Box>

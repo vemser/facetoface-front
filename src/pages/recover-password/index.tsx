@@ -133,6 +133,19 @@ export const RecoverPassword: React.FC = () => {
             >
               Enviar
             </Button>
+            <Button
+              id="button-back-recover"
+              variant="outlined"
+              color="primary"
+              sx={{
+                width: 200,
+                paddingInline: 2,
+                borderRadius: 100,
+              }}
+              onClick={() => navigate("/")}
+            >
+              Voltar
+            </Button>
           </Box>
         </form>
       </Box>
