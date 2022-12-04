@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -14,6 +14,9 @@ import { SenhaForteSchema } from "../../shared/schemas";
 import { ErrorMessage } from "../../shared/components";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import nProgress from "nprogress";
+import alertError from "../../shared/alerts/error";
+import alertSuccess from "../../shared/alerts/sucess";
 
 interface IChangePassword {
   oldPassword: string;
@@ -28,14 +31,27 @@ export const ChangePassword: React.FC = () => {
   } = useForm<IChangePassword>({ resolver: yupResolver(SenhaForteSchema) });
   const { changePassword } = useChangePassword();
 
+  const [senhaConf, setSenhaConf] = useState("")
+
   const handleSubmitChange = (data: IChangePassword) => {
-    changePassword(data);
+    if(data.newPassword === senhaConf) {
+      changePassword(data);
+      alertSuccess("Senha alterada com sucesso");
+    } else {
+      alertError("As senhas precisam ser iguais");
+    }
   };
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
+
+  useEffect(() => {
+    console.log(senhaConf)
+    console.log(senhaConf)
+  },[senhaConf])
+  
 
   return (
     <Box
@@ -83,12 +99,18 @@ export const ChangePassword: React.FC = () => {
           id="input-password-new-change-password"
           label="Senha nova..."
           sx={{ width: "100%" }}
+          
           {...register("newPassword")}
           type={showPassword ? "text" : "password"}
         />
-        <ErrorMessage id="error-new-password-change-password" width="100%">
-          {errors.newPassword?.message}
-        </ErrorMessage>
+        <TextField
+          id="input-password-new-change-password"
+          label="Confimar senha"
+          sx={{ width: "100%" }}
+          onChange={e => setSenhaConf(e.target.value)}
+          type={showPassword ? "text" : "password"}
+        />
+        
         <Button
           onClick={handleSubmit(handleSubmitChange)}
           variant="contained"

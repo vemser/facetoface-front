@@ -11,7 +11,7 @@ interface IProps {
   onDelete: any;
   onUpdate: any;
   onInterview: any;
-  onDetail: () => void;
+  onDetail: any;
 }
 
 export const ItemCandidate: React.FC<IProps> = ({

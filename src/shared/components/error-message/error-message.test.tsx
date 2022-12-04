@@ -10,10 +10,10 @@ test("verifica se o error-message existe e se ele recebe as props", () => {
         width="20%" 
         marginLeft="3%" 
         
-        >Teste</ErrorMessage>
+        >deu erro</ErrorMessage>
     </Router>);
 
-    const componente = screen.getByRole("span");
-    expect(componente).toBeInTheDocument();
+    const texto = screen.getByText("deu erro");
+    expect(texto).toBeInTheDocument();
 })
   
