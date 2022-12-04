@@ -11,7 +11,6 @@ export const ConfirmInterview: React.FC = () => {
   useEffect(() => {
     if (token) {
       localStorage.setItem("ConfirmInterview", token);
-      console.log(token);
       confirmInterview(token);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

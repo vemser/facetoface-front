@@ -76,7 +76,6 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
       const { data } = await api.get(
         `entrevista/listar-por-mes?pagina=0&tamanho=10&mes=${month}&ano=${year}`
       );
-      console.log(data);
       let result = data.elementos.map((item: any) => {
         let cor =
           item.legenda === "PENDENTE"
@@ -139,7 +138,6 @@ export const InterviewProvider: React.FC<IChildren> = ({ children }) => {
         `auth/confirmar-entrevista?tokenEntrevista=${token}`,
         token
       );
-      navigate("/");
       alertSuccess("Entrevista confirmada!");
     } catch (err) {
       let message = "Ops, algo deu errado!";

@@ -68,9 +68,11 @@ export const ItemCandidate: React.FC<IProps> = ({
         </Typography>
       )}
 
-      <Typography width="5%" fontSize={firtsBreakpoint ? "13px" : "15px"}>
-        {props.notaProva}
-      </Typography>
+      {!secondBreakpoint && (
+        <Typography width="5%" fontSize={firtsBreakpoint ? "13px" : "15px"}>
+          {props.notaProva}
+        </Typography>
+      )}
 
       <Box width="15%">
         <Button
